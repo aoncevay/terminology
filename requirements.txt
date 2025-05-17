@@ -1,0 +1,12 @@
+torch
+sentencepiece
+transformers==4.49.0
+accelerate
+peft
+huggingface_hub
+hf_xet
+datasets
+sacremoses
+sacrebleu
+unbabel-comet
+
