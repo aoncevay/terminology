@@ -106,13 +106,29 @@ def evaluate_all_datasets():
                         
                         for source_term, gold_translation in gold_pairs.items():
                             if source_term in pred_pairs:
-                                # Case-insensitive comparison
-                                correct = gold_translation.lower() == pred_pairs[source_term].lower()
-                                entry_results.append(1 if correct else 0)
-                                term_accuracy += 1 if correct else 0
-                                term_counter += 1
+                                # Check if prediction is None
+                                pred_translation = pred_pairs[source_term]
+                                if pred_translation is None:
+                                    # Log the issue and count as wrong
+                                    print(f"      WARNING: None value in prediction for dataset={dataset}, lang={language}, doc_id={doc_id}, term={source_term}")
+                                    entry_results.append(0)
+                                    term_counter += 1
+                                else:
+                                    # Case-insensitive comparison
+                                    try:
+                                        correct = gold_translation.lower() == pred_translation.lower()
+                                        entry_results.append(1 if correct else 0)
+                                        term_accuracy += 1 if correct else 0
+                                        term_counter += 1
+                                    except AttributeError:
+                                        # Handle any other unexpected types
+                                        print(f"      WARNING: Type error comparing gold={type(gold_translation)} and pred={type(pred_translation)} for dataset={dataset}, lang={language}, doc_id={doc_id}, term={source_term}")
+                                        print(f"      Gold: {gold_translation}, Pred: {pred_translation}")
+                                        entry_results.append(0)
+                                        term_counter += 1
                             else:
-                                # Missing term in predictions
+                                # Missing term in predictions - log and count as wrong
+                                print(f"      WARNING: Missing term in prediction for dataset={dataset}, lang={language}, term={source_term}")
                                 entry_results.append(0)
                                 term_counter += 1
                         
