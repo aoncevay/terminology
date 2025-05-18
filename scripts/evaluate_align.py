@@ -74,7 +74,7 @@ def evaluate_all_datasets():
                 # Evaluate both directions: en->language and language->en
                 for direction, file_prefix in [
                     (f"en-{language}", f"{model}_{dataset}_{language}"),
-                    (f"{language}-en", f"reverse_{model}_{dataset}_{language}")
+                    (f"{language}-en", f"reverse{model}_{dataset}_{language}")
                 ]:
                     results_scores[model][dataset][direction] = {}
                     results_values[model][dataset][direction] = {}
