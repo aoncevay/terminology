@@ -11,7 +11,7 @@ from scipy import stats
 from pathlib import Path
 
 #models = ["LLM.llama", "LLM_openai_gpt4o", "Task2_LLM_openai_gpt4o"]
-models = ["MADLAD", "NLLB", "LLM.aya", "LLM.llama", "LLM_openai_gpt4o", "Task2_LLM_openai_gpt4o"] #, "LLM.tower"]
+models = ["MADLAD", "NLLB", "LLM.aya", "LLM.llama", "LLM_mistral", "LLM_openai_gpt4o", "Task2_LLM_openai_gpt4o"] #, "LLM.tower"]
 datasets = ["irs", "cfpb"]
 languages = ["es", "kr", "ru", "vi", "zh_s", "zh_t", "ht"]
 chrf2 = sacrebleu.CHRF(word_order=2)
@@ -39,6 +39,7 @@ MODELSNAME2LATEX = {
     "LLM.aya": "\\textsc{Aya23}",
     "LLM.tower": "\\textsc{Tower}",
     "LLM.llama": "\\textsc{Llama3.1}",
+    "LLM_mistral": "\\textsc{Mistral}",
     "LLM_openai_gpt4o": "\\textsc{GPT4o}",
     "Task2_LLM_openai_gpt4o": "\\textsc{GPT4o++}"
 }
