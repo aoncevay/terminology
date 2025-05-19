@@ -215,13 +215,18 @@ def generate_latex_code(filepaths):
         # Extract components from filename
         filename = os.path.basename(filepath)
         parts = filename.split('_')
-        dataset = parts[0]
-        metric = parts[2]
         
-        key = f"{dataset}_{metric}"
-        if key not in by_dataset_metric:
-            by_dataset_metric[key] = []
-        by_dataset_metric[key].append(filepath)
+        # Handle the new filename format with gpt4o_ prefix
+        # Format is now: gpt4o_dataset_direction_metric_diff.pdf
+        if len(parts) >= 5 and parts[0] == "gpt4o":
+            dataset = parts[1]  # Second part is dataset
+            direction = parts[2]  # Third part is direction
+            metric = parts[3]    # Fourth part is metric
+            
+            key = f"{dataset}_{metric}"
+            if key not in by_dataset_metric:
+                by_dataset_metric[key] = []
+            by_dataset_metric[key].append(filepath)
     
     # Generate LaTeX code for each group
     for key, paths in by_dataset_metric.items():
@@ -234,13 +239,14 @@ def generate_latex_code(filepaths):
         
         # Add subfigures
         for i, path in enumerate(sorted(paths)):  # Sort to ensure en-xx comes before xx-en
-            subfig_label = "a" if "en-xx" in path else "b"
-            direction = "en→xx" if "en-xx" in path else "xx→en"
+            direction = "en-xx" if "en-xx" in path else "xx-en"
+            subfig_label = "a" if direction == "en-xx" else "b"
+            direction_label = "en→xx" if direction == "en-xx" else "xx→en"
             
             latex_code += f"    \\begin{{subfigure}}[b]{{0.48\\linewidth}}\n"
             latex_code += f"        \\centering\n"
             latex_code += f"        \\includegraphics[width=\\linewidth]{{{os.path.basename(path)}}}\n"
-            latex_code += f"        \\caption{{{direction}}}\n"
+            latex_code += f"        \\caption{{{direction_label}}}\n"
             latex_code += f"        \\label{{fig:prompt_diff_{dataset}_{metric}_{subfig_label}}}\n"
             latex_code += f"    \\end{{subfigure}}\n"
             
