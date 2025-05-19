@@ -148,19 +148,21 @@ def create_difference_plot(differences, dataset, direction, metric, y_limits=Non
     # Create figure with specified dimensions
     fig, ax = plt.subplots(figsize=(3, 2.5))
     
-    # Prepare data
+    # Prepare data - maintain original language order (alphabetical by language code)
     languages = list(differences.keys())
-    values = list(differences.values())
+    if direction == "en-xx":
+        # For en-xx, use the dataset's defined language order
+        ordered_langs = [lang for lang in DATASET2LANGS[dataset] if lang in languages]
+    else:  # xx-en
+        # For xx-en, also use the dataset's defined language order
+        ordered_langs = [lang for lang in DATASET2LANGS[dataset] if lang in languages]
     
-    # Sort languages by difference value (optional)
-    # This helps to see patterns more clearly
-    sorted_indices = np.argsort(values)
-    languages = [languages[i] for i in sorted_indices]
-    values = [values[i] for i in sorted_indices]
+    # Get values in the same order as languages
+    values = [differences[lang] for lang in ordered_langs]
     
     # Create bars with colors based on sign
     bars = ax.bar(
-        range(len(languages)),
+        range(len(ordered_langs)),
         values,
         color=[GAIN_COLOR if v >= 0 else LOSS_COLOR for v in values],
         edgecolor='black',
@@ -170,8 +172,8 @@ def create_difference_plot(differences, dataset, direction, metric, y_limits=Non
     )
     
     # Add language labels - removed rotation
-    ax.set_xticks(range(len(languages)))
-    ax.set_xticklabels([LANG2SHORT[lang] for lang in languages])
+    ax.set_xticks(range(len(ordered_langs)))
+    ax.set_xticklabels([LANG2SHORT[lang] for lang in ordered_langs])
     
     # Add zero reference line
     ax.axhline(y=0, color='green', linestyle='-', linewidth=1)
@@ -180,10 +182,7 @@ def create_difference_plot(differences, dataset, direction, metric, y_limits=Non
     if y_limits:
         ax.set_ylim(y_limits)
     
-    # Add descriptive title
-    direction_label = "en→xx" if direction == "en-xx" else "xx→en"
-    title = f"{dataset.upper()}: {direction_label}"
-    ax.set_title(title)
+    # No title - this will be added in LaTeX
     
     # Add y-axis label based on metric
     if metric == "chrf++":
