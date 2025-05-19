@@ -893,10 +893,16 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
     mpl.rcParams['ytick.labelsize'] = 12
     mpl.rcParams['legend.fontsize'] = 12
     
+    # List to track all generated figures for LaTeX
+    figure_info = []
+    
     # Process each dataset
     for dataset in datasets:
         # Process each metric
         for metric in ["chrf++", "term_acc"]:
+            # Create list to track figures for this dataset-metric combination
+            dataset_metric_figures = []
+            
             # Process each translation direction
             for direction in ["en-xx", "xx-en"]:
                 # Collect data for all models and languages
@@ -1056,6 +1062,7 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                                fontsize=12, fontstyle='italic')
                 
                 # Add asterisks for statistical significance ONLY for term_acc metric
+                has_significance = False
                 if stats_results and metric == "term_acc":
                     # Check if model is significantly better than others
                     for i, model in enumerate(BASELINE_MODELS):
@@ -1096,12 +1103,14 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                                             test_result = stats_results[dataset][comparison][lang_pair]
                                             if test_result["significant"] and test_result["better_model"] == model:
                                                 is_significant = True
+                                                has_significance = True
                                                 break
                                         
                                         elif alt_comparison in stats_results[dataset] and lang_pair in stats_results[dataset][alt_comparison]:
                                             test_result = stats_results[dataset][alt_comparison][lang_pair]
                                             if test_result["significant"] and test_result["better_model"] == model:
                                                 is_significant = True
+                                                has_significance = True
                                                 break
                                 
                                 if is_significant:
@@ -1138,7 +1147,78 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                 filepath = os.path.join(figs_dir, filename)
                 plt.savefig(filepath, bbox_inches='tight', dpi=300)
                 print(f"Saved boxplot to {filepath}")
+                
+                # Store figure info for LaTeX
+                direction_label = "EN→XX" if direction == "en-xx" else "XX→EN"
+                dataset_metric_figures.append({
+                    "path": filename,
+                    "direction": direction_label,
+                    "direction_code": direction,
+                    "has_significance": has_significance
+                })
+                
                 plt.close()
+            
+            # Only add to figure_info if we have both directions
+            if len(dataset_metric_figures) == 2:
+                figure_info.append({
+                    "dataset": dataset.upper(),
+                    "metric": metric,
+                    "figures": dataset_metric_figures
+                })
+    
+    # Generate LaTeX file with all figures
+    generate_latex_figures(figure_info, figs_dir)
+    
+    return figure_info
+
+def generate_latex_figures(figure_info, figs_dir):
+    """Generate LaTeX file with all boxplot figures"""
+    
+    latex_file = os.path.join(figs_dir, "boxplots.tex")
+    
+    with open(latex_file, "w", encoding="utf-8") as f:
+        f.write("% Boxplots for Translation Evaluation\n")
+        f.write("% This file was automatically generated\n\n")
+        
+        # Generate a figure for each dataset-metric combination
+        for i, info in enumerate(figure_info):
+            dataset = info["dataset"]
+            metric = info["metric"]
+            figures = info["figures"]
+            
+            # Start figure environment
+            f.write("\\begin{figure*}[t]\n")
+            f.write("\\centering\n")
+            
+            # Subfigures for each direction
+            for subfig in figures:
+                path = subfig["path"]
+                direction = subfig["direction"]
+                subfigure_label = "a" if subfig["direction_code"] == "en-xx" else "b"
+                
+                f.write(f"\\begin{{subfigure}}[b]{{0.48\\textwidth}}\n")
+                f.write(f"    \\centering\n")
+                f.write(f"    \\includegraphics[width=\\textwidth]{{{path}}}\n")
+                f.write(f"    \\caption{{{direction}}}\n")
+                f.write(f"    \\label{{fig:{dataset.lower()}_{metric}_{subfig['direction_code']}}}\n")
+                f.write(f"\\end{{subfigure}}\n")
+                f.write(f"\\hfill\n" if subfigure_label == "a" else "")
+            
+            # Caption and label for the entire figure
+            metric_name = "chrF++" if metric == "chrf++" else "Term Accuracy"
+            significance_note = ""
+            if metric == "term_acc" and any(subfig["has_significance"] for subfig in figures):
+                significance_note = " The asterisk (*) indicates models that are significantly better than other comparable models."
+            
+            caption = f"{metric_name} scores for {dataset} subset.{significance_note} Language labels at the top and bottom of each boxplot indicate the best and worst performing languages for each model, respectively."
+            label = f"fig:{dataset.lower()}_{metric}"
+            
+            f.write(f"\\caption{{{caption}}}\n")
+            f.write(f"\\label{{{label}}}\n")
+            f.write("\\end{figure*}\n\n")
+        
+        print(f"LaTeX file with boxplots saved to {latex_file}")
 
 def parse_args():
     """Parse command line arguments"""
