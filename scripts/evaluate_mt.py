@@ -366,6 +366,61 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     
     languages_in_data = sorted(languages_in_data)
     
+    # Helper function to determine if a model has the best score in its group
+    def is_best_in_group(model, group_models, lang_pair, metric):
+        best_score = -1
+        best_model = None
+        
+        for m in group_models:
+            if m in results and lang_pair in results[m] and results[m][lang_pair][metric] != -1:
+                score = results[m][lang_pair][metric]
+                if score > best_score:
+                    best_score = score
+                    best_model = m
+        
+        return model == best_model
+    
+    # Helper function to determine if a model is significantly better than all others in its group
+    def is_significantly_better_than_second_best(model, group_models, lang_pair, stats_results):
+        if not stats_results:
+            return False
+            
+        # Get scores for all models in the group
+        models_with_scores = []
+        for m in group_models:
+            if m in results and lang_pair in results[m] and results[m][lang_pair]["term_acc"] != -1:
+                models_with_scores.append((m, results[m][lang_pair]["term_acc"]))
+        
+        # Sort by score in descending order
+        models_with_scores.sort(key=lambda x: x[1], reverse=True)
+        
+        # If our model is not the best or there's only one model, return False
+        if not models_with_scores or models_with_scores[0][0] != model or len(models_with_scores) < 2:
+            return False
+        
+        # Check if the best model is significantly better than the second best
+        second_best = models_with_scores[1][0]
+        
+        # Determine which comparison to look for
+        comparison = f"{model}_vs_{second_best}"
+        alt_comparison = f"{second_best}_vs_{model}"
+        
+        # Check the first direction
+        if comparison in stats_results.get(dataset, {}):
+            if lang_pair in stats_results[dataset][comparison]:
+                test_result = stats_results[dataset][comparison][lang_pair]
+                if test_result["significant"] and test_result["better_model"] == model:
+                    return True
+        
+        # Check the opposite direction
+        elif alt_comparison in stats_results.get(dataset, {}):
+            if lang_pair in stats_results[dataset][alt_comparison]:
+                test_result = stats_results[dataset][alt_comparison][lang_pair]
+                if test_result["significant"] and test_result["better_model"] == model:
+                    return True
+        
+        return False
+    
     # Table 1: English to XX - chrF++ scores
     print("\n% Table for English to Target Language - chrF++ scores")
     print("\\begin{table*}")
@@ -489,47 +544,51 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
             languages_with_data.append(lang)
             row = LANGID2LATEX.get(lang, lang)  # Use formatted language code
             
+            # Get MT and small LLM models with data for this language
+            mt_models_with_data = [m for m in MT_MODELS if m in results and lang_pair in results[m] and results[m][lang_pair]["term_acc"] != -1]
+            small_llm_models_with_data = [m for m in SMALL_LLM_MODELS if m in results and lang_pair in results[m] and results[m][lang_pair]["term_acc"] != -1]
+            
             # Term accuracy scores with statistical significance markers
             for model in models:
                 lang_pair = f"en-{lang}"
                 if model in results and lang_pair in results[model] and results[model][lang_pair]["term_acc"] != -1:
                     score = results[model][lang_pair]["term_acc"]
                     
-                    # Check for statistical significance based on comparison type
+                    # Check for statistical significance markers
                     prompt_variant_symbol = ""
                     mt_vs_llm_symbol = ""
                     
                     if stats_results:
-                        # Check significance against all other models
-                        for other_model in models:
-                            if other_model == model:
-                                continue
-                            
-                            # Determine which comparison to look for
-                            comparison = f"{model}_vs_{other_model}"
-                            alt_comparison = f"{other_model}_vs_{model}"
-                            
-                            # Check the first direction
-                            if comparison in stats_results.get(dataset, {}):
-                                if lang_pair in stats_results[dataset][comparison]:
+                        # Check for prompt variant significance
+                        for var1, var2 in PROMPT_VARIANT_PAIRS:
+                            if model == var1 or model == var2:
+                                other_model = var2 if model == var1 else var1
+                                
+                                # Determine which comparison to look for
+                                comparison = f"{model}_vs_{other_model}"
+                                alt_comparison = f"{other_model}_vs_{model}"
+                                
+                                if comparison in stats_results.get(dataset, {}) and lang_pair in stats_results[dataset][comparison]:
                                     test_result = stats_results[dataset][comparison][lang_pair]
                                     if test_result["significant"] and test_result["better_model"] == model:
-                                        comp_type = test_result.get("comparison_type", "general")
-                                        if comp_type == "prompt_variant":
-                                            prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
-                                        elif comp_type == "mt_vs_llm":
-                                            mt_vs_llm_symbol = "$^*$"  # Asterisk for MT vs small LLM
-                            
-                            # Check the opposite direction
-                            elif alt_comparison in stats_results.get(dataset, {}):
-                                if lang_pair in stats_results[dataset][alt_comparison]:
+                                        prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
+                                        
+                                elif alt_comparison in stats_results.get(dataset, {}) and lang_pair in stats_results[dataset][alt_comparison]:
                                     test_result = stats_results[dataset][alt_comparison][lang_pair]
                                     if test_result["significant"] and test_result["better_model"] == model:
-                                        comp_type = test_result.get("comparison_type", "general")
-                                        if comp_type == "prompt_variant":
-                                            prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
-                                        elif comp_type == "mt_vs_llm":
-                                            mt_vs_llm_symbol = "$^*$"  # Asterisk for MT vs small LLM
+                                        prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
+                        
+                        # Check for MT vs small LLM significance
+                        # Only add asterisk if this model is the best in its group AND significantly better than the second best
+                        if model in MT_MODELS and mt_models_with_data:
+                            if is_best_in_group(model, mt_models_with_data, lang_pair, "term_acc") and \
+                               is_significantly_better_than_second_best(model, mt_models_with_data, lang_pair, stats_results):
+                                mt_vs_llm_symbol = "$^*$"  # Asterisk for best MT model
+                                
+                        elif model in SMALL_LLM_MODELS and small_llm_models_with_data:
+                            if is_best_in_group(model, small_llm_models_with_data, lang_pair, "term_acc") and \
+                               is_significantly_better_than_second_best(model, small_llm_models_with_data, lang_pair, stats_results):
+                                mt_vs_llm_symbol = "$^*$"  # Asterisk for best small LLM model
                     
                     # Format without bold, add significance symbols if applicable
                     row += f" & {score:.2f}{prompt_variant_symbol}{mt_vs_llm_symbol}"
@@ -542,7 +601,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     if languages_with_data:
         avg_row = "\\hline\nAvg."
         
-        # Calculate average scores
+        # Calculate average scores for each model
         model_avg_scores = {}
         
         for model in models:
@@ -556,58 +615,65 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                 avg_term_acc = sum(term_acc_values) / len(term_acc_values)
                 model_avg_scores[model] = avg_term_acc
         
+        # Get MT and small LLM models with average scores
+        mt_models_with_avg = [m for m in MT_MODELS if m in model_avg_scores]
+        small_llm_models_with_avg = [m for m in SMALL_LLM_MODELS if m in model_avg_scores]
+        
+        # Helper function to check if a model is significantly better on average
+        def is_significantly_better_on_average(model, other_model, stats_results):
+            if not stats_results:
+                return False
+                
+            # Check significance for each language
+            significant_wins = 0
+            for lang in languages_with_data:
+                lang_pair = f"en-{lang}"
+                comparison = f"{model}_vs_{other_model}"
+                alt_comparison = f"{other_model}_vs_{model}"
+                
+                if comparison in stats_results.get(dataset, {}) and lang_pair in stats_results[dataset][comparison]:
+                    test_result = stats_results[dataset][comparison][lang_pair]
+                    if test_result["significant"] and test_result["better_model"] == model:
+                        significant_wins += 1
+                
+                elif alt_comparison in stats_results.get(dataset, {}) and lang_pair in stats_results[dataset][alt_comparison]:
+                    test_result = stats_results[dataset][alt_comparison][lang_pair]
+                    if test_result["significant"] and test_result["better_model"] == model:
+                        significant_wins += 1
+            
+            # If model wins significantly for at least one language, consider it better on average
+            return significant_wins > 0
+        
         # Format average row with significance markers
         for model in models:
             if model in model_avg_scores:
                 avg_score = model_avg_scores[model]
                 
-                # Check for statistical significance in averages
+                # Check for statistical significance in average
                 prompt_variant_symbol = ""
                 mt_vs_llm_symbol = ""
                 
                 if stats_results:
-                    # Check if this model is significantly better than others for any language
-                    for other_model in models:
-                        if other_model == model:
-                            continue
-                        
-                        # Check if comparison is of a specific type
-                        is_prompt_variant = False
-                        is_mt_vs_llm = False
-                        
-                        # Determine comparison type
-                        for var1, var2 in PROMPT_VARIANT_PAIRS:
-                            if (model == var1 and other_model == var2) or (model == var2 and other_model == var1):
-                                is_prompt_variant = True
-                                break
-                        
-                        if (model in MT_MODELS and other_model in SMALL_LLM_MODELS) or \
-                           (model in SMALL_LLM_MODELS and other_model in MT_MODELS):
-                            is_mt_vs_llm = True
-                        
-                        # Only check languages that have data for both models
-                        for lang in languages_with_data:
-                            lang_pair = f"en-{lang}"
-                            comparison = f"{model}_vs_{other_model}"
-                            alt_comparison = f"{other_model}_vs_{model}"
-                            
-                            if comparison in stats_results.get(dataset, {}):
-                                if lang_pair in stats_results[dataset][comparison]:
-                                    test_result = stats_results[dataset][comparison][lang_pair]
-                                    if test_result["significant"] and test_result["better_model"] == model:
-                                        if is_prompt_variant:
-                                            prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
-                                        elif is_mt_vs_llm:
-                                            mt_vs_llm_symbol = "$^*$"  # Asterisk for MT vs small LLM
-                            
-                            elif alt_comparison in stats_results.get(dataset, {}):
-                                if lang_pair in stats_results[dataset][alt_comparison]:
-                                    test_result = stats_results[dataset][alt_comparison][lang_pair]
-                                    if test_result["significant"] and test_result["better_model"] == model:
-                                        if is_prompt_variant:
-                                            prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
-                                        elif is_mt_vs_llm:
-                                            mt_vs_llm_symbol = "$^*$"  # Asterisk for MT vs small LLM
+                    # Check for prompt variant significance in average
+                    for var1, var2 in PROMPT_VARIANT_PAIRS:
+                        if model == var1 or model == var2:
+                            other_model = var2 if model == var1 else var1
+                            if other_model in model_avg_scores and is_significantly_better_on_average(model, other_model, stats_results):
+                                prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
+                    
+                    # Check for MT vs small LLM significance in average
+                    # Only add asterisk if this model is the best in its group AND significantly better than the second best
+                    if model in MT_MODELS and mt_models_with_avg:
+                        if model == max(mt_models_with_avg, key=lambda m: model_avg_scores[m]) and len(mt_models_with_avg) > 1:
+                            second_best = sorted(mt_models_with_avg, key=lambda m: model_avg_scores[m])[-2]
+                            if is_significantly_better_on_average(model, second_best, stats_results):
+                                mt_vs_llm_symbol = "$^*$"  # Asterisk for best MT model
+                                
+                    elif model in SMALL_LLM_MODELS and small_llm_models_with_avg:
+                        if model == max(small_llm_models_with_avg, key=lambda m: model_avg_scores[m]) and len(small_llm_models_with_avg) > 1:
+                            second_best = sorted(small_llm_models_with_avg, key=lambda m: model_avg_scores[m])[-2]
+                            if is_significantly_better_on_average(model, second_best, stats_results):
+                                mt_vs_llm_symbol = "$^*$"  # Asterisk for best small LLM model
                 
                 # Format without bold, add significance symbols
                 avg_row += f" & {avg_score:.2f}{prompt_variant_symbol}{mt_vs_llm_symbol}"
@@ -617,7 +683,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
         print(avg_row + " \\\\")
     print("\\hline")
     print("\\end{tabular}")
-    print("\\caption{Term Accuracy Scores for " + dataset.upper() + " dataset (\\textsc{en}$\\rightarrow$\\textsc{xx}). $^\\dagger$ indicates significant improvement over prompt variant, $^*$ indicates significant improvement in MT vs. small LLM comparison}")
+    print("\\caption{Term Accuracy Scores for " + dataset.upper() + " dataset (\\textsc{en}$\\rightarrow$\\textsc{xx}). $^\\dagger$ indicates significant improvement over prompt variant, $^*$ indicates significant improvement over other models in the same group (MT or small LLM)}")
     print("\\label{tab:" + dataset + "-en-to-xx-term}")
     print("\\end{table*}")
     
@@ -686,7 +752,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     print("\\label{tab:" + dataset + "-xx-to-en-chrf}")
     print("\\end{table*}")
     
-    # Table 4: XX to English - Term Accuracy scores (repeat similar changes as above)
+    # Table 4: XX to English - Term Accuracy scores
     print("\n% Table for Target Language to English - Term Accuracy scores")
     print("\\begin{table*}")
     print("\\centering")
@@ -715,47 +781,51 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
             languages_with_data.append(lang)
             row = LANGID2LATEX.get(lang, lang)  # Use formatted language code
             
+            # Get MT and small LLM models with data for this language
+            mt_models_with_data = [m for m in MT_MODELS if m in results and lang_pair in results[m] and results[m][lang_pair]["term_acc"] != -1]
+            small_llm_models_with_data = [m for m in SMALL_LLM_MODELS if m in results and lang_pair in results[m] and results[m][lang_pair]["term_acc"] != -1]
+            
             # Term accuracy scores with statistical significance markers
             for model in models:
                 lang_pair = f"{lang}-en"
                 if model in results and lang_pair in results[model] and results[model][lang_pair]["term_acc"] != -1:
                     score = results[model][lang_pair]["term_acc"]
                     
-                    # Check for statistical significance based on comparison type
+                    # Check for statistical significance markers
                     prompt_variant_symbol = ""
                     mt_vs_llm_symbol = ""
                     
                     if stats_results:
-                        # Check significance against all other models
-                        for other_model in models:
-                            if other_model == model:
-                                continue
-                            
-                            # Determine which comparison to look for
-                            comparison = f"{model}_vs_{other_model}"
-                            alt_comparison = f"{other_model}_vs_{model}"
-                            
-                            # Check the first direction
-                            if comparison in stats_results.get(dataset, {}):
-                                if lang_pair in stats_results[dataset][comparison]:
+                        # Check for prompt variant significance
+                        for var1, var2 in PROMPT_VARIANT_PAIRS:
+                            if model == var1 or model == var2:
+                                other_model = var2 if model == var1 else var1
+                                
+                                # Determine which comparison to look for
+                                comparison = f"{model}_vs_{other_model}"
+                                alt_comparison = f"{other_model}_vs_{model}"
+                                
+                                if comparison in stats_results.get(dataset, {}) and lang_pair in stats_results[dataset][comparison]:
                                     test_result = stats_results[dataset][comparison][lang_pair]
                                     if test_result["significant"] and test_result["better_model"] == model:
-                                        comp_type = test_result.get("comparison_type", "general")
-                                        if comp_type == "prompt_variant":
-                                            prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
-                                        elif comp_type == "mt_vs_llm":
-                                            mt_vs_llm_symbol = "$^*$"  # Asterisk for MT vs small LLM
-                            
-                            # Check the opposite direction
-                            elif alt_comparison in stats_results.get(dataset, {}):
-                                if lang_pair in stats_results[dataset][alt_comparison]:
+                                        prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
+                                        
+                                elif alt_comparison in stats_results.get(dataset, {}) and lang_pair in stats_results[dataset][alt_comparison]:
                                     test_result = stats_results[dataset][alt_comparison][lang_pair]
                                     if test_result["significant"] and test_result["better_model"] == model:
-                                        comp_type = test_result.get("comparison_type", "general")
-                                        if comp_type == "prompt_variant":
-                                            prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
-                                        elif comp_type == "mt_vs_llm":
-                                            mt_vs_llm_symbol = "$^*$"  # Asterisk for MT vs small LLM
+                                        prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
+                        
+                        # Check for MT vs small LLM significance
+                        # Only add asterisk if this model is the best in its group AND significantly better than the second best
+                        if model in MT_MODELS and mt_models_with_data:
+                            if is_best_in_group(model, mt_models_with_data, lang_pair, "term_acc") and \
+                               is_significantly_better_than_second_best(model, mt_models_with_data, lang_pair, stats_results):
+                                mt_vs_llm_symbol = "$^*$"  # Asterisk for best MT model
+                                
+                        elif model in SMALL_LLM_MODELS and small_llm_models_with_data:
+                            if is_best_in_group(model, small_llm_models_with_data, lang_pair, "term_acc") and \
+                               is_significantly_better_than_second_best(model, small_llm_models_with_data, lang_pair, stats_results):
+                                mt_vs_llm_symbol = "$^*$"  # Asterisk for best small LLM model
                     
                     # Format without bold, add significance symbols if applicable
                     row += f" & {score:.2f}{prompt_variant_symbol}{mt_vs_llm_symbol}"
@@ -768,7 +838,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     if languages_with_data:
         avg_row = "\\hline\nAvg."
         
-        # Calculate average scores
+        # Calculate average scores for each model
         model_avg_scores = {}
         
         for model in models:
@@ -782,58 +852,40 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                 avg_term_acc = sum(term_acc_values) / len(term_acc_values)
                 model_avg_scores[model] = avg_term_acc
         
+        # Get MT and small LLM models with average scores
+        mt_models_with_avg = [m for m in MT_MODELS if m in model_avg_scores]
+        small_llm_models_with_avg = [m for m in SMALL_LLM_MODELS if m in model_avg_scores]
+        
         # Format average row with significance markers
         for model in models:
             if model in model_avg_scores:
                 avg_score = model_avg_scores[model]
                 
-                # Check for statistical significance in averages
+                # Check for statistical significance in average
                 prompt_variant_symbol = ""
                 mt_vs_llm_symbol = ""
                 
                 if stats_results:
-                    # Check if this model is significantly better than others for any language
-                    for other_model in models:
-                        if other_model == model:
-                            continue
-                        
-                        # Check if comparison is of a specific type
-                        is_prompt_variant = False
-                        is_mt_vs_llm = False
-                        
-                        # Determine comparison type
-                        for var1, var2 in PROMPT_VARIANT_PAIRS:
-                            if (model == var1 and other_model == var2) or (model == var2 and other_model == var1):
-                                is_prompt_variant = True
-                                break
-                        
-                        if (model in MT_MODELS and other_model in SMALL_LLM_MODELS) or \
-                           (model in SMALL_LLM_MODELS and other_model in MT_MODELS):
-                            is_mt_vs_llm = True
-                        
-                        # Only check languages that have data for both models
-                        for lang in languages_with_data:
-                            lang_pair = f"{lang}-en"
-                            comparison = f"{model}_vs_{other_model}"
-                            alt_comparison = f"{other_model}_vs_{model}"
-                            
-                            if comparison in stats_results.get(dataset, {}):
-                                if lang_pair in stats_results[dataset][comparison]:
-                                    test_result = stats_results[dataset][comparison][lang_pair]
-                                    if test_result["significant"] and test_result["better_model"] == model:
-                                        if is_prompt_variant:
-                                            prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
-                                        elif is_mt_vs_llm:
-                                            mt_vs_llm_symbol = "$^*$"  # Asterisk for MT vs small LLM
-                            
-                            elif alt_comparison in stats_results.get(dataset, {}):
-                                if lang_pair in stats_results[dataset][alt_comparison]:
-                                    test_result = stats_results[dataset][alt_comparison][lang_pair]
-                                    if test_result["significant"] and test_result["better_model"] == model:
-                                        if is_prompt_variant:
-                                            prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
-                                        elif is_mt_vs_llm:
-                                            mt_vs_llm_symbol = "$^*$"  # Asterisk for MT vs small LLM
+                    # Check for prompt variant significance in average
+                    for var1, var2 in PROMPT_VARIANT_PAIRS:
+                        if model == var1 or model == var2:
+                            other_model = var2 if model == var1 else var1
+                            if other_model in model_avg_scores and is_significantly_better_on_average(model, other_model, stats_results):
+                                prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
+                    
+                    # Check for MT vs small LLM significance in average
+                    # Only add asterisk if this model is the best in its group AND significantly better than the second best
+                    if model in MT_MODELS and mt_models_with_avg:
+                        if model == max(mt_models_with_avg, key=lambda m: model_avg_scores[m]) and len(mt_models_with_avg) > 1:
+                            second_best = sorted(mt_models_with_avg, key=lambda m: model_avg_scores[m])[-2]
+                            if is_significantly_better_on_average(model, second_best, stats_results):
+                                mt_vs_llm_symbol = "$^*$"  # Asterisk for best MT model
+                                
+                    elif model in SMALL_LLM_MODELS and small_llm_models_with_avg:
+                        if model == max(small_llm_models_with_avg, key=lambda m: model_avg_scores[m]) and len(small_llm_models_with_avg) > 1:
+                            second_best = sorted(small_llm_models_with_avg, key=lambda m: model_avg_scores[m])[-2]
+                            if is_significantly_better_on_average(model, second_best, stats_results):
+                                mt_vs_llm_symbol = "$^*$"  # Asterisk for best small LLM model
                 
                 # Format without bold, add significance symbols
                 avg_row += f" & {avg_score:.2f}{prompt_variant_symbol}{mt_vs_llm_symbol}"
@@ -843,7 +895,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
         print(avg_row + " \\\\")
     print("\\hline")
     print("\\end{tabular}")
-    print("\\caption{Term Accuracy Scores for " + dataset.upper() + " dataset (\\textsc{xx}$\\rightarrow$\\textsc{en}). $^\\dagger$ indicates significant improvement over prompt variant, $^*$ indicates significant improvement in MT vs. small LLM comparison}")
+    print("\\caption{Term Accuracy Scores for " + dataset.upper() + " dataset (\\textsc{xx}$\\rightarrow$\\textsc{en}). $^\\dagger$ indicates significant improvement over prompt variant, $^*$ indicates significant improvement over other models in the same group (MT or small LLM)}")
     print("\\label{tab:" + dataset + "-xx-to-en-term}")
     print("\\end{table*}")
     
