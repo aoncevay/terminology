@@ -989,14 +989,14 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                     # Position calculations - slightly offset from the whiskers
                     box_pos = i + 1  # Boxplot positions are 1-indexed
                     
-                    # Calculate offset based on the y-axis range
-                    y_offset = 2.0 if metric == "chrf++" else 0.02
+                    # Calculate smaller offset based on the y-axis range (closer to box limits)
+                    y_offset = 1.0 if metric == "chrf++" else 0.01
                     
-                    # Add best language with black and italic (not gray)
+                    # Add best language with font size matching axis labels
                     ax.text(box_pos, best_score + y_offset, 
                            LANGID2LATEX.get(best_lang, best_lang).replace("\\textsc{", "").replace("}", ""),
                            horizontalalignment='center', verticalalignment='bottom', 
-                           fontsize=8, fontstyle='italic')
+                           fontsize=12, fontstyle='italic')
                     
                     # Check if the worst score is an outlier
                     is_outlier = False
@@ -1012,13 +1012,13 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                         ax.text(box_pos, worst_score + y_offset, 
                                LANGID2LATEX.get(worst_lang, worst_lang).replace("\\textsc{", "").replace("}", ""),
                                horizontalalignment='center', verticalalignment='bottom', 
-                               fontsize=8, fontstyle='italic')
+                               fontsize=12, fontstyle='italic')
                     else:
                         # Normal case - place label below
                         ax.text(box_pos, worst_score - y_offset, 
                                LANGID2LATEX.get(worst_lang, worst_lang).replace("\\textsc{", "").replace("}", ""),
                                horizontalalignment='center', verticalalignment='top', 
-                               fontsize=8, fontstyle='italic')
+                               fontsize=12, fontstyle='italic')
                     
                 # Add asterisks for statistical significance ONLY for term_acc metric
                 if stats_results and metric == "term_acc":
@@ -1076,7 +1076,7 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                         if is_significant:
                             best_score = best_langs[i][0]
                             # Use consistent offset for asterisk (above the language label)
-                            asterisk_offset = 4.0 if metric == "chrf++" else 0.04
+                            asterisk_offset = 3.0 if metric == "chrf++" else 0.03
                             ax.text(i + 1, best_score + asterisk_offset, "*",
                                    horizontalalignment='center', fontsize=20, fontweight='bold')
                 
