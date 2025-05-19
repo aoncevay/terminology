@@ -109,8 +109,8 @@ COLOR_MAP = {
     "LLM.llama": "#98df8a",   # medium green
     "LLM_mistral": "#d4ffaa", # light green
     
-    # Large LLM - red
-    "LLM_openai_gpt4o": "#d62728"  # red
+    # Large LLM - purple instead of red for better contrast with mean line
+    "LLM_openai_gpt4o": "#9467bd"  # purple
 }
 
 def evaluate_all_datasets():
@@ -934,8 +934,8 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                 if not data_by_model:
                     continue
                 
-                # Create the figure
-                fig, ax = plt.subplots(figsize=(10, 6))
+                # Create a more compact figure
+                fig, ax = plt.subplots(figsize=(7, 5))
                 
                 # Prepare data for boxplot
                 boxplot_data = []
@@ -945,16 +945,22 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                 for model in BASELINE_MODELS:
                     if model in data_by_model:
                         boxplot_data.append(data_by_model[model]["scores"])
+                        # Clean model names (remove LaTeX formatting)
                         model_names.append(MODELSNAME2LATEX.get(model, model).replace("\\textsc{", "").replace("}", ""))
                         colors.append(COLOR_MAP.get(model, "gray"))
                 
-                # Create the boxplot
-                boxplot = ax.boxplot(boxplot_data, patch_artist=True, widths=0.6)
+                # Create the boxplot with thicker lines for mean
+                boxplot = ax.boxplot(boxplot_data, patch_artist=True, widths=0.5, meanprops={'linewidth': 2})
                 
-                # Apply colors to boxes
+                # Apply colors to boxes with higher alpha for better visibility
                 for box, color in zip(boxplot['boxes'], colors):
                     box.set_facecolor(color)
-                    box.set_alpha(0.6)
+                    box.set_alpha(0.7)
+                
+                # Make median lines more visible
+                for median in boxplot['medians']:
+                    median.set_linewidth(2.0)
+                    median.set_color('black')
                     
                 # Add asterisks for statistical significance (if stats_results provided)
                 if stats_results:
@@ -1011,16 +1017,17 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                         # Add asterisk if significant
                         if is_significant:
                             ax.text(i + 1, max(data_by_model[model]["scores"]) + 0.02, "*",
-                                   horizontalalignment='center', fontsize=16)
+                                   horizontalalignment='center', fontsize=20, fontweight='bold')
                 
-                # Set the plot labels and title
+                # Set only necessary labels
                 metric_name = "chrF++" if metric == "chrf++" else "Term Accuracy"
                 dir_name = "EN→XX" if direction == "en-xx" else "XX→EN"
                 
-                ax.set_title(f"{metric_name} for {dataset.upper()} dataset ({dir_name})")
-                ax.set_xlabel("Model")
-                ax.set_ylabel(metric_name)
-                ax.set_xticklabels(model_names, rotation=45, ha='right')
+                # Set only the y-axis label
+                ax.set_ylabel(metric_name, fontsize=14)
+                
+                # Set x-tick labels horizontal (no rotation)
+                ax.set_xticklabels(model_names, fontsize=12)
                 
                 # Adjust the y-axis limits for better visualization
                 if metric == "term_acc":
@@ -1031,29 +1038,13 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                         max_score = max(all_scores)
                         plt.ylim(0, max_score * 1.1)  # Add 10% padding to the top
                 
-                # Create a legend for model groups
-                legend_elements = [
-                    Patch(facecolor=COLOR_MAP["MADLAD"], alpha=0.6, label='MT Systems'),
-                    Patch(facecolor=COLOR_MAP["LLM.aya"], alpha=0.6, label='Small LLMs'),
-                    Patch(facecolor=COLOR_MAP["LLM_openai_gpt4o"], alpha=0.6, label='Large LLM')
-                ]
-                
-                # Add legend
-                ax.legend(handles=legend_elements, loc='upper right')
-                
-                # Add a note about the asterisk
-                if stats_results:
-                    plt.figtext(0.5, 0.01, "* indicates significant improvement over other comparable models", 
-                              ha="center", fontsize=10, style='italic')
-                
                 # Adjust layout and save
                 plt.tight_layout()
-                plt.subplots_adjust(bottom=0.15)  # Make room for rotated x-tick labels
                 
                 # Save the figure
                 filename = f"{dataset}_{direction}_{metric}_boxplot.pdf"
                 filepath = os.path.join(figs_dir, filename)
-                plt.savefig(filepath, bbox_inches='tight')
+                plt.savefig(filepath, bbox_inches='tight', dpi=300)
                 print(f"Saved boxplot to {filepath}")
                 plt.close()
 
