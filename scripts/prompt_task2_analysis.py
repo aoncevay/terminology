@@ -146,7 +146,7 @@ def create_difference_plot(differences, dataset, direction, metric, y_limits=Non
     mpl.rcParams['ytick.labelsize'] = 9
     
     # Create figure with specified dimensions
-    fig, ax = plt.subplots(figsize=(3, 2.5))
+    fig, ax = plt.subplots(figsize=(3, 2))
     
     # Prepare data - maintain original language order (alphabetical by language code)
     languages = list(differences.keys())
