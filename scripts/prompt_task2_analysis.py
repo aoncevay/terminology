@@ -203,24 +203,34 @@ def create_difference_plot(differences, significant, dataset, direction, metric,
     # Get values in the same order as languages
     values = [differences[lang] for lang in ordered_langs]
     
-    # Create bars with colors based on sign
+    # Create bars with colors based on sign - removed hatch for term-acc
     bars = ax.bar(
         range(len(ordered_langs)),
         values,
         color=[GAIN_COLOR if v >= 0 else LOSS_COLOR for v in values],
         edgecolor='black',
         linewidth=0.5,
-        width=0.7,
-        hatch='//' if metric == "term-acc" else None
+        width=0.7
     )
     
-    # Add significance markers (asterisks)
+    # Add significance markers (asterisks) inside the bars
     for i, lang in enumerate(ordered_langs):
         if lang in significant and significant[lang]:
             value = differences[lang]
-            # Position the marker above or below the bar depending on the sign
-            y_pos = value + 0.02 if value >= 0 else value - 0.04
-            ax.text(i, y_pos, '*', ha='center', va='center', fontsize=14, fontweight='bold')
+            # Position the marker in the middle of the bar (vertically)
+            y_pos = value / 2  # Middle of the bar
+            
+            # Use white or black text based on the bar's height for better contrast
+            # For very short bars, place the asterisk just above or below
+            if abs(value) < 0.05:  # If the bar is very small
+                y_pos = 0.05 if value >= 0 else -0.05
+                color = 'black'
+            else:
+                # Use white for better contrast on colored bars
+                color = 'white'
+                
+            ax.text(i, y_pos, '*', ha='center', va='center', fontsize=14, 
+                   fontweight='bold', color=color)
     
     # Add language labels - removed rotation
     ax.set_xticks(range(len(ordered_langs)))
