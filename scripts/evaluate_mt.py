@@ -9,6 +9,9 @@ import argparse
 import sys
 from scipy import stats
 from pathlib import Path
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+from matplotlib.patches import Patch
 
 #models = ["LLM.llama", "LLM_openai_gpt4o", "Task2_LLM_openai_gpt4o"]
 models = ["MADLAD", "NLLB", "LLM.aya", "LLM.llama", "LLM_mistral", "Task2_LLM_mistral", "LLM_openai_gpt4o", "Task2_LLM_openai_gpt4o"] #, "LLM.tower"]
@@ -43,7 +46,7 @@ MODELSNAME2LATEX = {
     "LLM.llama": "\\textsc{Llama3.1}",
     "LLM_mistral": "\\textsc{Mistral}",
     "Task2_LLM_mistral": "\\textsc{Mistral++}", # ++ indicates different prompt
-    # large LLM
+    # large LLM
     "LLM_openai_gpt4o": "\\textsc{GPT4o}",
     "Task2_LLM_openai_gpt4o": "\\textsc{GPT4o++}" # ++ indicates different prompt
 }
@@ -91,6 +94,24 @@ SMALL_LLM_MODELS = ["LLM.aya", "LLM.llama", "LLM_mistral"]
 
 # Combined group of comparable models (MT systems and small LLMs, excluding prompt variants)
 COMPARABLE_MODELS = MT_MODELS + SMALL_LLM_MODELS
+
+# Define baseline models (excluding prompt variants)
+BASELINE_MODELS = ["MADLAD", "NLLB", "LLM.aya", "LLM.llama", "LLM_mistral", "LLM_openai_gpt4o"]
+
+# Define colors for model groups
+COLOR_MAP = {
+    # MT systems - shades of blue
+    "MADLAD": "#1f77b4",  # dark blue
+    "NLLB": "#7fdbff",    # light blue
+    
+    # Small LLMs - shades of green
+    "LLM.aya": "#2ca02c",     # dark green
+    "LLM.llama": "#98df8a",   # medium green
+    "LLM_mistral": "#d4ffaa", # light green
+    
+    # Large LLM - red
+    "LLM_openai_gpt4o": "#d62728"  # red
+}
 
 def evaluate_all_datasets():
     """Evaluate all models and datasets, saving results per model"""
@@ -857,6 +878,185 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     if output_file:
         sys.stdout = orig_stdout
 
+def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
+    """Create boxplots for the baseline models for each dataset, translation direction, and metric"""
+    # Create figs directory if it doesn't exist
+    os.makedirs(figs_dir, exist_ok=True)
+    
+    # Set matplotlib parameters for a clean, publication-ready style
+    plt.style.use('seaborn-v0_8-whitegrid')
+    mpl.rcParams['font.family'] = 'serif'
+    mpl.rcParams['font.serif'] = ['Times New Roman']
+    mpl.rcParams['axes.labelsize'] = 14
+    mpl.rcParams['axes.titlesize'] = 16
+    mpl.rcParams['xtick.labelsize'] = 12
+    mpl.rcParams['ytick.labelsize'] = 12
+    mpl.rcParams['legend.fontsize'] = 12
+    
+    # Process each dataset
+    for dataset in datasets:
+        # Process each metric
+        for metric in ["chrf++", "term_acc"]:
+            # Process each translation direction
+            for direction in ["en-xx", "xx-en"]:
+                # Collect data for all models and languages
+                data_by_model = {}
+                available_langs = set()
+                
+                for model in BASELINE_MODELS:
+                    if model not in results_scores:
+                        continue
+                        
+                    if dataset not in results_scores[model]:
+                        continue
+                    
+                    scores = []
+                    langs = []
+                    
+                    # Get the languages for this dataset
+                    dataset_langs = dataset2langs.get(dataset, [])
+                    
+                    for lang in dataset_langs:
+                        if direction == "en-xx":
+                            lang_pair = f"en-{lang}"
+                        else:
+                            lang_pair = f"{lang}-en"
+                            
+                        if lang_pair in results_scores[model][dataset] and results_scores[model][dataset][lang_pair][metric] != -1:
+                            scores.append(results_scores[model][dataset][lang_pair][metric])
+                            langs.append(lang)
+                            available_langs.add(lang)
+                    
+                    if scores:  # Only include model if it has data
+                        data_by_model[model] = {"scores": scores, "langs": langs}
+                
+                # Skip if no data
+                if not data_by_model:
+                    continue
+                
+                # Create the figure
+                fig, ax = plt.subplots(figsize=(10, 6))
+                
+                # Prepare data for boxplot
+                boxplot_data = []
+                model_names = []
+                colors = []
+                
+                for model in BASELINE_MODELS:
+                    if model in data_by_model:
+                        boxplot_data.append(data_by_model[model]["scores"])
+                        model_names.append(MODELSNAME2LATEX.get(model, model).replace("\\textsc{", "").replace("}", ""))
+                        colors.append(COLOR_MAP.get(model, "gray"))
+                
+                # Create the boxplot
+                boxplot = ax.boxplot(boxplot_data, patch_artist=True, widths=0.6)
+                
+                # Apply colors to boxes
+                for box, color in zip(boxplot['boxes'], colors):
+                    box.set_facecolor(color)
+                    box.set_alpha(0.6)
+                    
+                # Add asterisks for statistical significance (if stats_results provided)
+                if stats_results:
+                    # Check if model is significantly better than others
+                    for i, model in enumerate(BASELINE_MODELS):
+                        if model not in data_by_model:
+                            continue
+                            
+                        # Check if model is the best in its group and significantly better
+                        model_in_comparable = model in COMPARABLE_MODELS
+                        is_best = False
+                        
+                        # Check if it's the best on average
+                        if model_in_comparable:
+                            avg_scores = {m: sum(data_by_model[m]["scores"]) / len(data_by_model[m]["scores"]) 
+                                        for m in data_by_model if m in COMPARABLE_MODELS}
+                            if avg_scores and model in avg_scores:
+                                is_best = model == max(avg_scores, key=avg_scores.get)
+                        
+                        # Check if it's significantly better than at least one other model
+                        is_significant = False
+                        if model_in_comparable and is_best:
+                            for other_model in COMPARABLE_MODELS:
+                                if other_model == model or other_model not in data_by_model:
+                                    continue
+                                    
+                                # Check significant wins for each language
+                                for lang in available_langs:
+                                    if direction == "en-xx":
+                                        lang_pair = f"en-{lang}"
+                                    else:
+                                        lang_pair = f"{lang}-en"
+                                    
+                                    # Check both directions of comparison
+                                    comparison = f"{model}_vs_{other_model}"
+                                    alt_comparison = f"{other_model}_vs_{model}"
+                                    
+                                    if dataset in stats_results:
+                                        if comparison in stats_results[dataset] and lang_pair in stats_results[dataset][comparison]:
+                                            test_result = stats_results[dataset][comparison][lang_pair]
+                                            if test_result["significant"] and test_result["better_model"] == model:
+                                                is_significant = True
+                                                break
+                                        
+                                        elif alt_comparison in stats_results[dataset] and lang_pair in stats_results[dataset][alt_comparison]:
+                                            test_result = stats_results[dataset][alt_comparison][lang_pair]
+                                            if test_result["significant"] and test_result["better_model"] == model:
+                                                is_significant = True
+                                                break
+                                
+                                if is_significant:
+                                    break
+                        
+                        # Add asterisk if significant
+                        if is_significant:
+                            ax.text(i + 1, max(data_by_model[model]["scores"]) + 0.02, "*",
+                                   horizontalalignment='center', fontsize=16)
+                
+                # Set the plot labels and title
+                metric_name = "chrF++" if metric == "chrf++" else "Term Accuracy"
+                dir_name = "EN→XX" if direction == "en-xx" else "XX→EN"
+                
+                ax.set_title(f"{metric_name} for {dataset.upper()} dataset ({dir_name})")
+                ax.set_xlabel("Model")
+                ax.set_ylabel(metric_name)
+                ax.set_xticklabels(model_names, rotation=45, ha='right')
+                
+                # Adjust the y-axis limits for better visualization
+                if metric == "term_acc":
+                    plt.ylim(0, 1.05)  # Term accuracy is between 0 and 1
+                else:
+                    all_scores = [score for model_data in data_by_model.values() for score in model_data["scores"]]
+                    if all_scores:
+                        max_score = max(all_scores)
+                        plt.ylim(0, max_score * 1.1)  # Add 10% padding to the top
+                
+                # Create a legend for model groups
+                legend_elements = [
+                    Patch(facecolor=COLOR_MAP["MADLAD"], alpha=0.6, label='MT Systems'),
+                    Patch(facecolor=COLOR_MAP["LLM.aya"], alpha=0.6, label='Small LLMs'),
+                    Patch(facecolor=COLOR_MAP["LLM_openai_gpt4o"], alpha=0.6, label='Large LLM')
+                ]
+                
+                # Add legend
+                ax.legend(handles=legend_elements, loc='upper right')
+                
+                # Add a note about the asterisk
+                if stats_results:
+                    plt.figtext(0.5, 0.01, "* indicates significant improvement over other comparable models", 
+                              ha="center", fontsize=10, style='italic')
+                
+                # Adjust layout and save
+                plt.tight_layout()
+                plt.subplots_adjust(bottom=0.15)  # Make room for rotated x-tick labels
+                
+                # Save the figure
+                filename = f"{dataset}_{direction}_{metric}_boxplot.pdf"
+                filepath = os.path.join(figs_dir, filename)
+                plt.savefig(filepath, bbox_inches='tight')
+                print(f"Saved boxplot to {filepath}")
+                plt.close()
+
 def parse_args():
     """Parse command line arguments"""
     parser = argparse.ArgumentParser(description="Evaluate MT models on terminology datasets")
@@ -866,6 +1066,7 @@ def parse_args():
     action_group.add_argument("--metrics", action="store_true", help="Compute evaluation metrics")
     action_group.add_argument("--stats", action="store_true", help="Run statistical significance tests")
     action_group.add_argument("--tables", action="store_true", help="Print LaTeX tables")
+    action_group.add_argument("--plot_baseline", action="store_true", help="Create boxplots for baseline models")
     
     # Dataset selection
     parser.add_argument("--dataset", choices=datasets + ["all"], default="all", 
@@ -920,6 +1121,16 @@ def main():
                     print_table_latex_per_dataset(results_scores, stats_results, dataset=dataset, output_file=output_file)
                 
                 print(f"Tables for {dataset.upper()} dataset written to {output_filepath}")
+    
+    # Create boxplots if requested
+    if args.plot_baseline:
+        print("Creating boxplots for baseline models...")
+        if results_scores is None:
+            results_scores, results_values = load_results()
+        if stats_results is None:
+            stats_results = load_statistical_tests()
+        
+        create_boxplots(results_scores, stats_results)
 
 if __name__ == "__main__":
     main()
