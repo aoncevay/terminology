@@ -9,7 +9,7 @@ import pandas as pd
 from pathlib import Path
 
 # Models selected for the analysis (can be overridden with command-line arguments)
-models = ["MADLAD", "NLLB", "LLM.aya"]#, "LLM_openai_gpt4o"]
+models = ["MADLAD", "LLM_mistral", "LLM_openai_gpt4o"]
 
 # Define category colors for consistent visualization
 CATEGORY_COLORS = {
@@ -639,12 +639,37 @@ def create_boxplots_by_category(accuracy_by_category, between_models_significanc
                         # Get the position for this category
                         cat_pos = category_positions[category][i]
                         
-                        # Get the height for the symbol - add extra padding to ensure all markers are above whiskers
-                        # Add an extra 2% to ensure it's always above
-                        symbol_height = whisker_positions[category][i] + vertical_margin + (y_max * 0.02)
+                        # Get the minimum y value for this boxplot (lower whisker or outliers)
+                        min_y = 1.0  # Start with maximum possible value
                         
-                        # Ensure the symbol stays within the plot frame
-                        symbol_height = min(symbol_height, y_max * 0.95)
+                        # Check lower whiskers
+                        for i_whisker in range(len(boxplots[category]['whiskers'])):
+                            if i_whisker % 2 == 0:  # Lower whiskers are at even indices
+                                whisker_data = boxplots[category]['whiskers'][i_whisker].get_ydata()
+                                if len(whisker_data) > 0 and i == i_whisker // 2:
+                                    min_y = min(min_y, whisker_data[0])
+                        
+                        # Check lower outliers too
+                        if len(boxplots[category]['fliers']) > i:
+                            flier_data = boxplots[category]['fliers'][i].get_ydata()
+                            if len(flier_data) > 0:
+                                min_y = min(min_y, np.min(flier_data))
+                        
+                        # Get the upper position with padding
+                        upper_symbol_height = whisker_positions[category][i] + vertical_margin + (y_max * 0.02)
+                        
+                        # Check if upper position would be too high (>90% of plot height)
+                        # If so, place markers below the boxplot instead
+                        if upper_symbol_height > y_max * 0.9:
+                            # Place below with some margin
+                            symbol_height = min_y - vertical_margin - (y_max * 0.02)
+                            # Ensure we don't go below the plot
+                            symbol_height = max(symbol_height, y_max * 0.05)
+                        else:
+                            # Place above as normal
+                            symbol_height = upper_symbol_height
+                            # Ensure we don't go above the plot
+                            symbol_height = min(symbol_height, y_max * 0.95)
                         
                         # Place symbols side by side
                         if len(category_symbols) == 1:
