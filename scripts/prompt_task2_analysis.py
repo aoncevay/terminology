@@ -113,6 +113,8 @@ def calculate_differences_with_significance(results, dataset, direction, metric)
     differences = {}
     significant = {}  # Track which differences are statistically significant
     
+    print(f"\n=== Calculating differences for {dataset} {direction} {metric} ===")
+    
     # Extract languages from pairs based on direction
     if direction == "en-xx":
         languages = [pair.split("-")[1] for pair in language_pairs]
@@ -141,8 +143,12 @@ def calculate_differences_with_significance(results, dataset, direction, metric)
         # If score not found, try alternative format (term_acc instead of term-acc)
         if base_score == -1 and metric == "term-acc":
             base_score = results[BASE_MODEL][dataset][lang_pair].get("term_acc", -1)
+            if base_score != -1:
+                print(f"Found alternative format 'term_acc' for {lang_pair} base model")
         if prompt_score == -1 and metric == "term-acc":
             prompt_score = results[PROMPT_MODEL][dataset][lang_pair].get("term_acc", -1)
+            if prompt_score != -1:
+                print(f"Found alternative format 'term_acc' for {lang_pair} prompt model")
         
         # Skip if invalid scores
         if base_score == -1 or prompt_score == -1:
@@ -151,45 +157,76 @@ def calculate_differences_with_significance(results, dataset, direction, metric)
         
         # Calculate difference (prompt - base)
         difference = prompt_score - base_score
+        print(f"{lang_pair}: Base={base_score:.4f}, Prompt={prompt_score:.4f}, Diff={difference:.4f}")
         
         # Store difference
         differences[lang] = difference
         
         # Determine statistical significance
-        if metric == "term-acc" and ("term_acc_values" in results[BASE_MODEL][dataset][lang_pair] or "term-acc_values" in results[BASE_MODEL][dataset][lang_pair]) and ("term_acc_values" in results[PROMPT_MODEL][dataset][lang_pair] or "term-acc_values" in results[PROMPT_MODEL][dataset][lang_pair]):
-            # Get term accuracy values (these are binary success/failure values per term)
-            # Try both formats of the key (term_acc_values or term-acc_values)
-            base_values = results[BASE_MODEL][dataset][lang_pair].get("term_acc_values", results[BASE_MODEL][dataset][lang_pair].get("term-acc_values", []))
-            prompt_values = results[PROMPT_MODEL][dataset][lang_pair].get("term_acc_values", results[PROMPT_MODEL][dataset][lang_pair].get("term-acc_values", []))
-            
-            # Convert to per-sentence accuracy scores for Mann-Whitney U test
-            base_per_sentence = []
-            prompt_per_sentence = []
-            
-            for base_sent, prompt_sent in zip(base_values, prompt_values):
-                if base_sent and prompt_sent:  # Skip empty sentences
-                    base_acc = sum(base_sent) / len(base_sent) if len(base_sent) > 0 else 0
-                    prompt_acc = sum(prompt_sent) / len(prompt_sent) if len(prompt_sent) > 0 else 0
+        has_term_acc_values = False
+        base_values_key = None
+        prompt_values_key = None
+        
+        # Check if term_acc_values or term-acc_values exist
+        if metric == "term-acc":
+            for key in ["term_acc_values", "term-acc_values"]:
+                if key in results[BASE_MODEL][dataset][lang_pair]:
+                    has_term_acc_values = True
+                    base_values_key = key
+                    print(f"Found {key} in base model for {lang_pair}")
+                if key in results[PROMPT_MODEL][dataset][lang_pair]:
+                    has_term_acc_values = True
+                    prompt_values_key = key
+                    print(f"Found {key} in prompt model for {lang_pair}")
                     
-                    base_per_sentence.append(base_acc)
-                    prompt_per_sentence.append(prompt_acc)
-            
-            # Perform statistical test if we have enough data
-            if len(base_per_sentence) >= 5 and len(prompt_per_sentence) >= 5:
-                try:
-                    u_stat, p_value = stats.mannwhitneyu(base_per_sentence, prompt_per_sentence, alternative='two-sided')
-                    significant[lang] = p_value < 0.05
-                except ValueError:
-                    # If test cannot be performed, mark as not significant
+            if has_term_acc_values and base_values_key and prompt_values_key:
+                # Get term accuracy values (these are binary success/failure values per term)
+                base_values = results[BASE_MODEL][dataset][lang_pair][base_values_key]
+                prompt_values = results[PROMPT_MODEL][dataset][lang_pair][prompt_values_key]
+                
+                # Convert to per-sentence accuracy scores for Mann-Whitney U test
+                base_per_sentence = []
+                prompt_per_sentence = []
+                
+                for base_sent, prompt_sent in zip(base_values, prompt_values):
+                    if base_sent and prompt_sent:  # Skip empty sentences
+                        base_acc = sum(base_sent) / len(base_sent) if len(base_sent) > 0 else 0
+                        prompt_acc = sum(prompt_sent) / len(prompt_sent) if len(prompt_sent) > 0 else 0
+                        
+                        base_per_sentence.append(base_acc)
+                        prompt_per_sentence.append(prompt_acc)
+                
+                # Perform statistical test if we have enough data
+                if len(base_per_sentence) >= 5 and len(prompt_per_sentence) >= 5:
+                    try:
+                        print(f"Performing Mann-Whitney U test for {lang_pair} with {len(base_per_sentence)} samples")
+                        u_stat, p_value = stats.mannwhitneyu(base_per_sentence, prompt_per_sentence, alternative='two-sided')
+                        significant[lang] = p_value < 0.05
+                        print(f"  Result: U={u_stat:.2f}, p={p_value:.4f}, Significant: {significant[lang]}")
+                    except ValueError as e:
+                        print(f"  Mann-Whitney U test failed: {e}")
+                        # If test cannot be performed, mark as not significant
+                        significant[lang] = False
+                else:
+                    print(f"  Not enough data for Mann-Whitney U test: {len(base_per_sentence)} base, {len(prompt_per_sentence)} prompt")
                     significant[lang] = False
             else:
+                print(f"  No term accuracy values found for {lang_pair}")
                 significant[lang] = False
                 
         elif metric == "chrf++":
             # For chrF++, use a threshold of 2 points to determine significance
             significant[lang] = abs(difference) >= 2.0
+            print(f"  chrF++ threshold test: |{difference:.4f}| >= 2.0 -> {significant[lang]}")
         else:
+            print(f"  No significance test available for metric: {metric}")
             significant[lang] = False
+    
+    # Print summary of significant differences
+    print("\nSignificant differences summary:")
+    for lang in differences.keys():
+        sig_mark = "*" if lang in significant and significant[lang] else ""
+        print(f"  {lang}: {differences[lang]:.4f} {sig_mark}")
     
     return differences, significant
 
@@ -233,7 +270,9 @@ def create_difference_plot(differences, significant, dataset, direction, metric,
     )
     
     # Add significance markers (asterisks) inside the bars - now all black
+    print(f"\nAdding significance markers for {dataset} {direction} {metric}:")
     for i, lang in enumerate(ordered_langs):
+        print(f"  {lang}: significant={lang in significant and significant[lang]}")
         if lang in significant and significant[lang]:
             value = differences[lang]
             # Position the marker in the middle of the bar (vertically)
@@ -246,6 +285,7 @@ def create_difference_plot(differences, significant, dataset, direction, metric,
             # Use black for all stars for better visibility and consistency
             ax.text(i, y_pos, '*', ha='center', va='center', fontsize=14, 
                    fontweight='bold', color='black')
+            print(f"    Added * at position ({i}, {y_pos})")
     
     # Add language labels - removed rotation
     ax.set_xticks(range(len(ordered_langs)))
