@@ -658,9 +658,23 @@ def create_boxplots_by_category(accuracy_by_category, between_models_significanc
                         # Get the upper position with padding
                         upper_symbol_height = whisker_positions[category][i] + vertical_margin + (y_max * 0.02)
                         
-                        # Check if upper position would be too high (>90% of plot height)
-                        # If so, place markers below the boxplot instead
-                        if upper_symbol_height > y_max * 0.9:
+                        # More selective condition for placing markers below
+                        # Only place below if:
+                        # 1. Upper position is extremely high (>95% of plot height), or
+                        # 2. This is a high-accuracy model like GPT4o AND the upper whisker is very high
+                        place_below = False
+                        
+                        # Check if this is an extremely high-accuracy model
+                        high_accuracy_model = model in ["LLM_openai_gpt4o"] or whisker_positions[category][i] > 0.95
+                        
+                        if upper_symbol_height > y_max * 0.95:
+                            # Extreme case - always place below
+                            place_below = True
+                        elif high_accuracy_model and whisker_positions[category][i] > 0.9:
+                            # High-accuracy model with whisker very high
+                            place_below = True
+                        
+                        if place_below:
                             # Place below with some margin
                             symbol_height = min_y - vertical_margin - (y_max * 0.02)
                             # Ensure we don't go below the plot
