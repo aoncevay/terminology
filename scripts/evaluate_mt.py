@@ -441,8 +441,8 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     print("\\begin{table*}")
     print("\\centering")
     
-    # Update the column specification
-    col_spec = "|l||c|c||c|c|c||c|"
+    # Update the column specification - fix double bars that might be causing extra column
+    col_spec = "|l|c|c|c|c|c|c|"
     
     print("\\begin{tabular}{" + col_spec + "}")
     print("\\hline")
@@ -466,7 +466,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
         
         if has_data:
             languages_with_data.append(lang)
-            row = LANGID2LATEX.get(lang, lang)  # Use formatted language code
+            row = LANGID2LATEX.get(lang, lang)  # Use formatted language code - remove the extra dash after this
             
             # chrF++ scores - no bold formatting
             for model in models:
@@ -491,6 +491,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                 if model in results and lang_pair in results[model] and results[model][lang_pair]["chrf++"] != -1:
                     chrf_values.append(results[model][lang_pair]["chrf++"])
             
+            # Fixed indentation here to ensure proper averaging
             if chrf_values:
                 avg_chrf = sum(chrf_values) / len(chrf_values)
                 avg_row += f" & {avg_chrf:.2f}"
@@ -688,12 +689,12 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                 lang_pair = f"{lang}-en"
                 if model in results and lang_pair in results[model] and results[model][lang_pair]["chrf++"] != -1:
                     chrf_values.append(results[model][lang_pair]["chrf++"])
-        
-        if chrf_values:
-            avg_chrf = sum(chrf_values) / len(chrf_values)
-            avg_row += f" & {avg_chrf:.2f}"
-        else:
-            avg_row += " & -"
+            
+            if chrf_values:
+                avg_chrf = sum(chrf_values) / len(chrf_values)
+                avg_row += f" & {avg_chrf:.2f}"
+            else:
+                avg_row += " & -"
         
         print(avg_row + " \\\\")
     print("\\hline")
@@ -1200,7 +1201,7 @@ def main():
     # Compute evaluation metrics if requested
     if args.metrics:
         print("Computing evaluation metrics...")
-    results_scores, results_values = evaluate_all_datasets()
+        results_scores, results_values = evaluate_all_datasets()
     
     # Run statistical tests if requested
     if args.stats:
