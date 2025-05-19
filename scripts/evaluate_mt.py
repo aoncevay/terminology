@@ -89,6 +89,9 @@ PROMPT_VARIANT_PAIRS = [
 MT_MODELS = ["NLLB", "MADLAD"]
 SMALL_LLM_MODELS = ["LLM.aya", "LLM.llama", "LLM_mistral"]
 
+# Combined group of comparable models (MT systems and small LLMs, excluding prompt variants)
+COMPARABLE_MODELS = MT_MODELS + SMALL_LLM_MODELS
+
 def evaluate_all_datasets():
     """Evaluate all models and datasets, saving results per model"""
     # Dictionary to hold all results
@@ -420,40 +423,14 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                     return True
         
         return False
-    
+
     # Table 1: English to XX - chrF++ scores
     print("\n% Table for English to Target Language - chrF++ scores")
     print("\\begin{table*}")
     print("\\centering")
     
-    # Create col spec with separator between model groups
-    col_spec = "|l|"
-    prev_group = None
-    for model in models:
-        group = MODEL_GROUPS.get(model, "other")
-        
-        # Check if we need to add a double separator between groups
-        if prev_group is not None and group != prev_group and not (
-            (prev_group == "small_llm" and group == "small_llm_variant") or
-            (prev_group == "large_llm" and group == "large_llm_variant")
-        ):
-            col_spec += "|"
-        
-        # Add column for this model
-        col_spec += "c"
-        
-        # Only add separator if not a variant of the previous model
-        if not (
-            (prev_group == "small_llm" and group == "small_llm_variant") or
-            (prev_group == "large_llm" and group == "large_llm_variant")
-        ):
-            col_spec += "|"
-        
-        prev_group = group
-    
-    # Ensure the table ends with a closing vertical bar
-    if not col_spec.endswith("|"):
-        col_spec += "|"
+    # Use the exact specified column separator pattern
+    col_spec = "|l||c|c||c|c|cc||cc|"
     
     print("\\begin{tabular}{" + col_spec + "}")
     print("\\hline")
@@ -520,6 +497,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     print("\\begin{table*}")
     print("\\centering")
     
+    # Use the same column separator pattern for all tables
     print("\\begin{tabular}{" + col_spec + "}")
     print("\\hline")
     
@@ -544,9 +522,8 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
             languages_with_data.append(lang)
             row = LANGID2LATEX.get(lang, lang)  # Use formatted language code
             
-            # Get MT and small LLM models with data for this language
-            mt_models_with_data = [m for m in MT_MODELS if m in results and lang_pair in results[m] and results[m][lang_pair]["term_acc"] != -1]
-            small_llm_models_with_data = [m for m in SMALL_LLM_MODELS if m in results and lang_pair in results[m] and results[m][lang_pair]["term_acc"] != -1]
+            # Get comparable models with data for this language (MT systems and small LLMs, excluding prompt variants)
+            comparable_models_with_data = [m for m in COMPARABLE_MODELS if m in results and lang_pair in results[m] and results[m][lang_pair]["term_acc"] != -1]
             
             # Term accuracy scores with statistical significance markers
             for model in models:
@@ -556,7 +533,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                     
                     # Check for statistical significance markers
                     prompt_variant_symbol = ""
-                    mt_vs_llm_symbol = ""
+                    best_model_symbol = ""
                     
                     if stats_results:
                         # Check for prompt variant significance
@@ -578,20 +555,15 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                                     if test_result["significant"] and test_result["better_model"] == model:
                                         prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
                         
-                        # Check for MT vs small LLM significance
-                        # Only add asterisk if this model is the best in its group AND significantly better than the second best
-                        if model in MT_MODELS and mt_models_with_data:
-                            if is_best_in_group(model, mt_models_with_data, lang_pair, "term_acc") and \
-                               is_significantly_better_than_second_best(model, mt_models_with_data, lang_pair, stats_results):
-                                mt_vs_llm_symbol = "$^*$"  # Asterisk for best MT model
-                                
-                        elif model in SMALL_LLM_MODELS and small_llm_models_with_data:
-                            if is_best_in_group(model, small_llm_models_with_data, lang_pair, "term_acc") and \
-                               is_significantly_better_than_second_best(model, small_llm_models_with_data, lang_pair, stats_results):
-                                mt_vs_llm_symbol = "$^*$"  # Asterisk for best small LLM model
+                        # Check if this model is the best among comparable models (MT and small LLMs) and is significantly better
+                        # Only add asterisk for models in the comparable group (not prompt variants)
+                        if model in COMPARABLE_MODELS and comparable_models_with_data:
+                            if is_best_in_group(model, comparable_models_with_data, lang_pair, "term_acc") and \
+                               is_significantly_better_than_second_best(model, comparable_models_with_data, lang_pair, stats_results):
+                                best_model_symbol = "$^*$"  # Asterisk for best model among MT and small LLMs
                     
                     # Format without bold, add significance symbols if applicable
-                    row += f" & {score:.2f}{prompt_variant_symbol}{mt_vs_llm_symbol}"
+                    row += f" & {score:.2f}{prompt_variant_symbol}{best_model_symbol}"
                 else:
                     row += " & -"
                     
@@ -615,9 +587,8 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                 avg_term_acc = sum(term_acc_values) / len(term_acc_values)
                 model_avg_scores[model] = avg_term_acc
         
-        # Get MT and small LLM models with average scores
-        mt_models_with_avg = [m for m in MT_MODELS if m in model_avg_scores]
-        small_llm_models_with_avg = [m for m in SMALL_LLM_MODELS if m in model_avg_scores]
+        # Get comparable models with average scores
+        comparable_models_with_avg = [m for m in COMPARABLE_MODELS if m in model_avg_scores]
         
         # Helper function to check if a model is significantly better on average
         def is_significantly_better_on_average(model, other_model, stats_results):
@@ -651,7 +622,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                 
                 # Check for statistical significance in average
                 prompt_variant_symbol = ""
-                mt_vs_llm_symbol = ""
+                best_model_symbol = ""
                 
                 if stats_results:
                     # Check for prompt variant significance in average
@@ -661,37 +632,32 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                             if other_model in model_avg_scores and is_significantly_better_on_average(model, other_model, stats_results):
                                 prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
                     
-                    # Check for MT vs small LLM significance in average
-                    # Only add asterisk if this model is the best in its group AND significantly better than the second best
-                    if model in MT_MODELS and mt_models_with_avg:
-                        if model == max(mt_models_with_avg, key=lambda m: model_avg_scores[m]) and len(mt_models_with_avg) > 1:
-                            second_best = sorted(mt_models_with_avg, key=lambda m: model_avg_scores[m])[-2]
+                    # Check for best model among comparable models significance in average
+                    if model in COMPARABLE_MODELS and comparable_models_with_avg:
+                        if model == max(comparable_models_with_avg, key=lambda m: model_avg_scores[m]) and len(comparable_models_with_avg) > 1:
+                            # Find the second-best model
+                            second_best = sorted(comparable_models_with_avg, key=lambda m: model_avg_scores[m])[-2]
                             if is_significantly_better_on_average(model, second_best, stats_results):
-                                mt_vs_llm_symbol = "$^*$"  # Asterisk for best MT model
-                                
-                    elif model in SMALL_LLM_MODELS and small_llm_models_with_avg:
-                        if model == max(small_llm_models_with_avg, key=lambda m: model_avg_scores[m]) and len(small_llm_models_with_avg) > 1:
-                            second_best = sorted(small_llm_models_with_avg, key=lambda m: model_avg_scores[m])[-2]
-                            if is_significantly_better_on_average(model, second_best, stats_results):
-                                mt_vs_llm_symbol = "$^*$"  # Asterisk for best small LLM model
+                                best_model_symbol = "$^*$"  # Asterisk for best model among MT and small LLMs
                 
                 # Format without bold, add significance symbols
-                avg_row += f" & {avg_score:.2f}{prompt_variant_symbol}{mt_vs_llm_symbol}"
+                avg_row += f" & {avg_score:.2f}{prompt_variant_symbol}{best_model_symbol}"
             else:
                 avg_row += " & -"
         
         print(avg_row + " \\\\")
     print("\\hline")
     print("\\end{tabular}")
-    print("\\caption{Term Accuracy Scores for " + dataset.upper() + " dataset (\\textsc{en}$\\rightarrow$\\textsc{xx}). $^\\dagger$ indicates significant improvement over prompt variant, $^*$ indicates significant improvement over other models in the same group (MT or small LLM)}")
+    print("\\caption{Term Accuracy Scores for " + dataset.upper() + " dataset (\\textsc{en}$\\rightarrow$\\textsc{xx}). $^\\dagger$ indicates significant improvement over prompt variant, $^*$ indicates significant improvement over other comparable models (MT systems and small LLMs)}")
     print("\\label{tab:" + dataset + "-en-to-xx-term}")
     print("\\end{table*}")
     
-    # Table 3: XX to English - chrF++ scores (repeat similar changes as above)
+    # Table 3: XX to English - chrF++ scores
     print("\n% Table for Target Language to English - chrF++ scores")
     print("\\begin{table*}")
     print("\\centering")
     
+    # Use the same column separator pattern for all tables
     print("\\begin{tabular}{" + col_spec + "}")
     print("\\hline")
     
@@ -757,6 +723,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     print("\\begin{table*}")
     print("\\centering")
     
+    # Use the same column separator pattern for all tables
     print("\\begin{tabular}{" + col_spec + "}")
     print("\\hline")
     
@@ -781,9 +748,8 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
             languages_with_data.append(lang)
             row = LANGID2LATEX.get(lang, lang)  # Use formatted language code
             
-            # Get MT and small LLM models with data for this language
-            mt_models_with_data = [m for m in MT_MODELS if m in results and lang_pair in results[m] and results[m][lang_pair]["term_acc"] != -1]
-            small_llm_models_with_data = [m for m in SMALL_LLM_MODELS if m in results and lang_pair in results[m] and results[m][lang_pair]["term_acc"] != -1]
+            # Get comparable models with data for this language (MT systems and small LLMs, excluding prompt variants)
+            comparable_models_with_data = [m for m in COMPARABLE_MODELS if m in results and lang_pair in results[m] and results[m][lang_pair]["term_acc"] != -1]
             
             # Term accuracy scores with statistical significance markers
             for model in models:
@@ -793,7 +759,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                     
                     # Check for statistical significance markers
                     prompt_variant_symbol = ""
-                    mt_vs_llm_symbol = ""
+                    best_model_symbol = ""
                     
                     if stats_results:
                         # Check for prompt variant significance
@@ -815,20 +781,15 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                                     if test_result["significant"] and test_result["better_model"] == model:
                                         prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
                         
-                        # Check for MT vs small LLM significance
-                        # Only add asterisk if this model is the best in its group AND significantly better than the second best
-                        if model in MT_MODELS and mt_models_with_data:
-                            if is_best_in_group(model, mt_models_with_data, lang_pair, "term_acc") and \
-                               is_significantly_better_than_second_best(model, mt_models_with_data, lang_pair, stats_results):
-                                mt_vs_llm_symbol = "$^*$"  # Asterisk for best MT model
-                                
-                        elif model in SMALL_LLM_MODELS and small_llm_models_with_data:
-                            if is_best_in_group(model, small_llm_models_with_data, lang_pair, "term_acc") and \
-                               is_significantly_better_than_second_best(model, small_llm_models_with_data, lang_pair, stats_results):
-                                mt_vs_llm_symbol = "$^*$"  # Asterisk for best small LLM model
+                        # Check if this model is the best among comparable models (MT and small LLMs) and is significantly better
+                        # Only add asterisk for models in the comparable group (not prompt variants)
+                        if model in COMPARABLE_MODELS and comparable_models_with_data:
+                            if is_best_in_group(model, comparable_models_with_data, lang_pair, "term_acc") and \
+                               is_significantly_better_than_second_best(model, comparable_models_with_data, lang_pair, stats_results):
+                                best_model_symbol = "$^*$"  # Asterisk for best model among MT and small LLMs
                     
                     # Format without bold, add significance symbols if applicable
-                    row += f" & {score:.2f}{prompt_variant_symbol}{mt_vs_llm_symbol}"
+                    row += f" & {score:.2f}{prompt_variant_symbol}{best_model_symbol}"
                 else:
                     row += " & -"
                     
@@ -852,9 +813,8 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                 avg_term_acc = sum(term_acc_values) / len(term_acc_values)
                 model_avg_scores[model] = avg_term_acc
         
-        # Get MT and small LLM models with average scores
-        mt_models_with_avg = [m for m in MT_MODELS if m in model_avg_scores]
-        small_llm_models_with_avg = [m for m in SMALL_LLM_MODELS if m in model_avg_scores]
+        # Get comparable models with average scores
+        comparable_models_with_avg = [m for m in COMPARABLE_MODELS if m in model_avg_scores]
         
         # Format average row with significance markers
         for model in models:
@@ -863,7 +823,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                 
                 # Check for statistical significance in average
                 prompt_variant_symbol = ""
-                mt_vs_llm_symbol = ""
+                best_model_symbol = ""
                 
                 if stats_results:
                     # Check for prompt variant significance in average
@@ -873,29 +833,23 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                             if other_model in model_avg_scores and is_significantly_better_on_average(model, other_model, stats_results):
                                 prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
                     
-                    # Check for MT vs small LLM significance in average
-                    # Only add asterisk if this model is the best in its group AND significantly better than the second best
-                    if model in MT_MODELS and mt_models_with_avg:
-                        if model == max(mt_models_with_avg, key=lambda m: model_avg_scores[m]) and len(mt_models_with_avg) > 1:
-                            second_best = sorted(mt_models_with_avg, key=lambda m: model_avg_scores[m])[-2]
+                    # Check for best model among comparable models significance in average
+                    if model in COMPARABLE_MODELS and comparable_models_with_avg:
+                        if model == max(comparable_models_with_avg, key=lambda m: model_avg_scores[m]) and len(comparable_models_with_avg) > 1:
+                            # Find the second-best model
+                            second_best = sorted(comparable_models_with_avg, key=lambda m: model_avg_scores[m])[-2]
                             if is_significantly_better_on_average(model, second_best, stats_results):
-                                mt_vs_llm_symbol = "$^*$"  # Asterisk for best MT model
-                                
-                    elif model in SMALL_LLM_MODELS and small_llm_models_with_avg:
-                        if model == max(small_llm_models_with_avg, key=lambda m: model_avg_scores[m]) and len(small_llm_models_with_avg) > 1:
-                            second_best = sorted(small_llm_models_with_avg, key=lambda m: model_avg_scores[m])[-2]
-                            if is_significantly_better_on_average(model, second_best, stats_results):
-                                mt_vs_llm_symbol = "$^*$"  # Asterisk for best small LLM model
+                                best_model_symbol = "$^*$"  # Asterisk for best model among MT and small LLMs
                 
                 # Format without bold, add significance symbols
-                avg_row += f" & {avg_score:.2f}{prompt_variant_symbol}{mt_vs_llm_symbol}"
+                avg_row += f" & {avg_score:.2f}{prompt_variant_symbol}{best_model_symbol}"
             else:
                 avg_row += " & -"
         
         print(avg_row + " \\\\")
     print("\\hline")
     print("\\end{tabular}")
-    print("\\caption{Term Accuracy Scores for " + dataset.upper() + " dataset (\\textsc{xx}$\\rightarrow$\\textsc{en}). $^\\dagger$ indicates significant improvement over prompt variant, $^*$ indicates significant improvement over other models in the same group (MT or small LLM)}")
+    print("\\caption{Term Accuracy Scores for " + dataset.upper() + " dataset (\\textsc{xx}$\\rightarrow$\\textsc{en}). $^\\dagger$ indicates significant improvement over prompt variant, $^*$ indicates significant improvement over other comparable models (MT systems and small LLMs)}")
     print("\\label{tab:" + dataset + "-xx-to-en-term}")
     print("\\end{table*}")
     
