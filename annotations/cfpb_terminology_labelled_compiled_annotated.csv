@@ -1,0 +1,1993 @@
+full_terms,domain_label_1,domain_label_2,domain_label_3,human_annotation,in_experiments
+1-4 family rider,FS,FS,FS,FS,0
+401,FS,FS,FS,FS,1
+403,FS,FS,FS,FS,0
+529 plan,FS,FS,FS,FS,0
+Abandoned,FC,G,FC,FC,1
+Abandonment,FC,G,FC,FC,1
+Abatement,FC,FS,FS,,0
+Ability to pay,FS,FC,FS,FS,1
+Ability to repay,FS,FC,FS,,0
+Abrogate,FC,G,G,,0
+Absolute title,FS,FS,FS,FS,0
+Abstract update,FC,FC,G,,0
+Abusive practice,FC,FC,FC,FC,0
+Academic program,G,G,G,G,0
+Acceleration,FS,FS,FS,FS,0
+Acceleration clause,FS,FS,FS,FS,0
+Acceleration letter,FS,FS,FS,FS,0
+Access,FC,G,FC,FC,1
+Account,FS,FC,FS,FC,1
+Account Review Inquiry,FS,FS,FS,FS,0
+Accountant,FS,FC,FS,FS,1
+Accrued,FS,FS,FS,FS,1
+Acknowledgement,FC,G,FC,,0
+Acknowledgement of receipt,FC,G,FC,,0
+"Acknowledgement, certificate of",FC,G,FC,,0
+Acquittal,FC,G,G,,0
+Act,FC,G,FC,FC,1
+Act of God,FC,FC,FC,FC,0
+Action plan,FC,G,FC,,0
+Active military duty,FC,G,FC,,0
+Actual cash value,FS,FS,FS,FS,0
+Add-on,FC,FC,FC,FC,0
+Addendum,FC,G,FC,,0
+Additional principal payment,FS,FS,FS,FS,0
+Addressee,FC,G,FC,,0
+Adjustable interest rate table,FS,FS,FS,FS,0
+Adjustable payment table,FS,FS,FS,FS,0
+Adjustable rate,FS,FS,FS,FS,0
+Adjustable-rate mortgage,FS,FS,FS,FS,0
+Adjustable-rate note,FS,FS,FS,FS,0
+Adjustable-rate rider,FS,FS,FS,FS,0
+Adjuster,FS,FC,FS,,0
+Adjustment date,FS,FS,FS,FS,0
+"Adjustment interval, adjustment period",FS,FS,FS,FS,0
+Administration for Community Living,G,G,G,G,0
+Administration on Aging,G,G,G,G,0
+Administrative law judge,FC,G,FC,,0
+Administrative order,FC,G,FC,FC,1
+Administrative rule,FC,G,FC,,0
+Adult Protective Services,G,G,G,G,0
+Advance directive,FC,G,FC,,0
+Adverse action,FS,FC,FS,FS,1
+Advocacy group,G,G,G,G,0
+Affidavit,FC,G,FC,FC,1
+Affinity fraud,FS,FS,FS,FS,0
+Affirmative step,FC,G,FC,,0
+Afford,FC,FC,FC,FC,1
+Affordability analysis,FS,FS,FS,FS,0
+Affordability analyzer,FS,FS,FS,FS,0
+Affordable,FC,FC,FC,FC,0
+Affordable housing,FS,FC,FS,,0
+Age Discrimination Act of 1975,FC,G,FC,,0
+Age-friendly banking,FS,FS,FS,FS,0
+Agency,FS,FC,FS,FC,1
+Agent,FS,FC,FS,FC,1
+Agreement,FS,G,FS,FC,1
+Agreement of sale,FS,FC,FS,,0
+Aid and Attendance,FC,G,FC,,0
+Algorithmic bias,FC,G,FC,,0
+Alien authorized to work,FC,G,FC,,0
+Alimony,FS,FC,FS,FC,1
+Allegation,FC,G,FC,,0
+Allege,FC,G,FC,,0
+Allocate,FC,FC,FS,FC,1
+Allowable debt payment,FS,FS,FS,FS,0
+"Altcoin, alternative coin",FS,FS,FS,FS,0
+Alternate phone number,FC,G,FC,,0
+Alternative financial service,FS,FS,FS,FS,0
+Amendment,FC,G,FC,,0
+America,G,G,G,G,1
+American,G,G,G,G,1
+American Bar Association Commission on Law,G,G,FC,,0
+American dream,G,G,G,G,0
+Americans with Disabilities Act,FC,G,FC,G,1
+Amortization,FS,FS,FS,FS,1
+Amortization schedule,FS,FS,FS,FS,0
+Amortize,FS,FS,FS,FS,0
+Amount,FC,FC,FS,FC,1
+Amount financed,FS,FS,FS,FS,0
+Annual fees,FS,FS,FS,FS,0
+Annuity,FS,FS,FS,FS,1
+Anti-Money Laundering,FS,FS,FS,FS,0
+Anti-discrimination law,FC,G,FC,,0
+Anti-discrimination provision,FC,G,FC,,0
+Appeal,FC,G,FC,FC,1
+Appellate section,FC,G,FC,,0
+Applicable law,FC,G,FC,,0
+Applicant,FC,FC,FS,,0
+Application,FS,FC,FS,FC,1
+Application fee,FS,FC,FS,,0
+Apply,FC,G,FS,FC,1
+Appraisal,FS,FC,FS,FS,1
+Appraisal bias,FS,FC,FS,,0
+Appraisal contingency,FS,FC,FS,,0
+Appraisal report,FS,FC,FS,,0
+Appraiser,FS,FC,FS,FS,1
+Appreciate,FC,FC,FC,FC,0
+Appreciation,FS,FC,FS,FC,1
+Approved,FC,FC,FS,FC,1
+Appurtenances,FC,G,FS,,0
+Arbitration,FC,G,FC,,0
+Area,FC,G,FC,FC,1
+Area Agency on Aging,G,G,G,G,0
+Area Median Income,FS,FC,FS,,0
+Arm’s length transaction,FS,FS,FS,FS,0
+"Arrears, arrearage",FS,FS,FS,FS,0
+Arrest warrant,FC,G,FC,,0
+Asbestos,FC,G,FC,,0
+Asking price,FS,FC,FS,,0
+Assent to decree,FC,G,FC,,0
+Assert,FC,G,FC,,0
+Assessed value,FS,FC,FS,,0
+Assessing the value of the property,FS,FC,FS,,0
+Assessment,FS,FC,FS,,0
+Assessor,FS,FC,FS,,0
+Asset,FS,FS,FS,FS,1
+Asset allocation,FS,FS,FS,FS,0
+Assignee,FS,FC,FS,,0
+Assignment,FS,FC,FS,,0
+Assignment of mortgage,FS,FS,FS,FS,0
+Assignor,FS,FC,FS,,0
+Assisted living,FC,G,FC,,0
+Assisted living facility,FC,G,FC,,0
+Association for Conflict Resolution,G,G,FC,,0
+Assumability,FS,FS,FS,FS,0
+Assumable mortgage,FS,FS,FS,FS,0
+Assumption,FS,FC,FS,,0
+Assumption agreement,FS,FS,FS,FS,0
+Assumption fee,FS,FS,FS,FS,0
+"Attachment, attachment of assets",FS,FS,FS,FS,0
+Attain priority,FC,G,FS,,0
+Attest,FC,G,FC,,0
+Attorney,FC,G,FC,G,1
+Attorney-in-fact,FC,G,FC,FC,1
+Authoritative,FC,G,FC,,0
+Authorized third party,FC,FC,FS,,0
+Auto insurance,FS,FS,FS,FS,0
+Auto loan,FS,FS,FS,FS,0
+Auto-pay,FS,FC,FS,,0
+Automated Clearing House transfers,FS,FS,FS,FS,0
+Automated Teller Machine,FS,FS,FS,FS,0
+Automated Teller Machine transaction,FS,FS,FS,FS,0
+Automated agent,FS,G,FS,,0
+Automated underwriting,FS,FS,FS,FS,0
+Automatic bill pay system,FS,FS,FS,FS,0
+Automatic debit payment,FS,FS,FS,FS,0
+Automatic mortgage payment,FS,FS,FS,FS,0
+Autoridad Reguladora de la Industria Financiera,FS,FS,FS,FS,0
+"Available for sale, AFS",FS,FC,FS,,0
+Average,FC,G,FS,FC,1
+Average price,FS,FC,FS,,0
+Award letter,FC,G,FS,,0
+Award of damages,FC,G,FC,,0
+Awareness,FC,G,FC,,0
+Back pay,FS,FC,FS,,0
+Back-end ratio,FS,FS,FS,FS,0
+Background,FC,G,FC,,0
+Background check,FC,G,FC,,0
+Balance,FS,FC,FS,FC,1
+Balance calculation method,FS,FS,FS,FS,0
+Balance inquiry,FS,FS,FS,FS,0
+Balance inquiry fee,FS,FS,FS,FS,0
+Balance sheet,FS,FS,FS,FS,0
+Balance transfer fee,FS,FS,FS,FS,0
+Balloon loan,FS,FS,FS,FS,0
+Balloon mortgage,FS,FS,FS,FS,0
+Balloon payment,FS,FS,FS,FS,0
+Balloon rider,FS,FS,FS,FS,0
+Bank,FS,FS,FS,FS,1
+Bank Secrecy Act,FS,FS,FS,FS,0
+Bank account,FS,FS,FS,FS,1
+Bank accounts and services,FS,FS,FS,FS,0
+Bank failure,FS,FS,FS,FS,0
+Bank fees,FS,FS,FS,FS,1
+"Bank run, deposit run, run on the bank",FS,FS,FS,FS,0
+Bank statement,FS,FS,FS,FS,0
+Banking desert,FS,FS,FS,FS,0
+Bankruptcy,FS,FS,FS,FS,1
+Bankruptcy discharge,FS,FS,FS,FS,0
+Barred,FC,G,FC,,0
+Base income,FS,FC,FS,,0
+Basis point,FS,FS,FS,FS,0
+Batas nina Dodd-Frank sa Reporma sa Wall Street,FS,FS,FS,FS,0
+Be discriminated against,FC,G,FC,,0
+Before-tax income,FS,FC,FS,,0
+Beneficial interest,FS,FC,FS,,0
+Beneficial owner,FS,FC,FS,FS,1
+Beneficiary,FS,FC,FS,FS,1
+Benefits card,FS,FC,FS,,0
+Benefits office,FS,G,FS,,0
+Big tech,FC,G,FC,,0
+Bilingual program coordinator,G,G,FC,,0
+Bill,FS,FC,FS,FS,1
+Bill of sale,FS,FC,FS,,0
+Bill payment fee,FS,FS,FS,FS,0
+Billing cycle,FS,FC,FS,,0
+Bitcoin,FS,FS,FS,FS,0
+Biweekly mortgage,FS,FS,FS,FS,0
+Biweekly payment,FS,FC,FS,,0
+Biweekly payment rider,FS,FS,FS,FS,0
+Blanket mortgage,FS,FS,FS,FS,0
+Blended rate,FS,FS,FS,FS,0
+Blockchain,FS,FS,FS,FS,0
+Board rent,FS,FC,FS,,0
+Boarder,FS,G,FS,,0
+Boarder income,FS,FC,FS,,0
+Bona fide,FS,G,FS,FS,1
+Bond,FS,FS,FS,FS,1
+Bonus,FS,FC,FS,FS,1
+Borehole,FC,G,FC,,0
+Borrow,FS,FS,FS,FS,1
+Borrower,FS,FS,FS,FS,0
+Borrower evaluation notice,FS,FS,FS,FS,0
+Borrower relocation assistance,FS,FS,FS,FS,0
+Borrower response package,FS,FS,FS,FS,0
+Borrower solicitation letter,FS,FS,FS,FS,0
+Borrower solicitation package,FS,FS,FS,FS,0
+Borrower's promise to pay,FS,FS,FS,FS,0
+Borrowing power,FS,FS,FS,FS,0
+Bounced check,FS,FS,FS,FS,0
+Breach letter,FS,G,FS,,0
+Bridge loan,FS,FS,FS,FS,0
+Broker,FS,FS,FS,FS,1
+Broker account,FS,FS,FS,FS,0
+Brokerage account,FS,FS,FS,FS,0
+Broker’s price opinion,FS,FS,FS,FS,0
+Budget,FS,FC,FS,FS,1
+Building code,FC,G,FC,,0
+Building code regulation,FC,G,FC,,0
+Building inspection service,FC,G,FC,,0
+Business day,FS,FC,FS,,0
+Business deal,FS,FC,FS,,0
+Business failure,FS,FC,FS,,0
+"Buy Now, Pay Later",FS,FS,FS,FS,0
+"Buy here, pay here auto loan",FS,FS,FS,FS,0
+Buydown,FS,FS,FS,FS,0
+Buyer,FS,FC,FS,FS,1
+Buyer's agent,FS,FC,FS,,0
+Buyer's market,FS,FC,FS,,0
+Buying power,FS,FC,FS,,0
+By certified mail,FS,G,FS,G,1
+By-laws,FC,G,FC,,0
+CFPB Divisions and Offices,FS,FS,FS,FS,0
+Campaign sign,FC,G,FC,,0
+Cancellation fee,FS,FC,FS,,0
+Cancellation right,FS,FC,FS,,0
+Cap,FS,FC,FS,,0
+Capacity to pay your mortgage,FS,FS,FS,FS,0
+Capital,FS,FS,FS,FS,1
+Capital gains,FS,FS,FS,FS,1
+Capital or liquidity stress test,FS,FS,FS,FS,0
+"Capital, intereses, impuestos, seguros y cuotas",FS,FS,FS,FS,0
+Capitalization,FS,FS,FS,FS,1
+Capitalization of arrearages,FS,FS,FS,FS,0
+Capitalize,FS,FS,FS,FS,1
+Card holder agreement,FS,FS,FS,FS,0
+Card provider,FS,FS,FS,FS,0
+Case,FC,G,FS,FC,1
+Case number,FC,G,FS,,0
+Cash,FS,FC,FS,FS,1
+Cash advance,FS,FS,FS,FS,0
+Cash advance fee,FS,FS,FS,FS,0
+Cash contribution,FS,FC,FS,,0
+Cash deposit,FS,FS,FS,FS,0
+Cash flow,FS,FS,FS,FS,1
+Cash reload,FS,FS,FS,FS,0
+Cash reload fee,FS,FS,FS,FS,0
+Cash reserve,FS,FS,FS,FS,0
+Cash to close,FS,FS,FS,FS,0
+"Cash, cash on hand",FS,FC,FS,,0
+Cash-out refinance,FS,FS,FS,FS,0
+Ceiling,FC,FC,FS,,0
+Cell,FC,G,FC,,0
+Census tract,FS,G,FS,,0
+Certificate of Deposit,FS,FS,FS,FS,0
+Certificate of completion,FC,G,FS,,0
+Certificate of eligibility,FS,G,FS,,0
+Certificate of occupancy,FC,G,FS,,0
+Certificate of reasonable value,FS,G,FS,,0
+Certificate of veteran status,FS,G,FS,,0
+Certified credit counselor,FS,FS,FS,FS,0
+Chain of title,FS,FC,FS,,0
+Change date,FS,G,FS,,0
+Change frequency,FS,G,FS,,0
+Change of circumstance,FS,G,FS,,0
+Change order,FS,G,FS,,0
+Charge,FS,FC,FS,,0
+Charge card,FS,FS,FS,FS,0
+Charge form,FS,FC,FS,,0
+Charge off,FS,FS,FS,FS,0
+Charging party,FC,G,FS,,0
+Charity appeal,FC,G,FS,,0
+Chattel,FS,FC,FS,,0
+Check,FS,FC,FS,FS,1
+Check register,FS,FC,FS,,0
+Checkbook,FS,FC,FS,,0
+Checking account,FS,FS,FS,FS,1
+Checking account advance,FS,FS,FS,FS,0
+Child support,FS,FC,FS,FS,1
+Choice,FC,G,FS,FC,1
+Circumstance,FC,G,FS,FC,1
+Citizen,FC,G,FS,G,1
+City tax,FS,FC,FS,,0
+Civil Rights Act of 1964,FC,G,FC,,0
+Civil Rights Division,FC,G,FC,,0
+Civil Rights Division language access plan,FC,G,FC,,0
+Civil money penalty,FS,FC,FS,,0
+Civil penalty,FS,G,FS,,0
+Civil union,FC,G,FC,,0
+Claim,FS,FC,FS,FC,1
+Claimant,FS,G,FS,,0
+Class-action lawsuit,FS,G,FS,,0
+Clause,FS,G,FS,FS,1
+Clear title,FS,FC,FS,,0
+Closed primary,FC,G,FS,,0
+"Closed-end credit, closed-end credit",FS,FS,FS,FS,0
+"Closed-end credit, closed-end credit transaction",FS,FS,FS,FS,0
+Closing,FS,FC,FS,FS,1
+Closing agent,FS,FC,FS,,0
+Closing company,FS,FC,FS,,0
+Closing cost assistance program,FS,FS,FS,FS,0
+Closing costs,FS,FS,FS,FS,0
+Closing date,FS,FC,FS,,0
+Closing disclosure,FS,FS,FS,FS,0
+Closing statement,FS,FS,FS,FS,0
+Cloud on title,FS,FC,FS,,0
+Co-applicant,FS,FC,FS,,0
+Co-borrower,FS,FS,FS,FS,0
+Co-debtor,FS,FS,FS,FS,0
+Co-op apartment,FS,FC,FS,,0
+Co-purchaser,FS,FC,FS,,0
+Co-signer,FS,FS,FS,FS,0
+Code of ethics,FC,G,FC,,0
+Coerce,FC,G,FC,,0
+Cognitive decline,FC,G,FC,,0
+Collateral,FS,FS,FS,FS,0
+Collection,FS,FC,FS,FC,1
+College savings account,FS,FS,FS,FS,0
+Combined loan-to-value,FS,FS,FS,FS,0
+Commercial bank,FS,FS,FS,FS,0
+Commercial lender,FS,FS,FS,FS,0
+Commercial property,FS,FC,FS,,0
+Commission,FS,FC,FS,FS,1
+Commit waste,FC,G,FS,,0
+Commitment,FS,FC,FS,FC,1
+Commitment letter,FS,FC,FS,,0
+Common area,FS,G,FS,,0
+Common law,FC,G,FS,FC,1
+Community Land Trust Mortgage Loan,FS,FS,FS,FS,0
+Community Reinvestment Act of 1977,FS,FS,FS,FS,0
+Community association,FS,G,FS,,0
+Community association dues,FS,FC,FS,,0
+Community group,FC,G,FS,,0
+Community outreach,FC,G,FS,,0
+Community property,FS,FC,FS,FS,1
+Company,FS,G,FS,FC,1
+Company response,FS,G,FS,,0
+Comparative Market Analysis,FS,FC,FS,,0
+Compensation,FS,FC,FS,FS,1
+Complainant,FS,G,FS,,0
+Complaint,FS,G,FS,,0
+Complete borrower response package,FS,FS,FS,FS,0
+Complete loss mitigation application,FS,FS,FS,FS,0
+Compliance,FS,FC,FS,FC,1
+Compliance date,FS,G,FS,,0
+Compound interest,FS,FS,FS,FS,0
+Comprehensive,FC,G,FS,,0
+Computer and internet scams,FC,G,FS,,0
+Concession,FS,FC,FS,,0
+Conciliation,FS,G,FS,,0
+Condemnation,FS,G,FS,,0
+Condition,FC,G,FS,FC,1
+Condominium,FS,FC,FS,,0
+Condominium fee,FS,FC,FS,,0
+Condominium owners’ association,FS,FS,FS,FS,0
+Condominium project,FS,FC,FS,,0
+Condominium rider,FS,FS,FS,FS,0
+Confirmation code,FS,G,FS,,0
+Confirmed successor in interest,FS,FC,FS,,0
+Conformed copy,FS,G,FS,,0
+Conforming loan,FS,FS,FS,FS,0
+Consent decree,FS,G,FS,,0
+Conservation,FC,G,FS,,0
+Conservator,FS,G,FS,,0
+Consortium of districts,FC,G,FS,,0
+Construction loan,FS,FS,FS,FS,0
+Constructive discharge,FS,G,FS,,0
+Consumer,FS,FC,FS,,0
+Consumer Credit Protection Act,FS,FS,FS,FS,0
+Consumer Financial Protection Bureau,FS,FS,FS,FS,0
+Consumer Leasing Act of 1976,FS,FS,FS,FS,0
+Consumer behavior,FS,FC,FS,,0
+Consumer complaint database,FS,FC,FS,,0
+Consumer credit bureau,FS,FS,FS,FS,0
+Consumer credit reporting company,FS,FS,FS,FS,0
+Consumer debt,FS,FS,FS,FS,0
+Consumer financial products and services,FS,FS,FS,FS,0
+Consumer financial service,FS,FS,FS,FS,0
+Consumer lender,FS,FS,FS,FS,0
+Consumer loan,FS,FS,FS,FS,0
+Consumer products,FS,FC,FS,,0
+Consumer rights,FS,FC,FS,,0
+Contest,FS,G,FS,,0
+Contingency,FS,FC,FS,,0
+Contingency clause of sale,FS,FC,FS,,0
+Continuation sheet,FS,G,FS,,0
+Continued presence,FS,G,FS,,0
+Contract,FS,FC,FS,FC,1
+Contractor,FS,FC,FS,FC,1
+Conventional mortgage loan,FS,FS,FS,FS,0
+Conversion,FS,FC,FS,FC,1
+Conversion option,FS,FC,FS,,0
+Convertible,FS,FC,FS,,0
+Convertible adjustable-rate mortgage,FS,FS,FS,FS,0
+Convey,FS,G,FS,,0
+Conveyance,FS,G,FS,,0
+Cooling system,FC,G,FS,,0
+Cooling-off period,FS,FC,FS,,0
+Cooperative,FS,FC,FS,,0
+Cooperative maintenance fee,FS,FC,FS,,0
+Cooperative project,FS,FC,FS,,0
+Cooperative share,FS,FC,FS,,0
+Cooperative share loan,FS,FS,FS,FS,0
+Copy of signed offer letter,FS,G,FS,,0
+Costs,FS,FC,FS,FS,1
+"Counseling, guidance",FS,G,FS,,0
+Counteroffer,FS,FC,FS,,0
+County taxes,FS,FC,FS,,0
+Court,FC,G,FS,FC,1
+Court case,FC,G,FS,,0
+Court proceeding,FC,G,FS,,0
+Covenant,FS,FC,FS,FS,1
+Covenants and agreements,FS,FC,FS,,0
+Coverage,FS,FC,FS,FC,1
+Coverdell education savings account,FS,FS,FS,FS,0
+Credit,FS,FS,FS,FS,1
+Credit analysis,FS,FS,FS,FS,0
+Credit building,FS,FS,FS,FS,0
+Credit card,FS,FS,FS,FS,1
+Credit check,FS,FS,FS,FS,0
+Credit counseling,FS,FS,FS,FS,0
+Credit file,FS,FS,FS,FS,0
+Credit history,FS,FS,FS,FS,0
+Credit inquiry,FS,FS,FS,FS,0
+Credit insurance,FS,FS,FS,FS,1
+Credit life insurance,FS,FS,FS,FS,0
+Credit mix,FS,FS,FS,FS,0
+Credit rating,FS,FS,FS,FS,0
+Credit rating system or model,FS,FS,FS,FS,0
+Credit record,FS,FS,FS,FS,0
+Credit repair,FS,FS,FS,FS,0
+Credit report,FS,FS,FS,FS,0
+Credit report authorization,FS,FS,FS,FS,0
+Credit report dispute,FS,FS,FS,FS,0
+Credit reporting company,FS,FS,FS,FS,0
+Credit score,FS,FS,FS,FS,0
+Credit tenant lease,FS,FS,FS,FS,0
+Credit union,FS,FS,FS,FS,1
+Credit utilization,FS,FS,FS,FS,0
+Creditor,FS,FS,FS,FS,0
+Creditworthy,FS,FS,FS,FS,0
+Criminal justice,FC,G,FS,,0
+Criminal section,FC,G,FS,,0
+Crypto coins,FS,FS,FS,FS,0
+Crypto tokens,FS,FS,FS,FS,0
+Crypto-assets,FS,FS,FS,FS,0
+Cryptocurrency,FS,FS,FS,FS,0
+Current,FC,FC,FS,FC,1
+Current index,FS,FS,FS,FS,0
+Current monthly expense,FS,FC,FS,,0
+Curtailment,FS,FS,FS,FS,0
+Cushion,FS,FC,FS,,0
+Customer education group,FS,G,FS,,0
+Customer service,FS,G,FS,G,1
+Customer service fee,FS,FC,FS,,0
+Cut work hours,FS,G,FS,,0
+Data broker,FS,FC,FS,,0
+Data privacy,FS,G,FS,,0
+Data sharing,FS,G,FS,,0
+Date available,FS,G,FS,,0
+Date issued,FS,G,FS,,0
+Date of disbursement,FS,FC,FS,,0
+Date of the first default,FS,FC,FS,,0
+"DeFi, decentralized finance",FS,FS,FS,FS,0
+Death,FC,G,FS,G,1
+Death certificate,FS,G,FS,,0
+Debit card,FS,FS,FS,FS,1
+Debt,FS,FS,FS,FS,1
+Debt balance,FS,FS,FS,FS,0
+Debt collection,FS,FS,FS,FS,0
+Debt collector,FS,FS,FS,FS,0
+Debt default,FS,FS,FS,FS,0
+Debt management,FS,FS,FS,FS,0
+Debt management plan,FS,FS,FS,FS,0
+Debt relief,FS,FS,FS,FS,1
+Debt settlement,FS,FS,FS,FS,0
+Debt settlement company,FS,FS,FS,FS,0
+Debt-to-Income Ratio,FS,FS,FS,FS,0
+Debtor,FS,FS,FS,FS,1
+Decree,FS,G,FS,FS,1
+Deductible,FS,FC,FS,FS,1
+Deductible level,FS,FC,FS,,0
+Deduction,FS,FC,FS,FS,1
+Deed,FS,FC,FS,,0
+Deed of trust,FS,FS,FS,FS,0
+Deed-in-lieu of foreclosure,FS,FS,FS,FS,0
+Default,FS,FS,FS,FS,0
+Default judgment,FS,G,FS,,0
+Defendant,FS,G,FS,,0
+Deferment,FS,FC,FS,,0
+Deferral,FS,FC,FS,FS,1
+Deferred balance,FS,FS,FS,FS,0
+Deferred interest,FS,FS,FS,FS,0
+Deferred payment,FS,FS,FS,FS,0
+Deferred principal,FS,FS,FS,FS,0
+Deferred principal balance,FS,FS,FS,FS,0
+Deficiency judgment,FS,FS,FS,FS,0
+Defined-contribution plans,FS,FS,FS,FS,0
+Delayed start date,FS,G,FS,,0
+Delinquency,FS,FS,FS,FS,0
+Delinquency status,FS,FS,FS,FS,0
+Delinquent,FS,FS,FS,FS,0
+Delinquent payment,FS,FS,FS,FS,0
+Demand draft,FS,FS,FS,FS,0
+Demand feature,FS,FC,FS,,0
+Demand letter,FS,FC,FS,,0
+Demographic information,FS,G,FS,,0
+Denied,FS,FC,FS,FC,1
+Departamento de la Vivienda y Desarrollo Urbano,FS,G,FS,,0
+Department,FS,G,FS,FC,1
+Department of Health and Human Services,FS,G,FS,,0
+Department of Homeland Security,FS,G,FS,G,1
+Department of Housing and Urban Development,FS,G,FS,,0
+Department of Justice,FS,G,FS,,0
+Department of Labor,FS,G,FS,,0
+Department of Social Services,FS,G,FS,,0
+Dependent,FS,FC,FS,FC,1
+Deposit,FS,FS,FS,FS,1
+Deposit Insurance Fund,FS,FS,FS,FS,0
+Deposit Insurance Regulations of the Federal,FS,FS,FS,FS,0
+Deposit Insurance from the Federal Deposit,FS,FS,FS,FS,0
+Deposit account,FS,FS,FS,FS,0
+Deposit advance,FS,FS,FS,FS,0
+Deposit slip,FS,FS,FS,FS,0
+Deposited rent check,FS,FS,FS,FS,0
+Depositor,FS,FS,FS,FS,0
+Depreciation,FS,FC,FS,FS,1
+"Derivative, derivative contract, derivative",FS,FS,FS,FS,0
+"Digital currency, Central Bank Digital Currency",FS,FS,FS,FS,0
+Digital divide,FS,G,FS,,0
+"Digital na currency, Bangko Sentral ng Digital na",FS,FS,FS,FS,0
+Digital wallet,FS,FS,FS,FS,1
+Direct deposit,FS,FS,FS,FS,1
+Direct deposit advance,FS,FS,FS,FS,0
+Disability,FS,G,FS,G,1
+Disability payments,FS,FC,FS,FS,1
+Disability rights section,FS,G,FS,,0
+Disabled,FS,G,FS,G,1
+Disaster,FS,G,FS,G,1
+Disaster area,FS,G,FS,G,1
+Discharge,FS,FC,FS,,0
+Discharge in bankruptcy,FS,FS,FS,FS,0
+Disclaimer,FS,G,FS,,0
+Disclosure,FS,FC,FS,FS,1
+Discount points,FS,FS,FS,FS,0
+Discretionary expenses,FS,FC,FS,,0
+Discriminate,FS,G,FS,,0
+Discrimination,FS,G,FS,,0
+Discrimination charge,FS,G,FS,,0
+Dispute [n.],FS,G,FS,,0
+Dispute [v.],FS,G,FS,,0
+Dispute the response,FS,G,FS,,0
+Distant employment transfer,FS,G,FS,,0
+Distress sale,FS,FC,FS,,0
+Distressed Asset Stabilization Program,FS,FS,FS,FS,0
+District,FS,G,FS,,0
+"Diversify, diversification",FS,FC,FS,,0
+Dividend,FS,FS,FS,FS,1
+Divorce,FS,G,FS,G,1
+Divorce decree,FS,G,FS,,0
+Document abuse,FS,G,FS,,0
+Documentation,FS,G,FS,G,1
+Documented resident,FS,G,FS,,0
+Dodd-Frank Act,FS,FS,FS,FS,0
+Dodd-Frank Wall Street Reform and Consumer,FS,FS,FS,FS,0
+Dollar amount of the transfer,FS,FC,FS,,0
+Domestic partner,FS,G,FS,G,1
+Donation,FS,FC,FS,,0
+Donor,FS,FC,FS,,0
+Door-to-door salesperson,FS,G,FS,,0
+Down payment,FS,FS,FS,FS,0
+Down payment assistance program,FS,FS,FS,FS,0
+Draft,FS,FC,FS,,0
+Drug plan,FS,G,FS,,0
+Dual tracking,FS,FC,FS,,0
+Due Date of Last Paid Installment,FS,FS,FS,FS,0
+Due and payable,FS,FC,FS,,0
+Due date,FS,FC,FS,FC,1
+Due diligence,FS,FC,FS,FC,1
+Due-on-sale,FS,FS,FS,FS,0
+Due-on-sale clause,FS,FS,FS,FS,0
+Dues,FS,FC,FS,FS,1
+Durable power of attorney,FS,G,FS,FS,1
+Duration,FS,G,FS,,0
+Earned income,FS,FC,FS,FS,1
+Earnest money deposit,FS,FS,FS,FS,0
+Earnings,FS,FC,FS,FS,1
+Earthquake,FS,G,FS,,0
+Easement,FS,G,FS,,0
+Economic insecurity,FS,FC,FS,,0
+"Economic life, useful life",FS,FC,FS,,0
+Education savings account,FS,FS,FS,FS,0
+Educational Opportunities Section,FS,G,FS,,0
+Effect of law,FS,G,FS,,0
+Effective assistance,FS,G,FS,,0
+Effective date,FS,G,FS,FS,1
+Effective date of changes,FS,G,FS,,0
+Effective rate,FS,FS,FS,FS,0
+Elder financial abuse,FS,FS,FS,FS,0
+Eldercare locator,FS,G,FS,,0
+Elderly,FS,G,FS,G,1
+Electronic Benefit Transfer,FS,FS,FS,FS,0
+Electronic Fund Transfer Act,FS,FS,FS,FS,0
+Electronic Funds Transfer,FS,FS,FS,FS,0
+Electronic banking,FS,FS,FS,FS,0
+Electronic funds transfer service,FS,FS,FS,FS,0
+Electronic payment of invoice,FS,FS,FS,FS,0
+Eligible,FS,FC,FS,FC,1
+Email,FS,G,FS,G,1
+Email address,FS,G,FS,,0
+Eminent domain,FS,G,FS,,0
+Employer-Assisted Housing,FS,FC,FS,,0
+Employment eligibility verification,FS,G,FS,,0
+Employment litigation,FS,G,FS,,0
+Employment status,FS,G,FS,,0
+Empower,FS,G,FS,,0
+Empowerment,FS,G,FS,FS,1
+Encroachment,FS,G,FS,,0
+Encumbrance,FS,FC,FS,,0
+Encumbrances of record,FS,FC,FS,,0
+Endorsement,FS,FC,FS,,0
+Energy conservation,FS,G,FS,,0
+Enforce,FS,G,FS,FS,1
+Enforcement,FS,G,FS,,0
+English speaker,FS,G,FS,,0
+English-language learner,FS,G,FS,,0
+Enrollment,FS,G,FS,FS,1
+Entitlement,FS,G,FS,,0
+Environmental cleanup,FS,G,FS,,0
+Environmental condition,FS,G,FS,,0
+Environmental impact study,FS,G,FS,,0
+Environmental law,FS,G,FS,,0
+Equal Credit Opportunity Act,FS,FS,FS,FS,0
+Equal Educational Opportunities Act,FS,G,FS,,0
+Equal opportunity,FS,G,FS,,0
+Equity,FS,FS,FS,FS,1
+Equity loan,FS,FS,FS,FS,0
+Equity-sharing arrangements,FS,FS,FS,FS,0
+Escheat,FS,G,FS,,0
+Escrow,FS,FS,FS,FS,1
+Escrow account,FS,FS,FS,FS,0
+Escrow amount,FS,FS,FS,FS,0
+Escrow analysis,FS,FS,FS,FS,0
+Escrow company,FS,FS,FS,FS,0
+Escrow deposit account,FS,FS,FS,FS,0
+Escrow disbursement,FS,FS,FS,FS,0
+Escrow funds,FS,FS,FS,FS,0
+Escrow item,FS,FS,FS,FS,0
+Escrow payment,FS,FS,FS,FS,0
+Escrow shortage,FS,FS,FS,FS,0
+Escrow statement,FS,FS,FS,FS,0
+Estimate,FS,FC,FS,FS,1
+Estimated property value,FS,FC,FS,,0
+Ethnicity,FS,G,FS,,0
+Evaluation notice,FS,G,FS,,0
+Eviction,FS,FC,FS,,0
+Eviction prevention,FS,FC,FS,,0
+Excessive force,FS,G,FS,,0
+Exchange rate,FS,FS,FS,FS,0
+Exclusionary discipline,FS,G,FS,,0
+Exclusive listing,FS,FC,FS,,0
+Exculpatory clause,FS,G,FS,,0
+Executed contract,FS,FC,FS,,0
+Executive order,FS,G,FS,FS,1
+Executive summary,FS,G,FS,,0
+Executor,FS,G,FS,FS,1
+Expedited Funds Availability Act,FS,FS,FS,FS,0
+Expedited delivery,FS,G,FS,,0
+Expense,FS,FC,FS,FS,1
+Explanation of Benefits,FS,FC,FS,,0
+Extended alert,FS,G,FS,,0
+Extended coverage,FS,FC,FS,,0
+FDIC insurance,FS,FS,FS,FS,0
+FDIC-insured institution,FS,FS,FS,FS,0
+FHA Title 1 loan,FS,FS,FS,FS,0
+FHA insurance,FS,FS,FS,FS,0
+FHA mortgage insurance,FS,FS,FS,FS,0
+FHA-insured loan,FS,FS,FS,FS,0
+FICO score,FS,FS,FS,FS,0
+Fact sheet,FS,G,FS,,0
+Fail,FS,G,FS,,0
+Failure to comply,FS,G,FS,,0
+Fair Credit Billing Act,FS,FS,FS,FS,0
+Fair Credit Reporting Act,FS,FS,FS,FS,0
+Fair Credit and Charge Card Disclosure Act of,FS,FS,FS,FS,0
+Fair Debt Collection Practices Act,FS,FS,FS,FS,0
+Fair Employment Practices Agency,FS,G,FS,,0
+Fair Housing Act,FS,FS,FS,FS,0
+Fair and Accurate Credit Transaction Act of,FS,FS,FS,FS,0
+Fair and Accurate Credit Transaction Act of 2003,FS,FS,FS,FS,0
+Fair market value,FS,FC,FS,FS,1
+Faith-based organization,FS,G,FS,,0
+Familial status,FS,G,FS,,0
+Fannie Mae,FS,FS,FS,FS,0
+Fannie Mae loan limit,FS,FS,FS,FS,0
+"Fannie Mae seller, Fannie Mae servicer",FS,FS,FS,FS,0
+Farmers Home Administration,FS,G,FS,,0
+Feasible,FS,G,FS,,0
+"Feature, characteristic",FS,G,FS,,0
+Federal Bureau of Investigation,FS,G,FS,,0
+Federal Coordination and Compliance Section,FS,G,FS,,0
+Federal Deposit Insurance Corporation,FS,FS,FS,FS,0
+Federal Emergency Management Agency,FS,G,FS,,0
+Federal Home Loan Bank,FS,FS,FS,FS,0
+Federal Home Loan Bank 11th District Cost-of-,FS,FS,FS,FS,0
+Federal Housing Administration,FS,FS,FS,FS,0
+Federal Housing Administration loan,FS,FS,FS,FS,0
+Federal Housing Finance Agency,FS,FS,FS,FS,0
+Federal Interagency Working Group on Limited,FS,G,FS,,0
+Federal Reserve Bank,FS,FS,FS,FS,0
+Federal Reserve Discount Rate,FS,FS,FS,FS,0
+Federal Trade Commission,FS,G,FS,,0
+Federal Trade Commission Improvement Act,FS,G,FS,,0
+Federal agency,FS,G,FS,G,1
+Federal consumer protection law,FS,FC,FS,,0
+Federal credit union,FS,FS,FS,FS,0
+Federal financial assistance,FS,FC,FS,,0
+"Federal funds rate, fed funds rate",FS,FS,FS,FS,0
+Federal income tax,FS,FC,FS,FS,1
+Federal income tax return,FS,FC,FS,FS,1
+Federal regulation,FS,G,FS,,0
+Federal student loan,FS,FS,FS,FS,0
+"Federal, state or local government",FS,G,FS,,0
+Federally regulated mortgage loan,FS,FS,FS,FS,0
+Fee schedule,FS,FC,FS,,0
+Felony,FS,G,FS,,0
+"Fiat currency, fiat money",FS,FS,FS,FS,0
+Fiduciary,FS,FC,FS,FS,1
+Fiduciary duty,FS,FC,FS,,0
+File,FS,G,FS,,0
+Final Nonconfirmation,FS,G,FS,,0
+Final payment,FS,FC,FS,,0
+Finance charge,FS,FS,FS,FS,0
+Finance company,FS,FS,FS,FS,0
+"Financial Industry Regulatory Authority, Inc.",FS,FS,FS,FS,0
+Financial advisor,FS,FS,FS,FS,0
+Financial aid,FS,FC,FS,,0
+Financial aid office,FS,FC,FS,,0
+Financial asset,FS,FS,FS,FS,0
+Financial caregiver,FS,FS,FS,FS,0
+Financial conversation starter,FS,FC,FS,,0
+Financial crisis,FS,FS,FS,FS,0
+Financial exploitation,FS,FS,FS,FS,0
+Financial institution,FS,FS,FS,FS,1
+Financing,FS,FS,FS,FS,1
+Financing fee,FS,FS,FS,FS,0
+Financing option,FS,FS,FS,FS,0
+Financing term,FS,FS,FS,FS,0
+Fine,FS,FC,FS,,0
+"Finfluencer, financial influencer",FS,FS,FS,FS,0
+Fire,FS,G,FS,G,1
+Fire insurance,FS,FS,FS,FS,0
+Fired,FS,G,FS,,0
+Firewall,FS,G,FS,,0
+Firm commitment,FS,FC,FS,,0
+First lien,FS,FS,FS,FS,0
+First mortgage,FS,FS,FS,FS,0
+First mortgage loan,FS,FS,FS,FS,0
+First payment due date,FS,FC,FS,,0
+First position,FS,FC,FS,,0
+First time home buyer tax credit,FS,FS,FS,FS,0
+First-time home buyer,FS,FC,FS,,0
+Fiscal year,FS,FC,FS,FS,1
+Fixed expense,FS,FC,FS,,0
+Fixed installment,FS,FC,FS,,0
+Fixed interest rate,FS,FS,FS,FS,0
+Fixed rate,FS,FS,FS,FS,0
+Fixed-rate mortgage,FS,FS,FS,FS,0
+Fixtures,FS,G,FS,,0
+Flex modification,FS,FS,FS,FS,0
+Float,FS,FS,FS,FS,0
+Flood Disaster Protection Act of 1973,FS,G,FS,,0
+Flood certification fee,FS,FC,FS,,0
+Flood insurance,FS,FS,FS,FS,1
+Food stamp,FS,G,FS,,0
+For a fee,FS,FC,FS,,0
+For sale by owner,FS,FC,FS,,0
+Forbearance,FS,FS,FS,FS,0
+Forbearance plan,FS,FS,FS,FS,0
+Foreclosure,FS,FS,FS,FS,0
+Foreclosure judgment,FS,FS,FS,FS,0
+Foreclosure prevention,FS,FS,FS,FS,0
+Foreclosure prevention option,FS,FS,FS,FS,0
+Foreclosure process,FS,FS,FS,FS,0
+Foreclosure sale,FS,FS,FS,FS,0
+Foreclosure suspension,FS,FS,FS,FS,0
+Foreign affairs,FS,G,FS,,0
+Foreign citizen,FS,G,FS,,0
+Foreign tax,FS,FC,FS,FS,1
+Forfeiture,FS,FC,FS,,0
+Forfeiture of interest,FS,FS,FS,FS,0
+Forgiven,FS,FC,FS,G,1
+Forgiveness of debt,FS,FS,FS,FS,0
+Form,FS,G,FS,FC,1
+Foster care income,FS,FC,FS,,0
+Foundation,FS,G,FS,,0
+Fraud,FS,FC,FS,FC,1
+Fraud alert,FS,FC,FS,,0
+Freddie Mac,FS,FS,FS,FS,0
+Freddie Mac loan limit,FS,FS,FS,FS,0
+"Freddie Mac seller, servicer",FS,FS,FS,FS,0
+Free authorized housing counselor,FS,FC,FS,,0
+Freedom of Information Act,FS,G,FS,,0
+Front pay,FS,FC,FS,,0
+Front-end ratio,FS,FS,FS,FS,0
+Full disclosure,FS,FC,FS,,0
+Full faith and credit,FS,FC,FS,,0
+Full refund,FS,FC,FS,,0
+Fully amortized mortgage,FS,FS,FS,FS,0
+Fully indexed rate,FS,FS,FS,FS,0
+Funding,FS,FC,FS,,0
+Funds,FS,FC,FS,FS,1
+Furniture,FS,G,FS,G,1
+Further action notice,FS,G,FS,,0
+Future advance,FS,FS,FS,FS,0
+Gamification,FS,G,FS,,0
+"Garnishment, wage garnishment",FS,FS,FS,FS,0
+General contractor,FS,G,FS,,0
+"Ghost mortgage, silent second mortgage",FS,FS,FS,FS,0
+Gift,FS,FC,FS,FC,1
+Gift deed,FS,FC,FS,,0
+Gift letter,FS,FC,FS,,0
+Ginnie Mae,FS,FS,FS,FS,0
+Good Faith Estimate,FS,FS,FS,FS,0
+Good faith,FS,FC,FS,FC,1
+Governing law,FS,G,FS,,0
+Government-Sponsored Enterprise,FS,FS,FS,FS,0
+Government-Sponsored Equity loan,FS,FS,FS,FS,0
+Government-insured loans,FS,FS,FS,FS,0
+Graduated-Payment Mortgage,FS,FS,FS,FS,0
+Gramm-Leach-Bliley Act,FS,FS,FS,FS,0
+Grandparents scam,FS,G,FS,,0
+Grant,FS,FC,FS,FS,1
+Grantee,FS,FC,FS,FS,1
+Grantor,FS,FC,FS,FS,1
+Grievance,FS,G,FS,,0
+Grievance procedures,FS,G,FS,,0
+"Gross annual revenue, gross revenue",FS,FC,FS,,0
+Gross income,FS,FC,FS,FS,1
+Gross wages,FS,FC,FS,,0
+Ground rent,FS,FC,FS,,0
+Growing Equity Mortgage,FS,FS,FS,FS,0
+Guarantee mortgage,FS,FS,FS,FS,0
+Guaranteed asset protection insurance,FS,FS,FS,FS,0
+"Guardians of property, conservators",FS,G,FS,,0
+Guideline,FS,G,FS,,0
+HUD-1 Settlement statement,FS,FS,FS,FS,0
+HUD-approved housing counselor,FS,FS,FS,FS,0
+Hacker,FS,G,FS,,0
+Hardship,FS,FC,FS,FS,1
+Hardship documentation,FS,FC,FS,,0
+Hazard insurance,FS,FS,FS,FS,0
+Hazardous substance,FS,G,FS,,0
+Health care power of attorney,FS,G,FS,,0
+Heating,FS,G,FS,,0
+Hedge,FS,FS,FS,FS,0
+Held-to-maturity,FS,FS,FS,FS,0
+Higher-priced loan,FS,FS,FS,FS,0
+Hinder,FS,G,FS,,0
+Hire,FS,G,FS,G,1
+Hispanic heritage,FS,G,FS,,0
+History of debt management,FS,FS,FS,FS,0
+Home,FS,G,FS,G,1
+Home Affordable Modification Program,FS,FS,FS,FS,0
+Home Equity Conversion Mortgage,FS,FS,FS,FS,0
+Home Equity Line of Credit,FS,FS,FS,FS,0
+Home Equity Loan Consumer Protection Act of,FS,FS,FS,FS,0
+Home Ownership and Equity Protection Act of,FS,FS,FS,FS,0
+Home Possible mortgage,FS,FS,FS,FS,0
+Home buyer,FS,FC,FS,,0
+Home buyer education,FS,FC,FS,,0
+Home buyer workshop,FS,FC,FS,,0
+"Home co-investment, home co-investing",FS,FS,FS,FS,0
+Home equity,FS,FS,FS,FS,0
+Home equity loan,FS,FS,FS,FS,0
+Home inspection,FS,FC,FS,,0
+Home inspector,FS,FC,FS,,0
+Home ownership,FS,FC,FS,,0
+"Home ownership counselor, home ownership",FS,FC,FS,,0
+Home warranty,FS,FC,FS,,0
+"Home, house",FS,G,FS,,0
+Home-buying fair,FS,FC,FS,,0
+Home-buying power,FS,FC,FS,,0
+Homeowner,FS,FC,FS,,0
+Homeowner's association dues,FS,FC,FS,,0
+Homeowner's association fees,FS,FC,FS,,0
+Homeowners Protection Act of 1998,FS,FS,FS,FS,0
+Homeowners' insurance,FS,FS,FS,FS,0
+Homeowners' insurance premium,FS,FS,FS,FS,0
+Homeowner’s association,FS,FS,FS,FS,0
+Homestead,FS,FC,FS,,0
+Homestead exemption,FS,FC,FS,,0
+Hotline,FS,G,FS,G,1
+House,FS,G,FS,G,1
+Housing and Civil Enforcement Section,FS,G,FS,,0
+Housing and Urban Development,FS,G,FS,,0
+Housing counseling,FS,FC,FS,,0
+Housing counseling agency,FS,FC,FS,,0
+Housing counselor,FS,FC,FS,,0
+Housing expense ratio,FS,FS,FS,FS,0
+Housing expense-to-income ratio,FS,FS,FS,FS,0
+Housing expenses,FS,FC,FS,,0
+Housing providers,FS,FC,FS,,0
+Hurricane,FS,G,FS,G,1
+Hybrid mortgage,FS,FS,FS,FS,0
+Hypothecate,FS,FS,FS,FS,0
+IRS form 4506-T,FS,FC,FS,,0
+IRS form 4506T-EZ,FS,FC,FS,,0
+ITIN number,FS,FC,FS,,0
+Identification,FS,G,FS,G,1
+Identity theft,FS,FC,FS,G,1
+"Illiquid, illiquidity",FS,FS,FS,FS,0
+Immigration status,FS,G,FS,G,1
+Imminent danger of default,FS,FS,FS,FS,0
+Imminent default,FS,FS,FS,FS,0
+Impersonation,FS,G,FS,,0
+Implementing regulation,FS,G,FS,,0
+Impound,FS,FC,FS,,0
+Impound account,FS,FS,FS,FS,0
+Improvement,FS,G,FS,,0
+In-network,FS,G,FS,,0
+Inactivity fee,FS,FC,FS,,0
+Inadequate,FS,G,FS,FC,1
+Incidental credit,FS,FS,FS,FS,0
+Income,FS,FC,FS,FS,1
+Income documentation,FS,FC,FS,,0
+Income property,FS,FC,FS,,0
+Income tax,FS,FC,FS,FS,1
+Incoming mail,FS,G,FS,,0
+Incomplete information notice,FS,G,FS,,0
+Increase in housing expense,FS,FC,FS,,0
+Indebtedness,FS,FS,FS,FS,0
+Index,FS,FC,FS,FS,1
+Index rate,FS,FS,FS,FS,0
+Individual Retirement Account,FS,FS,FS,FS,0
+Individual Taxpayer Identification Number,FS,FC,FS,FS,1
+Individual account,FS,FC,FS,,0
+Individuals with Disabilities Education Act,FS,G,FS,,0
+Inflation,FS,FC,FS,,0
+Infraction,FS,G,FS,,0
+Initial escrow payment,FS,FS,FS,FS,0
+Initial interest rate,FS,FS,FS,FS,0
+Initial monthly payment,FS,FC,FS,,0
+Injunction,FS,G,FS,,0
+Injunctive relief,FS,FC,FS,,0
+Injured party,FS,FC,FS,,0
+Inmate,FS,FC,FS,,0
+Innocent lienholder,FS,FS,FS,FS,0
+Innocent owner,FS,FC,FS,,0
+Inquiry,FS,FC,FS,FC,1
+Inside the package,FS,G,FS,,0
+Insolvent,FS,FS,FS,FS,1
+Installment,FS,FS,FS,FS,1
+Installment credit,FS,FS,FS,FS,0
+Installment debt,FS,FS,FS,FS,0
+Installment loan,FS,FS,FS,FS,0
+Installment payment,FS,FS,FS,FS,0
+Instant payment,FS,FS,FS,FS,0
+Instrumentality,FS,FC,FS,FS,1
+Insufficient Funds or Non-Sufficient Funds,FS,FS,FS,FS,0
+Insulation,FS,FS,FS,FS,0
+Insurance,FS,FS,FS,FS,1
+Insurance claim,FS,FS,FS,FS,1
+Insurance coverage,FS,FS,FS,FS,1
+Insurance declaration page,FS,FS,FS,FS,0
+Insurance fund,FS,FS,FS,FS,1
+Insurance income,FS,FS,FS,FS,0
+Insurance payout,FS,FS,FS,FS,0
+Insurance policy,FS,FS,FS,FS,1
+Insurance premium,FS,FS,FS,FS,1
+Insurance sa Deposito mula sa Pederal na,FS,FS,FS,FS,0
+Insured mortgage,FS,FS,FS,FS,0
+Intake procedure,FS,G,FS,,0
+Intangible asset,FS,FS,FS,FS,0
+Interagency,FS,G,FS,,0
+Interagency Working Group on Limited English,FS,G,FS,,0
+Interest,FS,FS,FS,FS,1
+Interest accrual rate,FS,FS,FS,FS,0
+Interest in the property,FS,FS,FS,FS,0
+Interest only home loan,FS,FS,FS,FS,0
+Interest only payment,FS,FS,FS,FS,0
+Interest rate,FS,FS,FS,FS,1
+Interest rate adjustment,FS,FS,FS,FS,0
+Interest rate buy down,FS,FS,FS,FS,0
+"Interest rate cap, interest rate ceiling",FS,FS,FS,FS,0
+Interest rate floor,FS,FS,FS,FS,0
+"Interest rate swap, fixed-for-floating swap",FS,FS,FS,FS,0
+Interest-bearing,FS,FS,FS,FS,0
+Interim financing,FS,FS,FS,FS,0
+Internal Affairs Division,FS,G,FS,,0
+Internal Revenue Service,FS,FS,FS,FS,1
+Interpreter,FS,G,FS,G,1
+"Investment grade, non-investment grade",FS,FS,FS,FS,0
+Investment income,FS,FS,FS,FS,1
+Investment property,FS,FS,FS,FS,1
+Investor,FS,FS,FS,FS,1
+Investor restriction,FS,FS,FS,FS,0
+Itemized expenses,FS,FC,FS,,0
+Job posting,FS,G,FS,,0
+Joint account,FS,FS,FS,FS,0
+Joint and several liability,FS,FS,FS,FS,0
+Joint tenancy,FS,FS,FS,FS,0
+Joint tenancy with right of survivorship,FS,FS,FS,FS,0
+Judgment,FS,FC,FS,,0
+Judgment lien,FS,FS,FS,FS,0
+Judicial foreclosure,FS,FS,FS,FS,0
+Judicial opinion,FS,FC,FS,,0
+Jumbo loan,FS,FS,FS,FS,0
+Junior mortgage,FS,FS,FS,FS,0
+Junk bond,FS,FS,FS,FS,0
+Junk fee,FS,FS,FS,FS,0
+Jurisdiction,FS,FC,FS,FC,1
+Know Your Customer policy,FS,FS,FS,FS,0
+LIBOR index,FS,FS,FS,FS,0
+Land,FS,FC,FS,G,1
+Land contract,FS,FS,FS,FS,0
+Landlord,FS,FC,FS,G,1
+Language,FS,G,FS,G,1
+Language assistance,FS,G,FS,,0
+Largest debt balance,FS,FS,FS,FS,0
+Late charge,FS,FS,FS,FS,0
+Late fee,FS,FS,FS,FS,0
+Late payment,FS,FS,FS,FS,0
+Late payment fee,FS,FS,FS,FS,0
+Lawful permanent resident,FS,G,FS,G,1
+Lawsuit,FS,FC,FS,,0
+Lead generator,FS,FC,FS,,0
+Lead-based paint,FS,G,FS,,0
+Lease,FS,FC,FS,FS,1
+Lease back,FS,FS,FS,FS,0
+"Lease to own, rent to own [n.]",FS,FS,FS,FS,0
+"Lease to own, rent to own [v.]",FS,FS,FS,FS,0
+Lease-purchase option,FS,FS,FS,FS,0
+Leasehold,FS,FS,FS,FS,0
+Legal interest,FS,FS,FS,FS,0
+Legal resident,FS,G,FS,,0
+Legal resident card,FS,G,FS,,0
+Legal separation,FS,FC,FS,G,1
+Lemon law,FS,FC,FS,,0
+Lender,FS,FS,FS,FS,0
+Lender credits,FS,FS,FS,FS,0
+Lender partner,FS,FS,FS,FS,0
+Lender placed insurance,FS,FS,FS,FS,0
+"Lender, mortgage lender",FS,FS,FS,FS,0
+Lending institution,FS,FS,FS,FS,0
+Lessee,FS,FC,FS,FC,1
+Lessor,FS,FC,FS,FC,1
+Leverage,FS,FS,FS,FS,0
+Liability,FS,FS,FS,FS,1
+Liability after foreclosure,FS,FS,FS,FS,0
+Liability insurance,FS,FS,FS,FS,1
+Lien,FS,FS,FS,FS,1
+Lien priority,FS,FS,FS,FS,0
+Life estate,FS,FS,FS,FS,0
+Life of loan,FS,FS,FS,FS,0
+Lifetime cap,FS,FS,FS,FS,0
+Limited English proficient,FS,G,FS,,0
+Limited equity cooperative,FS,FS,FS,FS,0
+Limited risk management,FS,FC,FS,,0
+Limits on interest rate changes,FS,FS,FS,FS,0
+Liquid asset,FS,FS,FS,FS,0
+Liquidate,FS,FS,FS,FS,1
+Liquidity,FS,FS,FS,FS,0
+Listed for sale,FS,FC,FS,,0
+Listing agent,FS,FC,FS,,0
+"Listing price, list price",FS,FS,FS,FS,0
+Litigation,FS,FC,FS,FS,1
+Live agent,FS,G,FS,,0
+Live discussion,FS,G,FS,,0
+Living trust,FS,FS,FS,FS,0
+"Living will, resolution plan",FS,FS,FS,FS,0
+Loan,FS,FS,FS,FS,1
+Loan Estimate,FS,FS,FS,FS,0
+Loan Estimate explainer,FS,FS,FS,FS,0
+Loan ID,FS,FS,FS,FS,0
+Loan acceptance,FS,FS,FS,FS,0
+Loan balance,FS,FS,FS,FS,0
+Loan disclosure,FS,FS,FS,FS,0
+Loan file,FS,FS,FS,FS,0
+Loan forgiveness,FS,FS,FS,FS,0
+Loan modification,FS,FS,FS,FS,0
+Loan modification agreement,FS,FS,FS,FS,0
+Loan officer,FS,FS,FS,FS,0
+Loan origination,FS,FS,FS,FS,0
+Loan origination fee,FS,FS,FS,FS,0
+Loan originator,FS,FS,FS,FS,0
+Loan payoff,FS,FS,FS,FS,0
+Loan processing,FS,FS,FS,FS,0
+Loan product,FS,FS,FS,FS,0
+Loan servicing,FS,FS,FS,FS,0
+Loan term,FS,FS,FS,FS,0
+Loan type,FS,FS,FS,FS,0
+Loan-to-Value Ratio,FS,FS,FS,FS,0
+Local government,FS,G,FS,G,1
+Location,FS,G,FS,G,1
+"Lock-in rate, rate lock-in, rate lock",FS,FS,FS,FS,0
+Long-term,FS,FC,FS,FC,1
+Long-term assistance,FS,FC,FS,,0
+Long-term care,FS,FC,FS,G,1
+Long-term care ombudsman program,FS,FC,FS,,0
+Long-term disability,FS,FC,FS,,0
+Long-term permanent hardship,FS,FC,FS,,0
+Loss mitigation,FS,FS,FS,FS,0
+Lost wages,FS,FC,FS,,0
+Low down payment feature,FS,FS,FS,FS,0
+Low- and moderate-income,FS,FC,FS,,0
+Low- and moderate-income home buyers,FS,FS,FS,FS,0
+Lump sum,FS,FS,FS,FS,0
+Mailing address,FS,G,FS,,0
+Maintenance cost,FS,FC,FS,,0
+Maintenance fee,FS,FC,FS,,0
+"Manufactured housing, manufactured homes",FS,FS,FS,FS,0
+Margin,FS,FS,FS,FS,1
+Marital status,FS,G,FS,,0
+Market condition,FS,FC,FS,,0
+Market price,FS,FC,FS,,0
+Market rent,FS,FC,FS,,0
+Market value,FS,FC,FS,FS,1
+Married,FS,G,FS,G,1
+Maturity date,FS,FS,FS,FS,0
+Maximum mortgage amount,FS,FS,FS,FS,0
+Maximum payment,FS,FS,FS,FS,0
+Medical debt,FS,FS,FS,FS,0
+Medicare summary notices,FS,FS,FS,FS,0
+Meme stock,FS,FS,FS,FS,0
+Memorandum of Understanding,FS,FC,FS,,0
+Merchant cash advance,FS,FS,FS,FS,0
+Merged credit report,FS,FS,FS,FS,0
+Metropolitan statistical area,FS,FC,FS,,0
+Military Lending Act,FS,FS,FS,FS,0
+Minimum payment,FS,FS,FS,FS,0
+"Minimum, maximum interest rate",FS,FS,FS,FS,0
+Minority,FS,G,FS,,0
+Minority homeownership,FS,FC,FS,,0
+Minority homeownership rate,FS,FC,FS,,0
+Minority language coverage,FS,G,FS,,0
+Minority language group,FS,G,FS,,0
+Minority neighborhood,FS,FC,FS,,0
+"Minority-owned business, minority-owned",FS,FS,FS,FS,0
+Miscellaneous proceeds,FS,FC,FS,,0
+Misconduct,FS,FC,FS,FC,1
+Misdemeanor,FS,G,FS,,0
+Misrepresentation,FS,FC,FS,,0
+Modification,FS,FC,FS,FC,1
+Modification agreement,FS,FS,FS,FS,0
+Modification effective date,FS,FS,FS,FS,0
+Modification trial period plan,FS,FS,FS,FS,0
+"Moneda digital, moneda digital del banco central",FS,FS,FS,FS,0
+Monetary policy,FS,FS,FS,FS,0
+Money,FS,FS,FS,FS,1
+Money market account,FS,FS,FS,FS,0
+Money market deposit account,FS,FS,FS,FS,0
+"Money market mutual fund, money market fund",FS,FS,FS,FS,0
+Money order,FS,FS,FS,FS,1
+Money transfer,FS,FS,FS,FS,0
+Monitoring,FS,G,FS,,0
+Monopoly,FS,FC,FS,,0
+Monthly HOA dues,FS,FS,FS,FS,0
+Monthly escrow payment,FS,FS,FS,FS,0
+Monthly mortgage payment,FS,FS,FS,FS,0
+Monthly payment,FS,FC,FS,,0
+Monthly usage,FS,FC,FS,,0
+Mortgage,FS,FS,FS,FS,1
+Mortgage Insurance,FS,FS,FS,FS,0
+Mortgage assistance,FS,FS,FS,FS,0
+Mortgage assistance application,FS,FS,FS,FS,0
+Mortgage bank,FS,FS,FS,FS,0
+Mortgage banker,FS,FS,FS,FS,0
+Mortgage banking institution,FS,FS,FS,FS,0
+Mortgage broker,FS,FS,FS,FS,0
+Mortgage company,FS,FS,FS,FS,0
+Mortgage credit,FS,FS,FS,FS,0
+Mortgage debt,FS,FS,FS,FS,0
+Mortgage differential income,FS,FS,FS,FS,0
+Mortgage financing,FS,FS,FS,FS,0
+"Mortgage holder, loan holder",FS,FS,FS,FS,0
+Mortgage inquiries,FS,FS,FS,FS,0
+Mortgage insurance company,FS,FS,FS,FS,0
+Mortgage insurance premium,FS,FS,FS,FS,0
+Mortgage insurance termination,FS,FS,FS,FS,0
+Mortgage lender,FS,FS,FS,FS,0
+Mortgage life insurance,FS,FS,FS,FS,0
+Mortgage loan,FS,FS,FS,FS,0
+Mortgage loan application,FS,FS,FS,FS,0
+Mortgage loan assumption,FS,FS,FS,FS,0
+Mortgage modification,FS,FS,FS,FS,0
+Mortgage note,FS,FS,FS,FS,0
+Mortgage originator,FS,FS,FS,FS,0
+Mortgage payment,FS,FS,FS,FS,0
+Mortgage payment assistance,FS,FS,FS,FS,0
+Mortgage payoff,FS,FS,FS,FS,0
+Mortgage pool,FS,FS,FS,FS,0
+Mortgage process,FS,FS,FS,FS,0
+Mortgage product,FS,FS,FS,FS,0
+Mortgage rate,FS,FS,FS,FS,0
+Mortgage release,FS,FS,FS,FS,0
+Mortgage representative,FS,FS,FS,FS,0
+"Mortgage servicer, loan servicer",FS,FS,FS,FS,0
+Mortgage servicing rights,FS,FS,FS,FS,0
+Mortgage term,FS,FS,FS,FS,0
+Mortgage underwriting,FS,FS,FS,FS,0
+Mortgage workout,FS,FS,FS,FS,0
+Mortgage-backed security,FS,FS,FS,FS,0
+Mortgagee,FS,FS,FS,FS,0
+Mortgagor,FS,FS,FS,FS,0
+Multifamily mortgage,FS,FS,FS,FS,0
+Multifamily property,FS,FC,FS,,0
+Mutual fund,FS,FS,FS,FS,1
+NMLS/ ____License ID,FS,FS,FS,FS,0
+National Association of Attorneys General,FS,G,FS,,0
+National Association of Hispanic Real Estate,FS,G,FS,,0
+National Association of Medicaid Fraud Control,FS,G,FS,,0
+National Credit Union Administration,FS,FS,FS,FS,0
+National Do Not Call Registry,FS,G,FS,,0
+National origin,FS,G,FS,,0
+Natural disaster,FS,G,FS,,0
+Natural person,FS,FC,FS,,0
+Naturalization,FS,G,FS,G,1
+Negative amortization,FS,FS,FS,FS,0
+Negative equity,FS,FS,FS,FS,0
+Negative option subscription service,FS,FC,FS,,0
+"Negosyong pagmamay-ari ng minoridad, katayuan",FS,FS,FS,FS,0
+Negotiation,FS,FC,FS,,0
+Neighborhood,FS,G,FS,,0
+Net effective income,FS,FS,FS,FS,0
+Net income,FS,FS,FS,FS,1
+Net present value,FS,FS,FS,FS,0
+Net rental income,FS,FS,FS,FS,0
+Net worth,FS,FS,FS,FS,1
+Network,FS,G,FS,,0
+New York Stock Exchange,FS,FS,FS,FS,0
+New mortgage,FS,FS,FS,FS,0
+No Surprises Act,FS,FC,FS,,0
+No match,FS,G,FS,,0
+Nominee,FS,FC,FS,,0
+Non-fungible token,FS,FS,FS,FS,0
+Nonassumption clause,FS,FS,FS,FS,0
+Noncompliance,FS,FC,FS,FC,1
+Nonconforming loan,FS,FS,FS,FS,0
+Nondeposit investment products,FS,FS,FS,FS,0
+Nondiscrimination,FS,G,FS,,0
+Nonliquid asset,FS,FS,FS,FS,0
+Nonpayment,FS,FC,FS,,0
+Nonprofit HUD-certified housing counselor,FS,FS,FS,FS,0
+Nonprofit organization,FS,FC,FS,FS,1
+Nontaxable Social Security,FS,FS,FS,FS,0
+Nontaxable disability income,FS,FS,FS,FS,0
+Nontraditional credit,FS,FS,FS,FS,0
+Nonuniform covenant,FS,FS,FS,FS,0
+"Notarize, notarized",FS,FS,FS,FS,0
+Note,FS,FS,FS,FS,0
+Note holder,FS,FS,FS,FS,0
+Note rate,FS,FS,FS,FS,0
+Note sale,FS,FS,FS,FS,0
+Notice,FS,FC,FS,FC,1
+Notice of acceleration,FS,FS,FS,FS,0
+Notice of default,FS,FS,FS,FS,0
+Notice of dishonor,FS,FS,FS,FS,0
+Notice of grievance,FS,FC,FS,,0
+Notice provision,FS,FC,FS,,0
+Nursing home,FS,G,FS,,0
+Nursing home debt,FS,FS,FS,FS,0
+Oath,FS,G,FS,,0
+Obituary,FS,G,FS,,0
+Occupancy,FS,FC,FS,FC,1
+Occupant,FS,FC,FS,,0
+Occupied,FS,G,FS,,0
+Off the books,FS,FC,FS,,0
+Offense,FS,G,FS,G,1
+Offer,FS,FC,FS,FC,1
+Office for Civil Rights,FS,G,FS,,0
+Office for Older Americans,FS,G,FS,,0
+Office of Communications,FS,G,FS,,0
+Office of Community Affairs,FS,G,FS,,0
+Office of Consumer Response,FS,G,FS,,0
+Office of Enforcement,FS,G,FS,,0
+Office of Fair Lending and Equal Opportunity,FS,FS,FS,FS,0
+Office of Financial Education,FS,FS,FS,FS,0
+"Office of Foreign Assets Control, U.S.",FS,FS,FS,FS,0
+Office of General Counsel,FS,G,FS,,0
+Office of Minority and Women Inclusion,FS,G,FS,,0
+Office of Nonbank Supervision,FS,FS,FS,FS,0
+Office of Public Affairs,FS,G,FS,,0
+Office of Regulations,FS,G,FS,,0
+Office of Servicemember Affairs,FS,G,FS,,0
+Office of Special Counsel,FS,G,FS,,0
+Office of Special Counsel for Immigration-,FS,FS,FS,FS,0
+Office of Special Counsel for Immigration-related,FS,FS,FS,FS,0
+Office of Supervision Examinations,FS,FS,FS,FS,0
+Office of the Chief Administrative Hearing Officer,FS,FS,FS,FS,0
+Office of the Ombudsman,FS,G,FS,,0
+Older American,FS,G,FS,,0
+Older Americans Act,FS,G,FS,,0
+"Older adult, senior",FS,FS,FS,FS,0
+One year adjustable rate mortgage,FS,FS,FS,FS,0
+Online help,FS,G,FS,,0
+Open banking,FS,FS,FS,FS,0
+Open house,FS,FC,FS,,0
+Open-end credit,FS,FS,FS,FS,0
+Opposing counsel,FS,FC,FS,,0
+Opposing party,FS,FC,FS,,0
+Opt-in,FS,G,FS,,0
+Optional payment,FS,FC,FS,,0
+Ordinances,FS,G,FS,,0
+Original principal balance,FS,FS,FS,FS,0
+Origination,FS,FS,FS,FS,0
+Origination charge,FS,FS,FS,FS,0
+Origination fee,FS,FS,FS,FS,0
+Originator,FS,FS,FS,FS,0
+Out-of-network,FS,FC,FS,,0
+Out-of-pocket expenses,FS,FC,FS,,0
+Outreach,FS,G,FS,,0
+Outreach event,FS,G,FS,,0
+Outstanding principal balance,FS,FS,FS,FS,0
+Overdraft,FS,FS,FS,FS,0
+Overdraft feature,FS,FS,FS,FS,0
+Overdrawn,FS,FS,FS,FS,0
+Overdue payment,FS,FS,FS,FS,0
+Overlimit fee,FS,FS,FS,FS,0
+Overtime pay,FS,FC,FS,,0
+Owner,FS,FC,FS,FC,1
+Owner financing,FS,FS,FS,FS,0
+Owner-occupied,FS,FC,FS,,0
+Owners' association,FS,FC,FS,,0
+Ownership interest,FS,FC,FS,,0
+"PCS orders,",FS,FS,FS,FS,0
+Paid collection,FS,FS,FS,FS,0
+Pamantayang Pinakamalaking Halagang,FS,FS,FS,FS,0
+Pambansang Samahan ng mga Yunit sa,FS,FS,FS,FS,0
+Part-time job,FS,FC,FS,FC,1
+Partial payment,FS,FS,FS,FS,0
+Partner,FS,FC,FS,FC,1
+Password,FS,G,FS,,0
+Past due amount,FS,FS,FS,FS,0
+"Pattern, practice",FS,FS,FS,FS,0
+Pay as you go,FS,FC,FS,,0
+Pay for performance incentive,FS,FC,FS,,0
+Pay stub,FS,FC,FS,,0
+Pay-as-you-go plan,FS,FC,FS,,0
+Payday loan,FS,FS,FS,FS,0
+Payment,FS,FC,FS,FS,1
+Payment based on income,FS,FC,FS,,0
+Payment calculation,FS,FC,FS,,0
+Payment change date,FS,FS,FS,FS,0
+Payment change due,FS,FS,FS,FS,0
+Payment plan,FS,FC,FS,FS,1
+Payment schedule,FS,FC,FS,FS,1
+Payoff,FS,FS,FS,FS,0
+Payoff amount,FS,FS,FS,FS,0
+"Payoff, loan payoff",FS,FS,FS,FS,0
+Payroll card,FS,FS,FS,FS,0
+Peer-to-peer payment,FS,FS,FS,FS,0
+"Peg, pegging",FS,FS,FS,FS,0
+Penalty,FS,FC,FS,FS,1
+Pension,FS,FS,FS,FS,1
+Per,FS,G,FS,G,1
+Per-diem penalty,FS,FS,FS,FS,0
+Percent,FS,FC,FS,,0
+Percentage,FS,FC,FS,FS,1
+Percentage point,FS,FS,FS,FS,0
+Perfect a lien,FS,FS,FS,FS,0
+Periodic payment,FS,FS,FS,FS,0
+Periodic rate,FS,FS,FS,FS,0
+Periodic rate cap,FS,FS,FS,FS,0
+Permanent Change of Station,FS,G,FS,,0
+Permanent modification,FS,FS,FS,FS,0
+Permanent resident,FS,G,FS,G,1
+Permanent resident card,FS,G,FS,G,1
+Personal Identification Number,FS,FC,FS,,0
+Personal debt,FS,FS,FS,FS,0
+Personal finance,FS,FS,FS,FS,0
+Personal judgment,FS,FC,FS,,0
+Personal property,FS,FC,FS,FC,1
+Personally identifiable information,FS,FC,FS,,0
+Petitioner,FS,FC,FS,,0
+Pharming,FS,FC,FS,,0
+Phishing,FS,FC,FS,,0
+Pick-up location,FS,G,FS,,0
+Picked up,FS,G,FS,,0
+Plain language,FS,G,FS,,0
+Plaintiff,FS,FC,FS,,0
+Planned Unit Development,FS,FC,FS,,0
+Planned Unit Development Rider,FS,FS,FS,FS,0
+Planning,FS,G,FS,,0
+Planning Schedule,FS,G,FS,,0
+Pledge Account Mortgage,FS,FS,FS,FS,0
+Plumbing,FS,G,FS,,0
+Point,FS,FS,FS,FS,0
+Point of sale,FS,FC,FS,,0
+Ponzi scheme,FS,FS,FS,FS,0
+Pooling and servicing agreement,FS,FS,FS,FS,0
+Portfolio,FS,FS,FS,FS,1
+Possession,FS,FC,FS,FC,1
+Postal Inspection Service,FS,G,FS,,0
+Power of attorney,FS,FC,FS,FS,1
+"Preapproval letter, prequalified letter",FS,FS,FS,FS,0
+"Preapproval, preapproved",FS,FS,FS,FS,0
+Precinct,FS,G,FS,,0
+Predatory lender,FS,FS,FS,FS,0
+Predatory lending,FS,FS,FS,FS,0
+Premium,FS,FS,FS,FS,1
+Premium pricing,FS,FS,FS,FS,0
+Prepaid,FS,FS,FS,FS,1
+Prepaid account,FS,FS,FS,FS,0
+Prepaid card,FS,FS,FS,FS,0
+Prepaid expense,FS,FS,FS,FS,0
+Prepaid interest,FS,FS,FS,FS,0
+Prepayment,FS,FS,FS,FS,0
+Prepayment charge,FS,FS,FS,FS,0
+Prepayment clause,FS,FS,FS,FS,0
+Prepayment penalty,FS,FS,FS,FS,0
+Prequalification,FS,FS,FS,FS,0
+Prequalified,FS,FS,FS,FS,0
+Prescreen,FS,FC,FS,,0
+Preselected offer,FS,FC,FS,,0
+Preservation,FS,G,FS,,0
+"Prevent unfair, deceptive and abusive",FS,FS,FS,FS,0
+"Prevent unfair, deceptive and abusive practices",FS,FS,FS,FS,0
+Previous balance,FS,FS,FS,FS,0
+Price range,FS,FC,FS,,0
+Primary financial manager,FS,FS,FS,FS,0
+Primary mortgage market,FS,FS,FS,FS,0
+Primary phone number,FS,G,FS,,0
+"Primary residence, principal residence",FS,FS,FS,FS,0
+Prime mortgage,FS,FS,FS,FS,0
+Principal,FS,FS,FS,FS,1
+Principal and interest,FS,FS,FS,FS,0
+Principal balance,FS,FS,FS,FS,0
+Principal forbearance,FS,FS,FS,FS,0
+Principal forgiveness,FS,FS,FS,FS,0
+Principal owner,FS,FC,FS,,0
+"Principal, interes, mga buwis, insurance, at mga",FS,FS,FS,FS,0
+"Principal, interest, taxes, and insurance",FS,FS,FS,FS,0
+"Principal, interest, taxes, insurance, and",FS,FS,FS,FS,0
+"Privacy notice, privacy notification",FS,FS,FS,FS,0
+Private mortgage insurance,FS,FS,FS,FS,0
+Pro rata,FS,FS,FS,FS,0
+Proceeds,FS,FS,FS,FS,1
+Processing fee,FS,FC,FS,,0
+Processing time,FS,G,FS,,0
+Product,FS,G,FS,FC,1
+Profit and loss,FS,FC,FS,,0
+Prohibited by applicable law,FS,FC,FS,,0
+Projected payment,FS,FC,FS,,0
+Promise,FS,G,FS,,0
+Promissory note,FS,FS,FS,FS,0
+Proof of funds,FS,FS,FS,FS,0
+Proof of income,FS,FC,FS,,0
+Proof of loss,FS,FC,FS,FC,1
+Property,FS,FC,FS,FC,1
+Property Assessed Clean Energy,FS,FS,FS,FS,0
+Property appreciation,FS,FS,FS,FS,0
+Property deed,FS,FS,FS,FS,0
+Property inspection,FS,FC,FS,,0
+Property insurance,FS,FS,FS,FS,0
+Property owner,FS,FC,FS,FC,1
+Property seizure,FS,FC,FS,,0
+Property tax,FS,FS,FS,FS,0
+Property type,FS,FC,FS,,0
+Property value,FS,FC,FS,,0
+Proprietary reverse loan,FS,FS,FS,FS,0
+Prorate,FS,FS,FS,FS,0
+Provision,FS,FC,FS,FC,1
+Public accommodation,FS,G,FS,,0
+Public assistance funds,FS,FC,FS,,0
+Public defender,FS,G,FS,,0
+Public utilities credit,FS,FC,FS,,0
+Purchase,FS,FC,FS,FS,1
+Purchase and sale agreement,FS,FS,FS,FS,0
+Purchase money mortgage,FS,FS,FS,FS,0
+Purchase price,FS,FC,FS,FS,1
+Purchasing power,FS,FC,FS,,0
+Purpose,FS,G,FS,FC,1
+Purpose of loan,FS,FS,FS,FS,0
+Pyramid scheme,FS,FS,FS,FS,0
+Pyramiding,FS,FS,FS,FS,0
+Qualification,FS,FC,FS,FC,1
+Qualify,FS,FC,FS,FC,1
+Qualifying guideline,FS,FS,FS,FS,0
+Qualifying ratio,FS,FS,FS,FS,0
+Quality control,FS,G,FS,,0
+Quarterly year-to-date profit or loss statement,FS,FS,FS,FS,0
+Query,FS,G,FS,,0
+Quote,FS,FC,FS,,0
+Racial disparity,FS,G,FS,,0
+Radon gas,FS,G,FS,,0
+Raise awareness,FS,G,FS,,0
+Rate cap,FS,FS,FS,FS,0
+Rate lock,FS,FS,FS,FS,0
+Rate of interest,FS,FS,FS,FS,0
+Rate period,FS,FS,FS,FS,0
+Ratified sales contract,FS,FS,FS,FS,0
+Real Estate Settlement Procedures Act of 1974,FS,FS,FS,FS,0
+Real estate,FS,FC,FS,G,1
+Real estate agent,FS,FC,FS,G,1
+Real estate attorney,FS,FC,FS,,0
+Real estate broker,FS,FC,FS,,0
+Real estate owned,FS,FS,FS,FS,0
+Real estate professional,FS,FC,FS,,0
+Real estate tax,FS,FS,FS,FS,0
+Real property,FS,FC,FS,FC,1
+Realtor,FS,FC,FS,,0
+"Reason for default, reason for hardship",FS,FS,FS,FS,0
+Reasonable accommodation,FS,FC,FS,,0
+Reasonable cause,FS,FC,FS,FC,1
+Receipt,FS,G,FS,FC,1
+Receivership,FS,FS,FS,FS,1
+Recession,FS,FC,FS,,0
+Recipient,FS,G,FS,FC,1
+Reconveyance,FS,FS,FS,FS,0
+Record,FS,G,FS,FC,1
+Recordation cost,FS,FS,FS,FS,0
+Recorder,FS,FC,FS,,0
+Recording fee,FS,FS,FS,FS,0
+Recruitment,FS,G,FS,,0
+Redemption period,FS,FS,FS,FS,0
+Redlining,FS,FS,FS,FS,0
+Reduction in income,FS,FC,FS,,0
+Refer,FS,G,FS,FC,1
+Referee,FS,G,FS,,0
+Referral,FS,G,FS,G,1
+Referral date confirmation,FS,G,FS,,0
+Refinance,FS,FS,FS,FS,0
+"Refinance mortgage, refi",FS,FS,FS,FS,0
+Refinancing,FS,FS,FS,FS,1
+Refund,FS,FC,FS,FC,1
+Register,FS,G,FS,FC,1
+Registered reciprocal beneficiary relationship,FS,G,FS,,0
+Registration,FS,G,FS,FC,1
+Regulation,FS,FC,FS,FC,1
+Regulation X,FS,FS,FS,FS,0
+Regulation Z,FS,FS,FS,FS,0
+Rehabilitation Act of 1973,FS,FS,FS,FS,0
+Rehabilitation cost,FS,FC,FS,,0
+Rehabilitation mortgage,FS,FS,FS,FS,0
+Reinstatement,FS,FC,FS,FC,1
+Relative,FS,G,FS,FC,1
+Release,FS,FC,FS,,0
+Release of liability,FS,FC,FS,,0
+Religious Land Use and Institutionalized,FS,FS,FS,FS,0
+Religious Land Use and Institutionalized Persons,FS,FS,FS,FS,0
+Relocation,FS,G,FS,,0
+Remaining term,FS,FC,FS,,0
+Remedy,FS,FC,FS,,0
+Remittance,FS,FS,FS,FS,0
+Remittance transfer,FS,FS,FS,FS,0
+Renewable account,FS,FS,FS,FS,0
+Renewable credit,FS,FS,FS,FS,0
+Renewal,FS,FC,FS,FC,1
+Rent [n.],FS,FS,FS,FS,0
+Rent [v.],FS,FS,FS,FS,0
+Rent to own,FS,FS,FS,FS,0
+Rental income,FS,FC,FS,FS,1
+Rental property,FS,FC,FS,FC,1
+Renter,FS,FC,FS,,0
+Renter occupied,FS,FC,FS,,0
+Repair [n.],FS,FS,FS,FS,0
+Repair [v.],FS,FS,FS,FS,0
+Repay,FS,FC,FS,FS,1
+Repayment,FS,FC,FS,FS,1
+Repayment period,FS,FS,FS,FS,0
+Repayment plan,FS,FS,FS,FS,0
+Replacement check,FS,FC,FS,,0
+Replacement cost,FS,FC,FS,FS,1
+Replacement value,FS,FC,FS,,0
+"Repo, repossession",FS,FS,FS,FS,0
+Report,FS,G,FS,G,1
+Representative payee,FS,FC,FS,,0
+Request for investigation,FS,FC,FS,,0
+Request to cancel,FS,G,FS,,0
+Require,FS,G,FS,G,1
+Requirement,FS,G,FS,FC,1
+Resale deed restriction,FS,FS,FS,FS,0
+Rescind,FS,FC,FS,,0
+"Rescission, rescission period",FS,FS,FS,FS,0
+"Research, Markets, and Regulations",FS,FS,FS,FS,0
+Reserves,FS,FS,FS,FS,0
+Residence,FS,FC,FS,FC,1
+Resident of long-term care facility,FS,G,FS,,0
+Residential mortgage-backed security,FS,FS,FS,FS,0
+Resolved hardship,FS,FC,FS,,0
+Respondent,FS,FC,FS,,0
+Retail installment sales contract,FS,FS,FS,FS,0
+Retaliate,FS,G,FS,,0
+Retaliation,FS,G,FS,,0
+Retired,FS,G,FS,G,1
+Retiree,FS,G,FS,,0
+Retirement,FS,FC,FS,G,1
+Retirement account,FS,FS,FS,FS,0
+Retirement income,FS,FS,FS,FS,0
+Retirement plan,FS,FS,FS,FS,1
+Retrofitting,FS,G,FS,,0
+Reverse mortgage,FS,FS,FS,FS,0
+Reverse redlining,FS,FS,FS,FS,0
+Revitalization,FS,G,FS,,0
+Revocable fiduciary account,FS,FS,FS,FS,0
+Revocable trust account,FS,FS,FS,FS,0
+Revoke,FS,FC,FS,FS,1
+Revolving debt,FS,FS,FS,FS,0
+Reward point,FS,FC,FS,,0
+Rider,FS,FS,FS,FS,0
+Right of first refusal,FS,FC,FS,,0
+Right of rescission,FS,FS,FS,FS,0
+Right to Financial Privacy Act of 1978,FS,FS,FS,FS,0
+Right to appeal,FS,FC,FS,,0
+Right to dispute errors,FS,FC,FS,,0
+Right-to-sue letter,FS,FC,FS,,0
+Rights in the property,FS,FC,FS,,0
+Robo advisor,FS,FS,FS,FS,0
+Routing number,FS,FS,FS,FS,0
+Rural Housing Service,FS,G,FS,,0
+Safe harbor,FS,FC,FS,FC,1
+Salary,FS,FC,FS,FS,1
+Sale,FS,FC,FS,FS,1
+Sale-leaseback,FS,FS,FS,FS,0
+Sales contract,FS,FC,FS,,0
+Sales price,FS,FC,FS,FS,1
+Sales-based financing,FS,FS,FS,FS,0
+Satisfaction of mortgage,FS,FS,FS,FS,0
+Satisfy,FS,FC,FS,FC,1
+Savings,FS,FS,FS,FS,1
+Savings account,FS,FS,FS,FS,1
+Savings and loan association,FS,FS,FS,FS,0
+Scam,FS,FC,FS,FC,1
+"Scammer, scam artist",FS,FS,FS,FS,0
+Schedule,FS,G,FS,FC,1
+Schedule of amortization,FS,FS,FS,FS,0
+Score range and grade,FS,FC,FS,,0
+Search,FS,G,FS,G,1
+Seasonal income,FS,FC,FS,,0
+Seasonal payment,FS,FC,FS,,0
+Second home,FS,FC,FS,,0
+Second home rider,FS,FS,FS,FS,0
+Second mortgage,FS,FS,FS,FS,0
+Second mortgage loan,FS,FS,FS,FS,0
+Secondary mortgage market,FS,FS,FS,FS,0
+"Secure the property, repair the property",FS,FS,FS,FS,0
+Secured credit card,FS,FS,FS,FS,0
+Secured loan,FS,FS,FS,FS,0
+Securities,FS,FS,FS,FS,1
+Securitization,FS,FS,FS,FS,0
+Security,FS,FC,FS,FC,1
+Security deed,FS,FS,FS,FS,0
+Security freezes,FS,FC,FS,,0
+Security instrument,FS,FS,FS,FS,0
+Security interest,FS,FS,FS,FS,0
+Seize,FS,FC,FS,,0
+Seizure,FS,FC,FS,FC,1
+Select,FS,G,FS,G,1
+Selected list,FS,G,FS,,0
+Selection guideline,FS,FC,FS,,0
+Self check,FS,G,FS,,0
+Self-employed,FS,FC,FS,FC,1
+Self-employment income,FS,FC,FS,FS,1
+Seller,FS,FC,FS,FS,1
+Seller carryback,FS,FS,FS,FS,0
+Seller credit,FS,FS,FS,FS,0
+Seller's market,FS,FC,FS,,0
+"Seller-financed mortgage, seller take-back",FS,FS,FS,FS,0
+Selling agent,FS,FC,FS,,0
+Send money abroad,FS,FS,FS,FS,0
+Sender,FS,G,FS,,0
+Senior Medicare Patrol program,FS,G,FS,,0
+Senior designation,FS,G,FS,,0
+"Senior, older American",FS,FS,FS,FS,0
+Sentence,FS,G,FS,,0
+Separate maintenance,FS,FC,FS,,0
+Separation agreement,FS,FC,FS,,0
+Serious illness,FS,G,FS,,0
+Service credit,FS,FC,FS,,0
+Servicemember Civil Relief Act,FS,FS,FS,FS,0
+Servicemembers,FS,G,FS,,0
+Servicer,FS,FS,FS,FS,0
+Servicer advances,FS,FS,FS,FS,0
+Servicing,FS,FS,FS,FS,0
+Servicing transfer,FS,FS,FS,FS,0
+Settlement,FS,FS,FS,FS,1
+Settlement agent,FS,FS,FS,FS,0
+Settlement agreement,FS,FC,FS,,0
+Settlement hearing,FS,FC,FS,,0
+Settlement statement,FS,FS,FS,FS,0
+Sewage system,FS,G,FS,,0
+Shared appreciation mortgage,FS,FS,FS,FS,0
+Short payoff,FS,FS,FS,FS,0
+Short sale,FS,FS,FS,FS,0
+Short sale affidavit,FS,FS,FS,FS,0
+Short sale negotiation fee,FS,FS,FS,FS,0
+Short-term,FS,FC,FS,FC,1
+Short-term hardship,FS,FC,FS,,0
+Signature,FS,G,FS,G,1
+Simple interest,FS,FS,FS,FS,0
+Single-family,FS,FC,FS,,0
+Single-family home,FS,FC,FS,,0
+Single-family property,FS,FC,FS,,0
+Skimming,FS,FC,FS,,0
+Small business,FS,FC,FS,FC,1
+Social Security Administration,FS,G,FS,G,1
+Social Security Number,FS,G,FS,G,1
+Social Security Number Verification Service,FS,G,FS,,0
+Social Security benefits,FS,FC,FS,FS,1
+Soft pull,FS,FS,FS,FS,0
+Software,FS,G,FS,G,1
+Soil sample test,FS,G,FS,,0
+Spam,FS,G,FS,,0
+Special litigation counsel,FS,FC,FS,,0
+Special warranty of title,FS,FS,FS,FS,0
+Spoofing,FS,FC,FS,,0
+Spreadsheet,FS,G,FS,,0
+Stablecoin,FS,FS,FS,FS,0
+Stagnation,FS,FC,FS,,0
+Standard Maximum Deposit Insurance Amount,FS,FS,FS,FS,0
+Standard payment calculation,FS,FS,FS,FS,0
+State Health Insurance Assistance Program,FS,FS,FS,FS,0
+State law,FS,FC,FS,G,1
+State of the Future Index,FS,FC,FS,,0
+Statute,FS,FC,FS,,0
+Statute of limitations,FS,FC,FS,,0
+Statutory power of sale,FS,FS,FS,FS,0
+Step payment,FS,FS,FS,FS,0
+Step rate mortgage,FS,FS,FS,FS,0
+Stipulation,FS,FC,FS,,0
+Stock,FS,FS,FS,FS,1
+Stocks and bonds,FS,FS,FS,FS,0
+Stress,FS,G,FS,,0
+Structured settlement,FS,FS,FS,FS,0
+Student loan,FS,FS,FS,FS,1
+Sublease,FS,FC,FS,,0
+Submit,FS,G,FS,,0
+Submit a complaint,FS,G,FS,,0
+Subordinate financing,FS,FS,FS,FS,0
+Subordinate lien,FS,FS,FS,FS,0
+Subrogation,FS,FS,FS,FS,0
+Subsidiary,FS,FC,FS,FS,1
+Subsidy,FS,FC,FS,,0
+Successor in interest of borrower,FS,FS,FS,FS,0
+Successor trustee,FS,FS,FS,FS,0
+Suggestion,FS,G,FS,,0
+Suit,FS,FC,FS,,0
+Summons,FS,FC,FS,,0
+"Supervision, Enforcement, and Fair Lending",FS,FS,FS,FS,0
+Supplemental Nutrition Assistance Program,FS,G,FS,,0
+Supplemental Security Income,FS,FC,FS,,0
+Surety,FS,FS,FS,FS,0
+Surplus,FS,FC,FS,,0
+Surrender,FS,FC,FS,,0
+Survey,FS,G,FS,,0
+Survey of property,FS,FC,FS,,0
+Suspension,FS,FC,FS,FC,1
+Suspicious Activity Report,FS,FS,FS,FS,0
+Sweat equity,FS,FC,FS,,0
+Sweepstakes,FS,G,FS,,0
+Sworn statement,FS,FC,FS,,0
+TILA-RESPA Integrated Disclosure Rule,FS,FS,FS,FS,0
+Taking,FS,G,FS,FC,1
+Tax advisor,FS,FC,FS,,0
+Tax assessment,FS,FS,FS,FS,0
+Tax benefit,FS,FS,FS,FS,1
+Tax code,FS,FS,FS,FS,0
+Tax consultant,FS,FC,FS,,0
+Tax lien,FS,FS,FS,FS,0
+Tax rate,FS,FS,FS,FS,1
+Tax rate schedule,FS,FS,FS,FS,1
+Tax rate table,FS,FS,FS,FS,0
+Tax return,FS,FS,FS,FS,1
+Tax schedule,FS,FS,FS,FS,0
+Tax transcript,FS,FS,FS,FS,0
+Taxable Social Security,FS,FS,FS,FS,0
+Taxable adoption assistance fund,FS,FS,FS,FS,0
+Taxable disability income,FS,FS,FS,FS,0
+Taxable housing allowance,FS,FS,FS,FS,0
+Taxable income,FS,FS,FS,FS,1
+Taxable investment account,FS,FS,FS,FS,0
+Taxable pension,FS,FS,FS,FS,0
+Taxable public assistance,FS,FS,FS,FS,0
+Taxes and insurance,FS,FS,FS,FS,0
+Taxpayer Identification Number,FS,FS,FS,FS,1
+Teaser rate,FS,FS,FS,FS,0
+Technology tool,FS,G,FS,,0
+Tenancy,FS,FC,FS,,0
+Tenancy in common,FS,FC,FS,,0
+Tenancy in severalty,FS,FC,FS,,0
+Tenant,FS,FC,FS,FC,1
+Tenant screening,FS,FC,FS,,0
+Tentative Nonconfirmation,FS,G,FS,,0
+Term,FS,FC,FS,FC,1
+Term life insurance,FS,FS,FS,FS,0
+Terminate,FS,FC,FS,FC,1
+Termite inspection,FS,G,FS,,0
+Terms,FS,FC,FS,FC,1
+Testament,FS,FC,FS,,0
+Testimony,FS,FC,FS,,0
+Text message,FS,G,FS,,0
+Third party,FS,FC,FS,FC,1
+Third-party origination,FS,FS,FS,FS,0
+Time value of money,FS,FS,FS,FS,0
+Title,FS,FC,FS,FC,1
+Title IV of the Civil Rights Act of 1964,FS,FS,FS,FS,0
+Title binder,FS,FS,FS,FS,0
+Title company,FS,FS,FS,FS,0
+Title insurance,FS,FS,FS,FS,0
+Title loan,FS,FS,FS,FS,0
+Title report,FS,FS,FS,FS,0
+Title search,FS,FS,FS,FS,0
+Title service fees,FS,FS,FS,FS,0
+Tolerance,FS,FC,FS,,0
+Tolerance basis,FS,FC,FS,,0
+Toll-free number,FS,G,FS,G,1
+Top ratio,FS,FS,FS,FS,0
+Total Debt-to-Income Ratio,FS,FS,FS,FS,0
+Total Interest Percentage,FS,FS,FS,FS,0
+Total of payments,FS,FS,FS,FS,0
+Townhouse,FS,G,FS,,0
+Trade line,FS,FS,FS,FS,0
+Training,FS,G,FS,G,1
+Tranche,FS,FS,FS,FS,0
+Transaction,FS,FC,FS,FC,1
+Transfer,FS,FC,FS,FC,1
+Transfer amount,FS,FC,FS,,0
+Transfer fee,FS,FC,FS,,0
+Transfer of interest,FS,FC,FS,,0
+Transfer of ownership,FS,FC,FS,,0
+Transfer of servicing,FS,FS,FS,FS,0
+Transfer of the property,FS,FC,FS,,0
+Transfer of the property or a beneficial interest,FS,FS,FS,FS,0
+Transfer of the property or a beneficial interest in,FS,FS,FS,FS,0
+Transfer ownership of the property to the servicer,FS,FS,FS,FS,0
+Transfer tax,FS,FS,FS,FS,0
+Transferee servicer,FS,FS,FS,FS,0
+Transferor servicer,FS,FS,FS,FS,0
+"Treasurer's check, cashier's check",FS,FS,FS,FS,0
+Treasury Inflation Protected Securities,FS,FS,FS,FS,0
+Treasury bill,FS,FS,FS,FS,0
+Treasury index,FS,FS,FS,FS,0
+Trial attorney,FS,FC,FS,,0
+Trial modification,FS,FS,FS,FS,0
+Trial payment,FS,FS,FS,FS,0
+Trial period plan,FS,FS,FS,FS,0
+Trial pit,FS,G,FS,,0
+Trust,FS,FS,FS,FS,1
+Trust account,FS,FS,FS,FS,0
+Trust fund,FS,FS,FS,FS,0
+Trustee,FS,FS,FS,FS,1
+Trustee under a revocable living trust,FS,FS,FS,FS,0
+Trustee's deed,FS,FS,FS,FS,0
+Trustee's deed conveying the property,FS,FS,FS,FS,0
+Truth in Lending Act,FS,FS,FS,FS,0
+Truth in Savings Act,FS,FS,FS,FS,0
+Truth-in-lending statement,FS,FS,FS,FS,0
+Two- to four- family property,FS,FC,FS,,0
+Two-step mortgage,FS,FS,FS,FS,0
+Typhoon,FS,G,FS,,0
+U.S. Department of Veterans Affairs,FS,G,FS,,0
+U.S. currency,FS,FS,FS,FS,0
+Unapplied funds,FS,FS,FS,FS,0
+Unconstitutional,FS,G,FS,,0
+Under the law,FS,G,FS,,0
+Underserved,FS,FC,FS,,0
+Undersigned,FS,FC,FS,,0
+Underwater,FS,FS,FS,FS,0
+Underwriter,FS,FS,FS,FS,0
+Underwriting,FS,FS,FS,FS,0
+Underwriting guideline,FS,FS,FS,FS,0
+Underwriting note,FS,FS,FS,FS,0
+Underwriting ratio,FS,FS,FS,FS,0
+Undivided interest,FS,FC,FS,,0
+Undocumented,FS,G,FS,,0
+Unearned premium,FS,FS,FS,FS,0
+Unemployment,FS,FC,FS,FS,1
+Unemployment benefit income,FS,FC,FS,,0
+Unemployment forbearance,FS,FS,FS,FS,0
+Unemployment insurance,FS,FC,FS,FS,1
+Unencumbered,FS,FC,FS,,0
+Unfair employment practice,FS,FC,FS,,0
+Unfair practice,FS,FC,FS,,0
+Uniform Residential Appraisal Report,FS,FS,FS,FS,0
+Uniform Residential Loan Application,FS,FS,FS,FS,0
+Uniform covenant,FS,FS,FS,FS,0
+Uniform settlement statement,FS,FS,FS,FS,0
+Uniformed and Overseas Citizens Absentee,FS,G,FS,,0
+Uninsured deposit,FS,FS,FS,FS,0
+United States,FS,G,FS,G,1
+United States Attorney,FS,G,FS,,0
+United States Court of Appeals,FS,G,FS,,0
+United States Department of Agriculture,FS,G,FS,,0
+United States of America,FS,G,FS,,0
+Unjust practice,FS,FC,FS,,0
+Unlawful,FS,G,FS,,0
+Unmarried,FS,G,FS,,0
+Unmarried addendum,FS,FC,FS,,0
+Unpaid,FS,FC,FS,FS,1
+Unpaid Principal Balance,FS,FS,FS,FS,0
+Unpaid debt,FS,FS,FS,FS,0
+Unreasonably,FS,G,FS,FC,1
+Unrecorded deed,FS,FS,FS,FS,0
+Unsecured loan,FS,FS,FS,FS,0
+Untimely,FS,G,FS,,0
+Upfront cost,FS,FC,FS,,0
+Upkeep expense,FS,FC,FS,,0
+Upside down,FS,FC,FS,,0
+Usage,FS,G,FS,,0
+User's guide,FS,G,FS,,0
+Usury,FS,FS,FS,FS,0
+Utilities,FS,FC,FS,FC,1
+VA benefit,FS,FC,FS,,0
+VA fiduciary,FS,FC,FS,,0
+VA funding fee,FS,FS,FS,FS,0
+VA guaranteed loan,FS,FS,FS,FS,0
+Vacant,FS,G,FS,,0
+Valuation,FS,FC,FS,FS,1
+Value,FS,FC,FS,FS,1
+Variable life annuity,FS,FS,FS,FS,0
+Variable rate,FS,FS,FS,FS,0
+Variable rate mortgage,FS,FS,FS,FS,0
+"Vehicle loan, auto loan",FS,FS,FS,FS,0
+Venture capital,FS,FS,FS,FS,0
+Verification of deposit,FS,FS,FS,FS,0
+Verification of employment,FS,FC,FS,,0
+Verification of mortgage,FS,FS,FS,FS,0
+Vesting title,FS,FS,FS,FS,0
+Veterans Administration loan,FS,FS,FS,FS,0
+Veterans Service Organization,FS,G,FS,,0
+Vicarious liability,FS,FC,FS,,0
+Violation,FS,FC,FS,FC,1
+Virtual currency,FS,FS,FS,FS,0
+Visa,FS,FC,FS,FC,1
+Void,FS,FC,FS,,0
+W-2 form,FS,FC,FS,,0
+Wage reporting,FS,FC,FS,,0
+Wages,FS,FC,FS,FS,1
+Waiver,FS,FC,FS,FC,1
+Warehouse fee,FS,FS,FS,FS,0
+Warranty,FS,FC,FS,,0
+Warranty deed,FS,FS,FS,FS,0
+Wealth,FS,FC,FS,,0
+Web page,FS,G,FS,,0
+Website,FS,G,FS,G,1
+Welcome letter,FS,G,FS,,0
+Welfare,FS,FC,FS,FS,1
+Welfare benefits,FS,FC,FS,FC,1
+Whole loan,FS,FS,FS,FS,0
+Winnings,FS,FC,FS,FC,1
+Wire transfer,FS,FS,FS,FS,0
+Withdrawal,FS,FS,FS,FS,1
+Withholding,FS,FC,FS,FS,1
+"Women-owned business, women-owned",FS,FS,FS,FS,0
+"Women-owned business, women-owned business",FS,FS,FS,FS,0
+Women’s Business Ownership Act of 1988,FS,FS,FS,FS,0
+Work,FS,G,FS,G,1
+Work authorization,FS,G,FS,,0
+Work-authorized,FS,G,FS,,0
+Workout,FS,FC,FS,,0
+Workout mortgage assumption,FS,FS,FS,FS,0
+Worksheet,FS,G,FS,FC,1
+Workshop,FS,G,FS,,0
+Wraparound mortgage,FS,FS,FS,FS,0
+Writ of possession,FS,FC,FS,,0
+Write-off,FS,FS,FS,FS,0
+Yard,FS,G,FS,,0
+Zip code,FS,G,FS,,0
+"Zombie debt, zombie mortgage",FS,FS,FS,FS,0
+Zone,FS,G,FS,G,1
+Zoning,FS,FC,FS,,0
