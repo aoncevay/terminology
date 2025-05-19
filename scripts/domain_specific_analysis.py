@@ -541,8 +541,8 @@ def create_boxplots_by_category(accuracy_by_category, between_models_significanc
                     else:
                         whisker_positions[category].append(0.6)  # Default if no data
             
-            # Calculate a more moderate vertical margin
-            vertical_margin = (y_max - 0) * 0.08  # Slightly increased base margin (8%)
+            # Calculate vertical margin - simple, consistent approach
+            vertical_margin = (y_max - 0) * 0.10  # Fixed 10% margin for all markers
             
             # For each model, check and mark significant differences
             for i, model in enumerate(models_list):
@@ -639,10 +639,11 @@ def create_boxplots_by_category(accuracy_by_category, between_models_significanc
                         # Get the position for this category
                         cat_pos = category_positions[category][i]
                         
+                        # Get the whisker position for this category
+                        whisker_pos = whisker_positions[category][i]
+                        
                         # Get the minimum y value for this boxplot (lower whisker or outliers)
                         min_y = 1.0  # Start with maximum possible value
-                        
-                        # Check lower whiskers
                         for i_whisker in range(len(boxplots[category]['whiskers'])):
                             if i_whisker % 2 == 0:  # Lower whiskers are at even indices
                                 whisker_data = boxplots[category]['whiskers'][i_whisker].get_ydata()
@@ -655,61 +656,25 @@ def create_boxplots_by_category(accuracy_by_category, between_models_significanc
                             if len(flier_data) > 0:
                                 min_y = min(min_y, np.min(flier_data))
                         
-                        # Get the upper position with padding - add extra padding for specific cases
-                        # Base vertical margin
-                        marker_margin = vertical_margin
-                        
-                        # Precise handling for whisker overlapping cases
-                        # Check if marker would be too close to a whisker or outlier
-                        whisker_pos = whisker_positions[category][i]
-                        
-                        # Problem case: When a whisker is within a certain range where markers tend to overlap
-                        if 0.6 < whisker_pos < 0.85:
-                            # These cases need more space to avoid overlap
-                            marker_margin = vertical_margin * 2.0
-                        
-                        # Add additional margin for specific problem cases
-                        if direction == "en-xx" and category in ["DC", "G"]:
-                            # Extra padding for middle/right categories in en-xx direction
-                            marker_margin *= 1.5
-                            
-                        # GPT4o-specific adjustments to avoid its markers from being too close
-                        if model == "LLM_openai_gpt4o" and category != "DC":
-                            marker_margin *= 1.2
-                        
-                        # Calculate final position with appropriate margin
-                        upper_symbol_height = whisker_positions[category][i] + marker_margin
-                        
-                        # More selective condition for placing markers below
-                        # Only place below if:
-                        # 1. Upper position is extremely high (>97% of plot height), or
-                        # 2. This is a high-accuracy model like GPT4o AND the upper whisker is very high
+                        # Simple position logic - we place markers either:
+                        # 1. Below for GPT4o and high accuracy (> 0.9) boxplots
+                        # 2. Above for all other cases
                         place_below = False
                         
-                        # Define which models may need special placement - ONLY very high accuracy models
-                        high_accuracy_models = ["LLM_openai_gpt4o"]
-                        
-                        # Check for different conditions that would trigger below placement
-                        if upper_symbol_height > y_max * 0.97:  # Raised threshold to be more selective
-                            # Extreme case - always place below
-                            place_below = True
-                        elif model in high_accuracy_models and whisker_positions[category][i] > 0.92:
-                            # High-accuracy model with whisker very high
+                        # Only place GPT4o markers below if accuracy is high
+                        if model == "LLM_openai_gpt4o" and whisker_pos > 0.9:
                             place_below = True
                         
-                        # Special exception: NEVER place Mistral markers below
-                        if model == "LLM_mistral":
-                            place_below = False
-                        
+                        # Calculate position with consistent margin
                         if place_below:
-                            # Place below with some margin
-                            symbol_height = min_y - marker_margin - (y_max * 0.02)
-                            # Ensure we don't go below the plot
+                            # Place below with consistent margin
+                            symbol_height = min_y - vertical_margin
+                            # Ensure it doesn't go below the plot
                             symbol_height = max(symbol_height, y_max * 0.05)
                         else:
-                            # Place above as normal
-                            symbol_height = upper_symbol_height
-                            # Ensure we don't go above the plot
+                            # Place above with consistent margin
+                            symbol_height = whisker_pos + vertical_margin
+                            # Ensure it doesn't go above the plot
                             symbol_height = min(symbol_height, y_max * 0.95)
                         
                         # Place symbols side by side
