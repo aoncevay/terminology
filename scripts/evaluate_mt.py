@@ -557,11 +557,11 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                     
                     # Format without bold, add significance symbols if applicable
                     row += f" & {score:.2f}{best_model_symbol}"
-            else:
-                row += " & -"
+                else:
+                    row += " & -"
                 
-        print(row + " \\\\")
-    
+            print(row + " \\\\")
+        
     # Add average row only if we have languages with data
     if languages_with_data:
         avg_row = "\\hline\nAvg."
@@ -755,8 +755,8 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                     
                     # Format without bold, add significance symbols if applicable
                     row += f" & {score:.2f}{best_model_symbol}"
-            else:
-                row += " & -"
+                else:
+                    row += " & -"
                     
             print(row + " \\\\")
         
