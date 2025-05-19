@@ -131,7 +131,7 @@ def calculate_differences(results, dataset, direction, metric):
     
     return differences
 
-def create_difference_plot(differences, dataset, direction, metric, output_dir="../figs/prompt_analysis"):
+def create_difference_plot(differences, dataset, direction, metric, y_limits=None, output_dir="../figs/prompt_analysis"):
     """Create a bar plot showing score differences"""
     # Create output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
@@ -176,27 +176,9 @@ def create_difference_plot(differences, dataset, direction, metric, output_dir="
     # Add zero reference line
     ax.axhline(y=0, color='green', linestyle='-', linewidth=1)
     
-    # Add summary label depending on the metric
-    if metric == "chrf++":
-        ax.text(
-            0.98, 0.98, 
-            f"Sum = {sum(values):.2f}", 
-            transform=ax.transAxes,
-            ha='right', va='top',
-            color='green',
-            fontsize=10
-        )
-    else:  # term_acc
-        # For term accuracy, show average percentage change
-        avg_pct = 100 * sum(values) / len(values)
-        ax.text(
-            0.98, 0.98, 
-            f"Avg = {avg_pct:.2f}%", 
-            transform=ax.transAxes,
-            ha='right', va='top',
-            color='green',
-            fontsize=10
-        )
+    # Set y-axis limits if provided (synchronized between direction pairs)
+    if y_limits:
+        ax.set_ylim(y_limits)
     
     # Add descriptive title
     direction_label = "en→xx" if direction == "en-xx" else "xx→en"
@@ -308,11 +290,20 @@ def main():
     # Track all generated filepaths
     all_filepaths = []
     
-    # Generate plots for each dataset, direction, and metric
+    # First pass: calculate all differences and determine shared y-axis limits for each dataset/metric pair
+    y_axis_limits = {}
+    all_differences = {}
+    
     for dataset in DATASETS:
-        for direction in DIRECTIONS:
-            for metric in METRICS:
-                # Calculate differences
+        y_axis_limits[dataset] = {}
+        all_differences[dataset] = {}
+        
+        for metric in METRICS:
+            y_axis_limits[dataset][metric] = {"min": 0, "max": 0}
+            all_differences[dataset][metric] = {}
+            
+            # Calculate differences for both directions
+            for direction in DIRECTIONS:
                 differences = calculate_differences(results, dataset, direction, metric)
                 
                 # Skip if no data
@@ -320,8 +311,41 @@ def main():
                     print(f"No data for {dataset} {direction} {metric}")
                     continue
                 
-                # Create plot
-                filepath = create_difference_plot(differences, dataset, direction, metric, args.output_dir)
+                # Store differences for later use
+                all_differences[dataset][metric][direction] = differences
+                
+                # Update min/max values across both directions
+                if differences:
+                    values = list(differences.values())
+                    current_min = min(values)
+                    current_max = max(values)
+                    
+                    y_axis_limits[dataset][metric]["min"] = min(y_axis_limits[dataset][metric]["min"], current_min)
+                    y_axis_limits[dataset][metric]["max"] = max(y_axis_limits[dataset][metric]["max"], current_max)
+    
+    # Second pass: create plots using synchronized y-axis limits
+    for dataset in DATASETS:
+        for metric in METRICS:
+            for direction in DIRECTIONS:
+                # Skip if no data
+                if direction not in all_differences[dataset][metric]:
+                    continue
+                
+                differences = all_differences[dataset][metric][direction]
+                
+                # Get shared y-axis limits
+                y_min = y_axis_limits[dataset][metric]["min"]
+                y_max = y_axis_limits[dataset][metric]["max"]
+                
+                # Add a small padding (5%) to the limits for visual clarity
+                y_range = y_max - y_min
+                y_min = y_min - 0.05 * y_range
+                y_max = y_max + 0.05 * y_range
+                
+                # Create plot with synchronized y-axis
+                filepath = create_difference_plot(differences, dataset, direction, metric, 
+                                                 y_limits=(y_min, y_max),
+                                                 output_dir=args.output_dir)
                 all_filepaths.append(filepath)
     
     # Generate LaTeX code if requested
