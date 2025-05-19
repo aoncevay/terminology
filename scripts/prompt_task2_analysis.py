@@ -214,19 +214,34 @@ def generate_latex_code(filepaths):
     for filepath in filepaths:
         # Extract components from filename
         filename = os.path.basename(filepath)
-        parts = filename.split('_')
         
-        # Handle the new filename format with gpt4o_ prefix
-        # Format is now: gpt4o_dataset_direction_metric_diff.pdf
-        if len(parts) >= 5 and parts[0] == "gpt4o":
-            dataset = parts[1]  # Second part is dataset
-            direction = parts[2]  # Third part is direction
-            metric = parts[3]    # Fourth part is metric
+        # Debug information
+        print(f"Processing file: {filename}")
+        
+        # Extract dataset and metric directly from the filename
+        if "chrf++" in filename:
+            metric = "chrf++"
+        elif "term_acc" in filename:
+            metric = "term_acc"
+        else:
+            print(f"Warning: Could not determine metric for {filename}")
+            continue
             
-            key = f"{dataset}_{metric}"
-            if key not in by_dataset_metric:
-                by_dataset_metric[key] = []
-            by_dataset_metric[key].append(filepath)
+        if "irs" in filename:
+            dataset = "irs"
+        elif "cfpb" in filename:
+            dataset = "cfpb"
+        else:
+            print(f"Warning: Could not determine dataset for {filename}")
+            continue
+            
+        key = f"{dataset}_{metric}"
+        if key not in by_dataset_metric:
+            by_dataset_metric[key] = []
+        by_dataset_metric[key].append(filepath)
+    
+    # Debug information
+    print(f"Grouped filepaths: {by_dataset_metric.keys()}")
     
     # Generate LaTeX code for each group
     for key, paths in by_dataset_metric.items():
