@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from pathlib import Path
 import argparse
+from scipy import stats  # Add import for Mann-Whitney U test
 
 # Constants
 DATASETS = ["irs", "cfpb"]
@@ -93,10 +94,17 @@ def get_language_pairs(dataset, direction):
     else:  # xx-en
         return [f"{lang}-en" for lang in langs]
 
-def calculate_differences(results, dataset, direction, metric):
-    """Calculate score differences between prompt and base models"""
+def calculate_differences_with_significance(results, dataset, direction, metric):
+    """
+    Calculate score differences between prompt and base models and determine statistical significance
+    
+    Returns:
+        differences: Dictionary of score differences by language
+        significant: Dictionary indicating whether each language has a significant difference
+    """
     language_pairs = get_language_pairs(dataset, direction)
     differences = {}
+    significant = {}  # Track which differences are statistically significant
     
     # Extract languages from pairs based on direction
     if direction == "en-xx":
@@ -128,11 +136,46 @@ def calculate_differences(results, dataset, direction, metric):
         
         # Store difference
         differences[lang] = difference
+        
+        # Determine statistical significance
+        if metric == "term-acc" and "term_acc_values" in results[BASE_MODEL][dataset][lang_pair] and "term_acc_values" in results[PROMPT_MODEL][dataset][lang_pair]:
+            # Get term accuracy values (these are binary success/failure values per term)
+            base_values = results[BASE_MODEL][dataset][lang_pair]["term_acc_values"]
+            prompt_values = results[PROMPT_MODEL][dataset][lang_pair]["term_acc_values"]
+            
+            # Convert to per-sentence accuracy scores for Mann-Whitney U test
+            base_per_sentence = []
+            prompt_per_sentence = []
+            
+            for base_sent, prompt_sent in zip(base_values, prompt_values):
+                if base_sent and prompt_sent:  # Skip empty sentences
+                    base_acc = sum(base_sent) / len(base_sent) if len(base_sent) > 0 else 0
+                    prompt_acc = sum(prompt_sent) / len(prompt_sent) if len(prompt_sent) > 0 else 0
+                    
+                    base_per_sentence.append(base_acc)
+                    prompt_per_sentence.append(prompt_acc)
+            
+            # Perform statistical test if we have enough data
+            if len(base_per_sentence) >= 5 and len(prompt_per_sentence) >= 5:
+                try:
+                    u_stat, p_value = stats.mannwhitneyu(base_per_sentence, prompt_per_sentence, alternative='two-sided')
+                    significant[lang] = p_value < 0.05
+                except ValueError:
+                    # If test cannot be performed, mark as not significant
+                    significant[lang] = False
+            else:
+                significant[lang] = False
+                
+        elif metric == "chrf++":
+            # For chrF++, use a threshold of 2 points to determine significance
+            significant[lang] = abs(difference) >= 2.0
+        else:
+            significant[lang] = False
     
-    return differences
+    return differences, significant
 
-def create_difference_plot(differences, dataset, direction, metric, y_limits=None, output_dir="../figs/prompt_analysis"):
-    """Create a bar plot showing score differences"""
+def create_difference_plot(differences, significant, dataset, direction, metric, y_limits=None, output_dir="../figs/prompt_analysis"):
+    """Create a bar plot showing score differences with significance markers"""
     # Create output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
     
@@ -170,6 +213,14 @@ def create_difference_plot(differences, dataset, direction, metric, y_limits=Non
         width=0.7,
         hatch='//' if metric == "term-acc" else None
     )
+    
+    # Add significance markers (asterisks)
+    for i, lang in enumerate(ordered_langs):
+        if lang in significant and significant[lang]:
+            value = differences[lang]
+            # Position the marker above or below the bar depending on the sign
+            y_pos = value + 0.02 if value >= 0 else value - 0.04
+            ax.text(i, y_pos, '*', ha='center', va='center', fontsize=14, fontweight='bold')
     
     # Add language labels - removed rotation
     ax.set_xticks(range(len(ordered_langs)))
@@ -277,7 +328,7 @@ def generate_latex_code(filepaths):
                 latex_code += f"    \\hfill\n"
         
         # Caption and label
-        latex_code += f"    \\caption{{Difference in {metric_name} scores between GPT4o with specialized prompt and standard GPT4o for {dataset.upper()} dataset.}}\n"
+        latex_code += f"    \\caption{{Difference in {metric_name} scores between GPT4o with specialized prompt and standard GPT4o for {dataset.upper()} dataset. Asterisks (*) indicate statistically significant differences.}}\n"
         latex_code += f"    \\label{{fig:prompt_diff_{dataset}_{metric}}}\n"
         latex_code += "\\end{figure}\n\n"
     
@@ -320,26 +371,30 @@ def main():
     # First pass: calculate all differences and determine shared y-axis limits for each dataset/metric pair
     y_axis_limits = {}
     all_differences = {}
+    all_significance = {}
     
     for dataset in DATASETS:
         y_axis_limits[dataset] = {}
         all_differences[dataset] = {}
+        all_significance[dataset] = {}
         
         for metric in METRICS:
             y_axis_limits[dataset][metric] = {"min": 0, "max": 0}
             all_differences[dataset][metric] = {}
+            all_significance[dataset][metric] = {}
             
             # Calculate differences for both directions
             for direction in DIRECTIONS:
-                differences = calculate_differences(results, dataset, direction, metric)
+                differences, significant = calculate_differences_with_significance(results, dataset, direction, metric)
                 
                 # Skip if no data
                 if not differences:
                     print(f"No data for {dataset} {direction} {metric}")
                     continue
                 
-                # Store differences for later use
+                # Store differences and significance for later use
                 all_differences[dataset][metric][direction] = differences
+                all_significance[dataset][metric][direction] = significant
                 
                 # Update min/max values across both directions
                 if differences:
@@ -359,6 +414,7 @@ def main():
                     continue
                 
                 differences = all_differences[dataset][metric][direction]
+                significant = all_significance[dataset][metric][direction]
                 
                 # Get shared y-axis limits
                 y_min = y_axis_limits[dataset][metric]["min"]
@@ -370,7 +426,7 @@ def main():
                 y_max = y_max + 0.05 * y_range
                 
                 # Create plot with synchronized y-axis
-                filepath = create_difference_plot(differences, dataset, direction, metric, 
+                filepath = create_difference_plot(differences, significant, dataset, direction, metric, 
                                                  y_limits=(y_min, y_max),
                                                  output_dir=args.output_dir)
                 all_filepaths.append(filepath)
