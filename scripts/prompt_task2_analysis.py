@@ -9,7 +9,9 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from pathlib import Path
 import argparse
-from scipy import stats  # Add import for Mann-Whitney U test
+from scipy import stats
+import glob
+import re
 
 # Constants
 DATASETS = ["irs", "cfpb"]
@@ -101,9 +103,230 @@ def get_language_pairs(dataset, direction):
     else:  # xx-en
         return [f"{lang}-en" for lang in langs]
 
-def calculate_differences_with_significance(results, dataset, direction, metric):
+def perform_statistical_tests(dataset, direction, metric):
+    """
+    Perform Mann-Whitney U tests directly on model outputs
+    
+    Args:
+        dataset: Dataset name (irs or cfpb)
+        direction: Translation direction (en-xx or xx-en)
+        metric: Evaluation metric (chrf++ or term-acc)
+    
+    Returns:
+        Dict mapping language codes to significance test results (True/False)
+    """
+    print(f"\n=== Performing statistical tests for {dataset} {direction} {metric} ===")
+    
+    # Get language pairs for this dataset and direction
+    language_pairs = get_language_pairs(dataset, direction)
+    significant_results = {}
+    
+    # Extract language codes based on direction
+    if direction == "en-xx":
+        languages = [pair.split("-")[1] for pair in language_pairs]
+    else:  # xx-en
+        languages = [pair.split("-")[0] for pair in language_pairs]
+    
+    # Define model output directories
+    base_output_dir = f"../outputs/{BASE_MODEL}/{dataset}"
+    prompt_output_dir = f"../outputs/{PROMPT_MODEL}/{dataset}"
+    
+    # Process each language pair
+    for lang, lang_pair in zip(languages, language_pairs):
+        print(f"\nAnalyzing {lang_pair}...")
+        
+        # Find outputs for this language pair
+        base_outputs = sorted(glob.glob(f"{base_output_dir}/{lang_pair}*.json"))
+        prompt_outputs = sorted(glob.glob(f"{prompt_output_dir}/{lang_pair}*.json"))
+        
+        if not base_outputs or not prompt_outputs:
+            print(f"  No outputs found for {lang_pair}")
+            continue
+        
+        # Load outputs and extract scores
+        base_scores = []
+        prompt_scores = []
+        
+        # Process base model outputs
+        for output_file in base_outputs:
+            try:
+                with open(output_file, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                
+                # Extract scores based on metric
+                if metric == "term-acc":
+                    # For term accuracy, check each term in the output
+                    if "terms" in data and "translations" in data:
+                        terms = data["terms"]
+                        translations = data["translations"]
+                        
+                        if terms and translations:
+                            # Calculate term accuracy for this sentence
+                            correct_terms = 0
+                            total_terms = len(terms)
+                            
+                            if total_terms > 0:
+                                # For term accuracy, we need some custom logic to compute values
+                                # This is a simplification - real evaluation would be more complex
+                                translation_lower = translations.lower()
+                                for term in terms:
+                                    if term.lower() in translation_lower:
+                                        correct_terms += 1
+                                
+                                accuracy = correct_terms / total_terms
+                                base_scores.append(accuracy)
+                
+                elif metric == "chrf++":
+                    # For chrF++, directly extract the score if available
+                    if "chrf++" in data:
+                        base_scores.append(data["chrf++"])
+                    elif "chrF++" in data:
+                        base_scores.append(data["chrF++"])
+                    elif "scores" in data and "chrf++" in data["scores"]:
+                        base_scores.append(data["scores"]["chrf++"])
+                    
+            except Exception as e:
+                print(f"  Error processing base model output {output_file}: {e}")
+        
+        # Process prompt model outputs (similar to base model)
+        for output_file in prompt_outputs:
+            try:
+                with open(output_file, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                
+                # Extract scores based on metric (same logic as above)
+                if metric == "term-acc":
+                    if "terms" in data and "translations" in data:
+                        terms = data["terms"]
+                        translations = data["translations"]
+                        
+                        if terms and translations:
+                            correct_terms = 0
+                            total_terms = len(terms)
+                            
+                            if total_terms > 0:
+                                translation_lower = translations.lower()
+                                for term in terms:
+                                    if term.lower() in translation_lower:
+                                        correct_terms += 1
+                                
+                                accuracy = correct_terms / total_terms
+                                prompt_scores.append(accuracy)
+                
+                elif metric == "chrf++":
+                    if "chrf++" in data:
+                        prompt_scores.append(data["chrf++"])
+                    elif "chrF++" in data:
+                        prompt_scores.append(data["chrF++"])
+                    elif "scores" in data and "chrf++" in data["scores"]:
+                        prompt_scores.append(data["scores"]["chrf++"])
+                    
+            except Exception as e:
+                print(f"  Error processing prompt model output {output_file}: {e}")
+        
+        # If we couldn't extract scores using the raw outputs, try the scores file
+        if (not base_scores or not prompt_scores) and metric == "chrf++":
+            print(f"  No raw scores found, attempting to use score file for {lang_pair}")
+            # Load the score files
+            base_path = f"../results/scores_{BASE_MODEL}.json"
+            prompt_path = f"../results/scores_{PROMPT_MODEL}.json"
+            
+            try:
+                with open(base_path, "r", encoding="utf-8") as f:
+                    base_results = json.load(f)
+                with open(prompt_path, "r", encoding="utf-8") as f:
+                    prompt_results = json.load(f)
+                
+                # Extract chrF++ scores
+                if (dataset in base_results and lang_pair in base_results[dataset] and 
+                    dataset in prompt_results and lang_pair in prompt_results[dataset]):
+                    
+                    base_score = base_results[dataset][lang_pair].get("chrf++", None)
+                    prompt_score = prompt_results[dataset][lang_pair].get("chrf++", None)
+                    
+                    if base_score is not None and prompt_score is not None:
+                        # For chrF++, we'll use 2.0 point difference as significant
+                        difference = prompt_score - base_score
+                        significant_results[lang] = abs(difference) >= 2.0
+                        print(f"  Using aggregate scores: Base={base_score:.4f}, Prompt={prompt_score:.4f}")
+                        print(f"  chrF++ threshold test: |{difference:.4f}| >= 2.0 -> {significant_results[lang]}")
+                        continue
+            except Exception as e:
+                print(f"  Error loading score files: {e}")
+        
+        # Perform statistical test if we have enough data
+        if len(base_scores) >= 5 and len(prompt_scores) >= 5:
+            try:
+                print(f"  Performing Mann-Whitney U test with {len(base_scores)} base and {len(prompt_scores)} prompt samples")
+                u_stat, p_value = stats.mannwhitneyu(base_scores, prompt_scores, alternative='two-sided')
+                significant_results[lang] = p_value < 0.05
+                print(f"  Result: U={u_stat:.2f}, p={p_value:.4f}, Significant: {significant_results[lang]}")
+            except ValueError as e:
+                print(f"  Mann-Whitney U test failed: {e}")
+                significant_results[lang] = False
+        else:
+            print(f"  Not enough data for test: {len(base_scores)} base, {len(prompt_scores)} prompt")
+            # For term accuracy, fall back to comparing aggregate scores
+            if metric == "term-acc":
+                # Load the score files
+                base_path = f"../results/scores_{BASE_MODEL}.json"
+                prompt_path = f"../results/scores_{PROMPT_MODEL}.json"
+                
+                try:
+                    with open(base_path, "r", encoding="utf-8") as f:
+                        base_results = json.load(f)
+                    with open(prompt_path, "r", encoding="utf-8") as f:
+                        prompt_results = json.load(f)
+                    
+                    # Try both term_acc and term-acc formats
+                    base_score = -1
+                    prompt_score = -1
+                    
+                    if dataset in base_results and lang_pair in base_results[dataset]:
+                        base_score = base_results[dataset][lang_pair].get("term-acc", 
+                                    base_results[dataset][lang_pair].get("term_acc", -1))
+                    
+                    if dataset in prompt_results and lang_pair in prompt_results[dataset]:
+                        prompt_score = prompt_results[dataset][lang_pair].get("term-acc", 
+                                       prompt_results[dataset][lang_pair].get("term_acc", -1))
+                    
+                    if base_score != -1 and prompt_score != -1:
+                        # For term accuracy, use a difference of >= 0.10 as significant
+                        difference = prompt_score - base_score
+                        significant_results[lang] = abs(difference) >= 0.10
+                        print(f"  Using aggregate scores: Base={base_score:.4f}, Prompt={prompt_score:.4f}")
+                        print(f"  Term acc threshold test: |{difference:.4f}| >= 0.10 -> {significant_results[lang]}")
+                except Exception as e:
+                    print(f"  Error loading score files: {e}")
+            
+            # For chrF++, apply the 2-point threshold
+            elif metric == "chrf++" and base_scores and prompt_scores:
+                avg_base = sum(base_scores) / len(base_scores)
+                avg_prompt = sum(prompt_scores) / len(prompt_scores)
+                difference = avg_prompt - avg_base
+                significant_results[lang] = abs(difference) >= 2.0
+                print(f"  Using averaged samples: Base={avg_base:.4f}, Prompt={avg_prompt:.4f}")
+                print(f"  chrF++ threshold test: |{difference:.4f}| >= 2.0 -> {significant_results[lang]}")
+    
+    # Print summary of significant results
+    print("\nSignificance testing summary:")
+    for lang in significant_results:
+        sig_mark = "*" if significant_results[lang] else ""
+        print(f"  {lang}: {significant_results[lang]} {sig_mark}")
+    
+    return significant_results
+
+def calculate_differences_with_significance(results, dataset, direction, metric, use_independent_stats=False, significance_cache=None):
     """
     Calculate score differences between prompt and base models and determine statistical significance
+    
+    Args:
+        results: Dictionary of evaluation results
+        dataset: Dataset name
+        direction: Translation direction
+        metric: Evaluation metric
+        use_independent_stats: Whether to use independently computed statistical significance
+        significance_cache: Cache of precomputed statistical significance results
     
     Returns:
         differences: Dictionary of score differences by language
@@ -115,6 +338,11 @@ def calculate_differences_with_significance(results, dataset, direction, metric)
     
     print(f"\n=== Calculating differences for {dataset} {direction} {metric} ===")
     
+    # If using independent stats and we have cached results, use them
+    if use_independent_stats and significance_cache and dataset in significance_cache and direction in significance_cache[dataset] and metric in significance_cache[dataset][direction]:
+        print("Using independently computed statistical significance")
+        cached_significance = significance_cache[dataset][direction][metric]
+        
     # Extract languages from pairs based on direction
     if direction == "en-xx":
         languages = [pair.split("-")[1] for pair in language_pairs]
@@ -162,65 +390,23 @@ def calculate_differences_with_significance(results, dataset, direction, metric)
         # Store difference
         differences[lang] = difference
         
-        # Determine statistical significance
-        has_term_acc_values = False
-        base_values_key = None
-        prompt_values_key = None
-        
-        # Check if term_acc_values or term-acc_values exist
-        if metric == "term-acc":
-            for key in ["term_acc_values", "term-acc_values"]:
-                if key in results[BASE_MODEL][dataset][lang_pair]:
-                    has_term_acc_values = True
-                    base_values_key = key
-                    print(f"Found {key} in base model for {lang_pair}")
-                if key in results[PROMPT_MODEL][dataset][lang_pair]:
-                    has_term_acc_values = True
-                    prompt_values_key = key
-                    print(f"Found {key} in prompt model for {lang_pair}")
-                    
-            if has_term_acc_values and base_values_key and prompt_values_key:
-                # Get term accuracy values (these are binary success/failure values per term)
-                base_values = results[BASE_MODEL][dataset][lang_pair][base_values_key]
-                prompt_values = results[PROMPT_MODEL][dataset][lang_pair][prompt_values_key]
-                
-                # Convert to per-sentence accuracy scores for Mann-Whitney U test
-                base_per_sentence = []
-                prompt_per_sentence = []
-                
-                for base_sent, prompt_sent in zip(base_values, prompt_values):
-                    if base_sent and prompt_sent:  # Skip empty sentences
-                        base_acc = sum(base_sent) / len(base_sent) if len(base_sent) > 0 else 0
-                        prompt_acc = sum(prompt_sent) / len(prompt_sent) if len(prompt_sent) > 0 else 0
-                        
-                        base_per_sentence.append(base_acc)
-                        prompt_per_sentence.append(prompt_acc)
-                
-                # Perform statistical test if we have enough data
-                if len(base_per_sentence) >= 5 and len(prompt_per_sentence) >= 5:
-                    try:
-                        print(f"Performing Mann-Whitney U test for {lang_pair} with {len(base_per_sentence)} samples")
-                        u_stat, p_value = stats.mannwhitneyu(base_per_sentence, prompt_per_sentence, alternative='two-sided')
-                        significant[lang] = p_value < 0.05
-                        print(f"  Result: U={u_stat:.2f}, p={p_value:.4f}, Significant: {significant[lang]}")
-                    except ValueError as e:
-                        print(f"  Mann-Whitney U test failed: {e}")
-                        # If test cannot be performed, mark as not significant
-                        significant[lang] = False
-                else:
-                    print(f"  Not enough data for Mann-Whitney U test: {len(base_per_sentence)} base, {len(prompt_per_sentence)} prompt")
-                    significant[lang] = False
-            else:
-                print(f"  No term accuracy values found for {lang_pair}")
-                significant[lang] = False
-                
-        elif metric == "chrf++":
-            # For chrF++, use a threshold of 2 points to determine significance
-            significant[lang] = abs(difference) >= 2.0
-            print(f"  chrF++ threshold test: |{difference:.4f}| >= 2.0 -> {significant[lang]}")
+        # If we're using independently computed significance, get it from the cache
+        if use_independent_stats and significance_cache and dataset in significance_cache and direction in significance_cache[dataset] and metric in significance_cache[dataset][direction] and lang in significance_cache[dataset][direction][metric]:
+            significant[lang] = significance_cache[dataset][direction][metric][lang]
+            print(f"  Using independent significance test: {significant[lang]}")
         else:
-            print(f"  No significance test available for metric: {metric}")
-            significant[lang] = False
+            # Otherwise, use simple thresholds
+            if metric == "term-acc":
+                # For term accuracy, use a threshold of 0.1 (10%)
+                significant[lang] = abs(difference) >= 0.10
+                print(f"  Using simple threshold: |{difference:.4f}| >= 0.10 -> {significant[lang]}")
+            elif metric == "chrf++":
+                # For chrF++, use a threshold of 2 points
+                significant[lang] = abs(difference) >= 2.0
+                print(f"  Using simple threshold: |{difference:.4f}| >= 2.0 -> {significant[lang]}")
+            else:
+                print(f"  No significance test available for metric: {metric}")
+                significant[lang] = False
     
     # Print summary of significant differences
     print("\nSignificant differences summary:")
@@ -412,6 +598,8 @@ def parse_args():
                         help="Directory to save output figures")
     parser.add_argument("--latex", action="store_true", 
                         help="Generate LaTeX code for including figures")
+    parser.add_argument("--stats", action="store_true",
+                        help="Perform independent statistical testing on raw outputs")
     
     return parser.parse_args()
 
@@ -429,6 +617,17 @@ def main():
     if not results[BASE_MODEL] or not results[PROMPT_MODEL]:
         print("Error: Missing data for one or both models")
         return
+    
+    # If using independent statistical testing, compute it first
+    significance_cache = {}
+    if args.stats:
+        print("\n*** Computing independent statistical significance ***")
+        for dataset in DATASETS:
+            significance_cache[dataset] = {}
+            for direction in DIRECTIONS:
+                significance_cache[dataset][direction] = {}
+                for metric in METRICS:
+                    significance_cache[dataset][direction][metric] = perform_statistical_tests(dataset, direction, metric)
     
     # Track all generated filepaths
     all_filepaths = []
@@ -450,7 +649,11 @@ def main():
             
             # Calculate differences for both directions
             for direction in DIRECTIONS:
-                differences, significant = calculate_differences_with_significance(results, dataset, direction, metric)
+                differences, significant = calculate_differences_with_significance(
+                    results, dataset, direction, metric, 
+                    use_independent_stats=args.stats,
+                    significance_cache=significance_cache
+                )
                 
                 # Skip if no data
                 if not differences:
