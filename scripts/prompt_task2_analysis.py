@@ -12,7 +12,7 @@ import argparse
 
 # Constants
 DATASETS = ["irs", "cfpb"]
-METRICS = ["chrf++", "term_acc"]
+METRICS = ["chrf++", "term-acc"]
 DIRECTIONS = ["en-xx", "xx-en"]
 
 # Dataset to language mappings
@@ -46,7 +46,7 @@ LANG2SHORT = {
 # Pretty metric names
 METRIC2NAME = {
     "chrf++": "chrF++",
-    "term_acc": "Term Accuracy"
+    "term-acc": "Term Accuracy"
 }
 
 # Define models to compare
@@ -168,7 +168,7 @@ def create_difference_plot(differences, dataset, direction, metric, y_limits=Non
         edgecolor='black',
         linewidth=0.5,
         width=0.7,
-        hatch='//' if metric == "term_acc" else None  # Add hatching for term accuracy
+        hatch='//' if metric == "term-acc" else None
     )
     
     # Add language labels - removed rotation
@@ -187,7 +187,7 @@ def create_difference_plot(differences, dataset, direction, metric, y_limits=Non
     # Add y-axis label based on metric
     if metric == "chrf++":
         ax.set_ylabel("chrF++ diff")
-    else:  # term_acc
+    else:  # term-acc
         ax.set_ylabel("Term Acc diff")
     
     # Adjust layout
@@ -211,50 +211,57 @@ def generate_latex_code(filepaths):
     
     # Group filepaths by dataset and metric
     by_dataset_metric = {}
+    
+    # Simplify the parsing logic
     for filepath in filepaths:
-        # Extract components from filename
         filename = os.path.basename(filepath)
         
-        # Debug information
-        print(f"Processing file: {filename}")
+        # Quick check - expected format is gpt4o_dataset_direction_metric_diff.pdf
+        if not filename.startswith("gpt4o_") or not filename.endswith("_diff.pdf"):
+            print(f"Warning: Unexpected filename format: {filename}")
+            continue
         
-        # Extract dataset and metric directly from the filename
+        # Extract parts from the filename structure
+        parts = filename.split('_')
+        if len(parts) < 5:
+            print(f"Warning: Filename doesn't have enough parts: {filename}")
+            continue
+            
+        dataset = parts[1]
+        direction = parts[2]
+        
+        # Extract metric (might contain special characters like ++)
         if "chrf++" in filename:
             metric = "chrf++"
-        elif "term_acc" in filename:
-            metric = "term_acc"
         else:
-            print(f"Warning: Could not determine metric for {filename}")
-            continue
-            
-        if "irs" in filename:
-            dataset = "irs"
-        elif "cfpb" in filename:
-            dataset = "cfpb"
-        else:
-            print(f"Warning: Could not determine dataset for {filename}")
-            continue
-            
-        key = f"{dataset}_{metric}"
+            metric = "term-acc"
+        
+        # Use simple key
+        key = dataset + "-" + metric
+        
         if key not in by_dataset_metric:
             by_dataset_metric[key] = []
-        by_dataset_metric[key].append(filepath)
+        by_dataset_metric[key].append((direction, filepath))
     
     # Debug information
-    print(f"Grouped filepaths: {by_dataset_metric.keys()}")
+    print(f"Grouped filepaths: {list(by_dataset_metric.keys())}")
     
     # Generate LaTeX code for each group
-    for key, paths in by_dataset_metric.items():
-        dataset, metric = key.split('_')
+    for key, direction_paths in by_dataset_metric.items():
+        # Parse the simple key format
+        dataset, metric = key.split("-", 1)
         metric_name = METRIC2NAME[metric]
         
         latex_code += f"% {dataset.upper()} {metric_name} comparison\n"
         latex_code += "\\begin{figure}[t]\n"
         latex_code += "    \\centering\n"
         
+        # Sort paths to ensure en-xx comes before xx-en
+        sorted_paths = sorted(direction_paths, key=lambda x: x[0])
+        
         # Add subfigures
-        for i, path in enumerate(sorted(paths)):  # Sort to ensure en-xx comes before xx-en
-            direction = "en-xx" if "en-xx" in path else "xx-en"
+        for i, (direction, path) in enumerate(sorted_paths):
+            # Determine labels
             subfig_label = "a" if direction == "en-xx" else "b"
             direction_label = "en→xx" if direction == "en-xx" else "xx→en"
             
@@ -266,10 +273,10 @@ def generate_latex_code(filepaths):
             latex_code += f"    \\end{{subfigure}}\n"
             
             # Add space between subfigures if this is the first one
-            if i == 0 and len(paths) > 1:
+            if i == 0 and len(sorted_paths) > 1:
                 latex_code += f"    \\hfill\n"
         
-        # Caption and label - ensure consistent naming
+        # Caption and label
         latex_code += f"    \\caption{{Difference in {metric_name} scores between GPT4o with specialized prompt and standard GPT4o for {dataset.upper()} dataset.}}\n"
         latex_code += f"    \\label{{fig:prompt_diff_{dataset}_{metric}}}\n"
         latex_code += "\\end{figure}\n\n"
