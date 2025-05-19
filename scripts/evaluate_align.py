@@ -481,6 +481,232 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
         sys.stdout = orig_stdout
 
 
+def print_combined_table_latex(results_scores, stats_results=None, output_file=None):
+    """Print a combined LaTeX table for all datasets, with IRS and CFPB side by side"""
+    # Use file output if specified
+    if output_file:
+        orig_stdout = sys.stdout
+        sys.stdout = output_file
+    
+    # Build dictionary for easier access
+    results = {}
+    for model in models:
+        results[model] = {}
+        for dataset in datasets:
+            if model in results_scores and dataset in results_scores[model]:
+                results[model][dataset] = results_scores[model][dataset]
+    
+    # Table: Term Alignment Accuracy (en->xx) - Combined datasets
+    print("\n% Combined Table for Term Alignment Accuracy (en->xx)")
+    print("\\begin{table}")
+    print("\\centering")
+    
+    # Calculate column width for each dataset section - only one language column for both datasets
+    num_models = len(models)
+    # One column for language, then columns for models from both datasets
+    col_spec = "|l|" + "c|" * num_models + "c|" * num_models
+    
+    print("\\begin{tabular}{" + col_spec + "}")
+    print("\\hline")
+    
+    # Multi-column header for dataset names
+    print("\\multicolumn{1}{|c|}{} & " + 
+          "\\multicolumn{" + str(num_models) + "}{c|}{\\textbf{IRS}} & " + 
+          "\\multicolumn{" + str(num_models) + "}{c|}{\\textbf{CFPB}} \\\\")
+    print("\\hline")
+    
+    # Header row with model names (repeated for both datasets)
+    header = "Lang."
+    for model in models:
+        header += " & " + MODELSNAME2LATEX.get(model, model)
+    for model in models:
+        header += " & " + MODELSNAME2LATEX.get(model, model)
+    print(header + " \\\\")
+    print("\\hline")
+    
+    # Pre-process to get all languages with data for each dataset
+    dataset_languages = {}
+    for dataset in datasets:
+        languages_in_data = dataset2langs.get(dataset, [])
+        if not languages_in_data:
+            # Fallback to extracting languages from results if dataset not in dataset2langs
+            for model in results:
+                if dataset in results[model]:
+                    for lang_pair in results[model][dataset]:
+                        src, tgt = lang_pair.split('-')
+                        if src == 'en' and tgt not in languages_in_data and tgt != 'en':
+                            languages_in_data.append(tgt)
+        
+        # Only include languages that have data
+        dataset_languages[dataset] = []
+        for lang in sorted(languages_in_data):
+            has_data = False
+            for model in models:
+                if dataset in results[model]:
+                    direction = f"en-{lang}"
+                    if direction in results[model][dataset] and results[model][dataset][direction]["term_acc"] != -1:
+                        has_data = True
+                        break
+            if has_data:
+                dataset_languages[dataset].append(lang)
+    
+    # Get all unique languages across both datasets
+    all_languages = set()
+    for dataset in datasets:
+        all_languages.update(dataset_languages.get(dataset, []))
+    all_languages = sorted(all_languages)
+    
+    # Build rows with data from both datasets side by side, one row per language
+    for lang in all_languages:
+        row = LANGID2LATEX.get(lang, lang)  # Language column
+        
+        # Process each dataset
+        for dataset in datasets:
+            # Check if this language has data for this dataset
+            if lang in dataset_languages.get(dataset, []):
+                direction = f"en-{lang}"
+                
+                # Find best model and score for statistical significance only
+                best_model = None
+                best_score = -1
+                available_models = []
+                model_scores = {}
+                
+                for model in models:
+                    if dataset in results[model] and direction in results[model][dataset] and results[model][dataset][direction]["term_acc"] != -1:
+                        score = results[model][dataset][direction]["term_acc"]
+                        model_scores[model] = score
+                        available_models.append(model)
+                        if score > best_score:
+                            best_score = score
+                            best_model = model
+                
+                # Add scores
+                for model in models:
+                    if dataset in results[model] and direction in results[model][dataset] and results[model][dataset][direction]["term_acc"] != -1:
+                        # Add symbol for statistical significance if applicable
+                        symbol = ""
+                        if stats_results and model == best_model and len(available_models) > 1:
+                            # Check if this model is significantly better than ANY other model
+                            is_significant = False
+                            for other_model in available_models:
+                                if other_model == model:
+                                    continue
+                                
+                                comparison = f"{model}_vs_{other_model}"
+                                alt_comparison = f"{other_model}_vs_{model}" 
+                                
+                                if dataset in stats_results and comparison in stats_results[dataset]:
+                                    if direction in stats_results[dataset][comparison]:
+                                        test_result = stats_results[dataset][comparison][direction]
+                                        if test_result["significant"] and test_result["better_model"] == model:
+                                            is_significant = True
+                                            break
+                                elif dataset in stats_results and alt_comparison in stats_results[dataset]:
+                                    if direction in stats_results[dataset][alt_comparison]:
+                                        test_result = stats_results[dataset][alt_comparison][direction]
+                                        if test_result["significant"] and test_result["better_model"] == model:
+                                            is_significant = True
+                                            break
+                            
+                            if is_significant:
+                                symbol = "$^\\dagger$"  # Significant improvement
+                        
+                        # Format without bold, add significance symbol if applicable
+                        row += f" & {model_scores[model]:.2f}{symbol}"
+                    else:
+                        row += " & -"
+            else:
+                # No data for this language in this dataset
+                row += " & -" * num_models
+        
+        print(row + " \\\\")
+    
+    print("\\hline")
+    
+    # Add average row
+    avg_row = "Avg."
+    
+    # Process average for each dataset
+    for dataset in datasets:
+        languages_with_data = dataset_languages.get(dataset, [])
+        
+        # First pass for average: collect scores and find best for significance
+        model_avg_scores = {}
+        best_avg = -1
+        best_model = None
+        
+        for model in models:
+            term_acc_values = []
+            for lang in languages_with_data:
+                direction = f"en-{lang}"
+                if dataset in results[model] and direction in results[model][dataset] and results[model][dataset][direction]["term_acc"] != -1:
+                    term_acc_values.append(results[model][dataset][direction]["term_acc"])
+            
+            if term_acc_values:
+                avg_term_acc = sum(term_acc_values) / len(term_acc_values)
+                model_avg_scores[model] = avg_term_acc
+                if avg_term_acc > best_avg:
+                    best_avg = avg_term_acc
+                    best_model = model
+        
+        # Second pass for average: format averages
+        for model in models:
+            if model in model_avg_scores:
+                avg_score = model_avg_scores[model]
+                
+                # Add significance symbol if this is the best model and significantly better than others
+                symbol = ""
+                if stats_results and model == best_model and len(model_avg_scores) > 1:
+                    # Check if this model is significantly better than ANY other model
+                    # For average row, we'll check all language pairs in this dataset
+                    is_significant = False
+                    for other_model in model_avg_scores.keys():
+                        if other_model == model:
+                            continue
+                        
+                        # Check if this model is significantly better than other model for any language
+                        for lang in languages_with_data:
+                            direction = f"en-{lang}"
+                            comparison = f"{model}_vs_{other_model}"
+                            alt_comparison = f"{other_model}_vs_{model}" 
+                            
+                            if dataset in stats_results and comparison in stats_results[dataset]:
+                                if direction in stats_results[dataset][comparison]:
+                                    test_result = stats_results[dataset][comparison][direction]
+                                    if test_result["significant"] and test_result["better_model"] == model:
+                                        is_significant = True
+                                        break
+                            elif dataset in stats_results and alt_comparison in stats_results[dataset]:
+                                if direction in stats_results[dataset][alt_comparison]:
+                                    test_result = stats_results[dataset][alt_comparison][direction]
+                                    if test_result["significant"] and test_result["better_model"] == model:
+                                        is_significant = True
+                                        break
+                        
+                        if is_significant:
+                            break
+                    
+                    if is_significant:
+                        symbol = "$^\\dagger$"  # Significant improvement
+                
+                # No bold, just add symbol if applicable
+                avg_row += f" & {avg_score:.2f}{symbol}"
+            else:
+                avg_row += " & -"
+    
+    print(avg_row + " \\\\")
+    print("\\hline")
+    print("\\end{tabular}")
+    print("\\caption{Term Pair Extraction Accuracy for IRS and CFPB datasets (\\textsc{en}$\\rightarrow$\\textsc{xx}). $^\\dagger$ indicates statistically significant improvement (p < 0.05)}")
+    print("\\label{tab:combined-term-align-accuracy}")
+    print("\\end{table}")
+    
+    # Reset stdout if we redirected it
+    if output_file:
+        sys.stdout = orig_stdout
+
+
 def parse_args():
     """Parse command line arguments"""
     parser = argparse.ArgumentParser(description="Evaluate alignment models on terminology datasets")
@@ -531,19 +757,25 @@ def main():
         if stats_results is None:
             stats_results = load_statistical_tests()
         
-        # Determine which datasets to process
-        datasets_to_process = [args.dataset] if args.dataset != "all" else datasets
-        
         # Create output directory if it doesn't exist
         os.makedirs("../results_align/tables", exist_ok=True)
         
-        for dataset in datasets_to_process:
-            if dataset in datasets:  # Skip if dataset not valid
+        # Generate combined table
+        output_filepath = f"../results_align/tables/combined_table.tex"
+        with open(output_filepath, "w") as output_file:
+            print(f"Writing combined table to {output_filepath}")
+            print_combined_table_latex(results_scores, stats_results, output_file=output_file)
+        
+        print(f"Combined table written to {output_filepath}")
+        
+        # If dataset-specific tables are also requested
+        if args.dataset != "all":
+            dataset = args.dataset
+            if dataset in datasets:
                 output_filepath = f"../results_align/tables/{dataset}_tables.tex"
                 with open(output_filepath, "w") as output_file:
                     print(f"Writing tables for {dataset.upper()} dataset to {output_filepath}")
                     print_table_latex_per_dataset(results_scores, stats_results, dataset=dataset, output_file=output_file)
-                
                 print(f"Tables for {dataset.upper()} dataset written to {output_filepath}")
 
 
