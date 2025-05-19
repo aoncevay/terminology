@@ -1,4 +1,4 @@
-models = ["gpt", "llama", "mistral"]
+models = ["mistral", "gpt"] # "llama"
 datasets = ["irs", "cfpb"]
 languages = ["es", "kr", "ru", "vi", "zh_s", "zh_t", "ht"]
 
