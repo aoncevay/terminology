@@ -13,8 +13,10 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from matplotlib.patches import Patch
 
-#models = ["LLM.llama", "LLM_openai_gpt4o", "Task2_LLM_openai_gpt4o"]
-models = ["MADLAD", "NLLB", "LLM.aya", "LLM.llama", "LLM_mistral", "Task2_LLM_mistral", "LLM_openai_gpt4o", "Task2_LLM_openai_gpt4o"] #, "LLM.tower"]
+# Removed Task2_LLM variants
+models = ["MADLAD", "NLLB", "LLM.aya", "LLM.llama", "LLM_mistral", "LLM_openai_gpt4o"] 
+# Not including ++ variants to simplify the tables, and also, they are part of other analysis
+
 datasets = ["irs", "cfpb"]
 languages = ["es", "kr", "ru", "vi", "zh_s", "zh_t", "ht"]
 chrf2 = sacrebleu.CHRF(word_order=2)
@@ -45,10 +47,9 @@ MODELSNAME2LATEX = {
     "LLM.tower": "\\textsc{Tower}",
     "LLM.llama": "\\textsc{Llama3.1}",
     "LLM_mistral": "\\textsc{Mistral}",
-    "Task2_LLM_mistral": "\\textsc{Mistral++}", # ++ indicates different prompt
     # large LLM
-    "LLM_openai_gpt4o": "\\textsc{GPT4o}",
-    "Task2_LLM_openai_gpt4o": "\\textsc{GPT4o++}" # ++ indicates different prompt
+    "LLM_openai_gpt4o": "\\textsc{GPT4o}"
+    # Removed ++ variants
 }
 
 LANGID2LATEX = {
@@ -65,7 +66,7 @@ LANGID2LATEX = {
 NUM_BOOTSTRAP_SAMPLES = 1000
 CONFIDENCE_LEVEL = 0.95  # 95% confidence interval
 
-# Add model group information to help with formatting
+# Define model group information to help with formatting
 MODEL_GROUPS = {
     # MT systems
     "NLLB": "mt",
@@ -74,20 +75,12 @@ MODEL_GROUPS = {
     "LLM.aya": "small_llm",
     "LLM.llama": "small_llm",
     "LLM_mistral": "small_llm",
-    # prompt variants - small LLMs
-    "Task2_LLM_mistral": "small_llm_variant",
     # large LLM
-    "LLM_openai_gpt4o": "large_llm",
-    # prompt variants - large LLM
-    "Task2_LLM_openai_gpt4o": "large_llm_variant"
+    "LLM_openai_gpt4o": "large_llm"
+    # Removed prompt variant groups
 }
 
-# Define prompt variant pairs for specific comparisons
-PROMPT_VARIANT_PAIRS = [
-    ("LLM_mistral", "Task2_LLM_mistral"),
-    ("LLM_openai_gpt4o", "Task2_LLM_openai_gpt4o")
-]
-
+# Remove prompt variant pairs
 # Define which models to compare for the general MT vs small LLM comparison
 MT_MODELS = ["NLLB", "MADLAD"]
 SMALL_LLM_MODELS = ["LLM.aya", "LLM.llama", "LLM_mistral"]
@@ -141,9 +134,9 @@ def evaluate_all_datasets():
                     output_path = f"../output/{model}.{dataset}.{lang_pair}.json"
                     output_path_v2 = f"../output/{model}_{dataset}_{lang_pair}.json"
                     if os.path.exists(output_path) or os.path.exists(output_path_v2):
-                    if os.path.exists(output_path):
-                        with open(output_path, "r", encoding="utf-8") as f:
-                            data = json.load(f)
+                        if os.path.exists(output_path):
+                            with open(output_path, "r", encoding="utf-8") as f:
+                                data = json.load(f)
                         else:
                             with open(output_path_v2, "r", encoding="utf-8") as f:
                                 data = json.load(f)
@@ -305,6 +298,10 @@ def run_statistical_tests(results_values):
                 if i == j or model2 not in results_values or dataset not in results_values[model2]:
                     continue
                     
+                # Skip if both models are not in COMPARABLE_MODELS (skip GPT4o comparisons)
+                if model1 not in COMPARABLE_MODELS and model2 not in COMPARABLE_MODELS:
+                    continue
+                    
                 comparison = f"{model1}_vs_{model2}"
                 stats_results[dataset][comparison] = {}
                 
@@ -326,15 +323,9 @@ def run_statistical_tests(results_values):
                         p_value, mean_diff, ci_low, ci_high = bootstrap_term_accuracy(values1, values2)
                         
                         if p_value is not None:
-                            # Determine the comparison type
+                            # Determine the comparison type - simplify to just mt_vs_llm
                             comparison_type = "general"
                             
-                            # Check if this is a prompt variant comparison
-                            for var1, var2 in PROMPT_VARIANT_PAIRS:
-                                if (model1 == var1 and model2 == var2) or (model1 == var2 and model2 == var1):
-                                    comparison_type = "prompt_variant"
-                                    break
-                                    
                             # Check if this is an MT vs small LLM comparison
                             if (model1 in MT_MODELS and model2 in SMALL_LLM_MODELS) or \
                                (model1 in SMALL_LLM_MODELS and model2 in MT_MODELS):
@@ -382,11 +373,11 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     languages_in_data = dataset2langs.get(dataset, [])
     if not languages_in_data:
         # Fallback to extracting languages from results if dataset not in dataset2langs
-    for model in results:
-        for lang_pair in results[model]:
-            src, tgt = lang_pair.split('-')
+        for model in results:
+            for lang_pair in results[model]:
+                src, tgt = lang_pair.split('-')
                 if src == 'en' and tgt not in languages_in_data and tgt != 'en':
-                languages_in_data.append(tgt)
+                    languages_in_data.append(tgt)
     
     languages_in_data = sorted(languages_in_data)
     
@@ -450,15 +441,15 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     print("\\begin{table*}")
     print("\\centering")
     
-    # Use the exact specified column separator pattern
-    col_spec = "|l||c|c||c|c|cc||cc|"
+    # Update the column specification
+    col_spec = "|l||c|c||c|c|c||c|"
     
     print("\\begin{tabular}{" + col_spec + "}")
     print("\\hline")
     
     # Header row
     header = "Lang."
-        for model in models:
+    for model in models:
         header += " & " + MODELSNAME2LATEX.get(model, model)
     print(header + " \\\\")
     print("\\hline")
@@ -479,12 +470,12 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
             
             # chrF++ scores - no bold formatting
             for model in models:
-            lang_pair = f"en-{lang}"
-            if model in results and lang_pair in results[model] and results[model][lang_pair]["chrf++"] != -1:
+                lang_pair = f"en-{lang}"
+                if model in results and lang_pair in results[model] and results[model][lang_pair]["chrf++"] != -1:
                     score = results[model][lang_pair]["chrf++"]
                     row += f" & {score:.2f}"
-            else:
-                row += " & -"
+                else:
+                    row += " & -"
         
             print(row + " \\\\")
     
@@ -524,7 +515,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     
     # Header row
     header = "Lang."
-        for model in models:
+    for model in models:
         header += " & " + MODELSNAME2LATEX.get(model, model)
     print(header + " \\\\")
     print("\\hline")
@@ -549,42 +540,22 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
             # Term accuracy scores with statistical significance markers
             for model in models:
                 lang_pair = f"en-{lang}"
-            if model in results and lang_pair in results[model] and results[model][lang_pair]["term_acc"] != -1:
+                if model in results and lang_pair in results[model] and results[model][lang_pair]["term_acc"] != -1:
                     score = results[model][lang_pair]["term_acc"]
                     
                     # Check for statistical significance markers
-                    prompt_variant_symbol = ""
                     best_model_symbol = ""
                     
                     if stats_results:
-                        # Check for prompt variant significance
-                        for var1, var2 in PROMPT_VARIANT_PAIRS:
-                            if model == var1 or model == var2:
-                                other_model = var2 if model == var1 else var1
-                                
-                                # Determine which comparison to look for
-                                comparison = f"{model}_vs_{other_model}"
-                                alt_comparison = f"{other_model}_vs_{model}"
-                                
-                                if comparison in stats_results.get(dataset, {}) and lang_pair in stats_results[dataset][comparison]:
-                        test_result = stats_results[dataset][comparison][lang_pair]
-                                    if test_result["significant"] and test_result["better_model"] == model:
-                                        prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
-                                        
-                                elif alt_comparison in stats_results.get(dataset, {}) and lang_pair in stats_results[dataset][alt_comparison]:
-                                    test_result = stats_results[dataset][alt_comparison][lang_pair]
-                                    if test_result["significant"] and test_result["better_model"] == model:
-                                        prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
-                        
                         # Check if this model is the best among comparable models (MT and small LLMs) and is significantly better
-                        # Only add asterisk for models in the comparable group (not prompt variants)
+                        # Only add asterisk for models in the comparable group 
                         if model in COMPARABLE_MODELS and comparable_models_with_data:
                             if is_best_in_group(model, comparable_models_with_data, lang_pair, "term_acc") and \
                                is_significantly_better_than_second_best(model, comparable_models_with_data, lang_pair, stats_results):
                                 best_model_symbol = "$^*$"  # Asterisk for best model among MT and small LLMs
                     
                     # Format without bold, add significance symbols if applicable
-                    row += f" & {score:.2f}{prompt_variant_symbol}{best_model_symbol}"
+                    row += f" & {score:.2f}{best_model_symbol}"
             else:
                 row += " & -"
                 
@@ -597,7 +568,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
         # Calculate average scores for each model
         model_avg_scores = {}
         
-    for model in models:
+        for model in models:
             term_acc_values = []
             for lang in languages_with_data:
                 lang_pair = f"en-{lang}"
@@ -642,17 +613,9 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                 avg_score = model_avg_scores[model]
                 
                 # Check for statistical significance in average
-                prompt_variant_symbol = ""
                 best_model_symbol = ""
                 
                 if stats_results:
-                    # Check for prompt variant significance in average
-                    for var1, var2 in PROMPT_VARIANT_PAIRS:
-                        if model == var1 or model == var2:
-                            other_model = var2 if model == var1 else var1
-                            if other_model in model_avg_scores and is_significantly_better_on_average(model, other_model, stats_results):
-                                prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
-                    
                     # Check for best model among comparable models significance in average
                     if model in COMPARABLE_MODELS and comparable_models_with_avg:
                         if model == max(comparable_models_with_avg, key=lambda m: model_avg_scores[m]) and len(comparable_models_with_avg) > 1:
@@ -662,14 +625,14 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                                 best_model_symbol = "$^*$"  # Asterisk for best model among MT and small LLMs
                 
                 # Format without bold, add significance symbols
-                avg_row += f" & {avg_score:.2f}{prompt_variant_symbol}{best_model_symbol}"
+                avg_row += f" & {avg_score:.2f}{best_model_symbol}"
             else:
                 avg_row += " & -"
         
         print(avg_row + " \\\\")
     print("\\hline")
     print("\\end{tabular}")
-    print("\\caption{Term Accuracy Scores for " + dataset.upper() + " dataset (\\textsc{en}$\\rightarrow$\\textsc{xx}). $^\\dagger$ indicates significant improvement over prompt variant, $^*$ indicates significant improvement over other comparable models (MT systems and small LLMs)}")
+    print("\\caption{Term Accuracy Scores for " + dataset.upper() + " dataset (\\textsc{en}$\\rightarrow$\\textsc{xx}). $^*$ indicates significant improvement over other comparable models (MT systems and small LLMs)}")
     print("\\label{tab:" + dataset + "-en-to-xx-term}")
     print("\\end{table*}")
     
@@ -684,14 +647,14 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     
     # Header row
     header = "Lang."
-        for model in models:
+    for model in models:
         header += " & " + MODELSNAME2LATEX.get(model, model)
     print(header + " \\\\")
     print("\\hline")
     
     # Data rows - only include languages that have data
     languages_with_data = []
-        for lang in languages_in_data:
+    for lang in languages_in_data:
         has_data = False
         for model in models:
             lang_pair = f"{lang}-en"
@@ -723,14 +686,14 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
             chrf_values = []
             for lang in languages_with_data:
                 lang_pair = f"{lang}-en"
-            if model in results and lang_pair in results[model] and results[model][lang_pair]["chrf++"] != -1:
-                chrf_values.append(results[model][lang_pair]["chrf++"])
+                if model in results and lang_pair in results[model] and results[model][lang_pair]["chrf++"] != -1:
+                    chrf_values.append(results[model][lang_pair]["chrf++"])
         
         if chrf_values:
             avg_chrf = sum(chrf_values) / len(chrf_values)
-                avg_row += f" & {avg_chrf:.2f}"
+            avg_row += f" & {avg_chrf:.2f}"
         else:
-                avg_row += " & -"
+            avg_row += " & -"
         
         print(avg_row + " \\\\")
     print("\\hline")
@@ -757,7 +720,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     
     # Data rows - only include languages that have data
     languages_with_data = []
-        for lang in languages_in_data:
+    for lang in languages_in_data:
         has_data = False
         for model in models:
             lang_pair = f"{lang}-en"
@@ -774,45 +737,25 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
             
             # Term accuracy scores with statistical significance markers
             for model in models:
-            lang_pair = f"{lang}-en"
+                lang_pair = f"{lang}-en"
                 if model in results and lang_pair in results[model] and results[model][lang_pair]["term_acc"] != -1:
                     score = results[model][lang_pair]["term_acc"]
                     
                     # Check for statistical significance markers
-                    prompt_variant_symbol = ""
                     best_model_symbol = ""
                     
                     if stats_results:
-                        # Check for prompt variant significance
-                        for var1, var2 in PROMPT_VARIANT_PAIRS:
-                            if model == var1 or model == var2:
-                                other_model = var2 if model == var1 else var1
-                                
-                                # Determine which comparison to look for
-                                comparison = f"{model}_vs_{other_model}"
-                                alt_comparison = f"{other_model}_vs_{model}"
-                                
-                                if comparison in stats_results.get(dataset, {}) and lang_pair in stats_results[dataset][comparison]:
-                                    test_result = stats_results[dataset][comparison][lang_pair]
-                                    if test_result["significant"] and test_result["better_model"] == model:
-                                        prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
-                                        
-                                elif alt_comparison in stats_results.get(dataset, {}) and lang_pair in stats_results[dataset][alt_comparison]:
-                                    test_result = stats_results[dataset][alt_comparison][lang_pair]
-                                    if test_result["significant"] and test_result["better_model"] == model:
-                                        prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
-                        
                         # Check if this model is the best among comparable models (MT and small LLMs) and is significantly better
-                        # Only add asterisk for models in the comparable group (not prompt variants)
+                        # Only add asterisk for models in the comparable group 
                         if model in COMPARABLE_MODELS and comparable_models_with_data:
                             if is_best_in_group(model, comparable_models_with_data, lang_pair, "term_acc") and \
                                is_significantly_better_than_second_best(model, comparable_models_with_data, lang_pair, stats_results):
                                 best_model_symbol = "$^*$"  # Asterisk for best model among MT and small LLMs
                     
                     # Format without bold, add significance symbols if applicable
-                    row += f" & {score:.2f}{prompt_variant_symbol}{best_model_symbol}"
-        else:
-                    row += " & -"
+                    row += f" & {score:.2f}{best_model_symbol}"
+            else:
+                row += " & -"
                     
             print(row + " \\\\")
         
@@ -824,14 +767,14 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
         model_avg_scores = {}
         
         for model in models:
-        term_acc_values = []
+            term_acc_values = []
             for lang in languages_with_data:
-            lang_pair = f"{lang}-en"
-            if model in results and lang_pair in results[model] and results[model][lang_pair]["term_acc"] != -1:
-                term_acc_values.append(results[model][lang_pair]["term_acc"])
-        
-        if term_acc_values:
-            avg_term_acc = sum(term_acc_values) / len(term_acc_values)
+                lang_pair = f"{lang}-en"
+                if model in results and lang_pair in results[model] and results[model][lang_pair]["term_acc"] != -1:
+                    term_acc_values.append(results[model][lang_pair]["term_acc"])
+            
+            if term_acc_values:
+                avg_term_acc = sum(term_acc_values) / len(term_acc_values)
                 model_avg_scores[model] = avg_term_acc
         
         # Get comparable models with average scores
@@ -843,17 +786,9 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                 avg_score = model_avg_scores[model]
                 
                 # Check for statistical significance in average
-                prompt_variant_symbol = ""
                 best_model_symbol = ""
                 
                 if stats_results:
-                    # Check for prompt variant significance in average
-                    for var1, var2 in PROMPT_VARIANT_PAIRS:
-                        if model == var1 or model == var2:
-                            other_model = var2 if model == var1 else var1
-                            if other_model in model_avg_scores and is_significantly_better_on_average(model, other_model, stats_results):
-                                prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
-                    
                     # Check for best model among comparable models significance in average
                     if model in COMPARABLE_MODELS and comparable_models_with_avg:
                         if model == max(comparable_models_with_avg, key=lambda m: model_avg_scores[m]) and len(comparable_models_with_avg) > 1:
@@ -863,14 +798,14 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                                 best_model_symbol = "$^*$"  # Asterisk for best model among MT and small LLMs
                 
                 # Format without bold, add significance symbols
-                avg_row += f" & {avg_score:.2f}{prompt_variant_symbol}{best_model_symbol}"
-        else:
+                avg_row += f" & {avg_score:.2f}{best_model_symbol}"
+            else:
                 avg_row += " & -"
-    
+        
         print(avg_row + " \\\\")
     print("\\hline")
     print("\\end{tabular}")
-    print("\\caption{Term Accuracy Scores for " + dataset.upper() + " dataset (\\textsc{xx}$\\rightarrow$\\textsc{en}). $^\\dagger$ indicates significant improvement over prompt variant, $^*$ indicates significant improvement over other comparable models (MT systems and small LLMs)}")
+    print("\\caption{Term Accuracy Scores for " + dataset.upper() + " dataset (\\textsc{xx}$\\rightarrow$\\textsc{en}). $^*$ indicates significant improvement over other comparable models (MT systems and small LLMs)}")
     print("\\label{tab:" + dataset + "-xx-to-en-term}")
     print("\\end{table*}")
     
