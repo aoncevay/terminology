@@ -441,8 +441,8 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     print("\\begin{table*}")
     print("\\centering")
     
-    # Update the column specification - fix double bars that might be causing extra column
-    col_spec = "|l|c|c|c|c|c|c|"
+    # Update the column specification - with double vertical bars for formatting
+    col_spec = "|l||c|c||c|c|c||c|"
     
     print("\\begin{tabular}{" + col_spec + "}")
     print("\\hline")
