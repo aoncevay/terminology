@@ -661,17 +661,23 @@ def create_boxplots_by_category(accuracy_by_category, between_models_significanc
                         # More selective condition for placing markers below
                         # Only place below if:
                         # 1. Upper position is extremely high (>95% of plot height), or
-                        # 2. This is a high-accuracy model like GPT4o AND the upper whisker is very high
+                        # 2. This is a high-accuracy model like GPT4o AND the upper whisker is very high, or
+                        # 3. The model is Mistral and this specific marker would be too high
                         place_below = False
                         
-                        # Check if this is an extremely high-accuracy model
-                        high_accuracy_model = model in ["LLM_openai_gpt4o"] or whisker_positions[category][i] > 0.95
+                        # Define which models may need special placement
+                        high_accuracy_models = ["LLM_openai_gpt4o"]
+                        special_case_models = ["LLM_mistral"]
                         
+                        # Check for different conditions that would trigger below placement
                         if upper_symbol_height > y_max * 0.95:
                             # Extreme case - always place below
                             place_below = True
-                        elif high_accuracy_model and whisker_positions[category][i] > 0.9:
+                        elif model in high_accuracy_models and whisker_positions[category][i] > 0.9:
                             # High-accuracy model with whisker very high
+                            place_below = True
+                        elif model in special_case_models and upper_symbol_height > y_max * 0.92:
+                            # Special handling for models like Mistral with specific markers that would be too high
                             place_below = True
                         
                         if place_below:
