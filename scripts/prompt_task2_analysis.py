@@ -169,18 +169,18 @@ def create_difference_plot(differences, dataset, direction, metric, output_dir="
         hatch='//' if metric == "term_acc" else None  # Add hatching for term accuracy
     )
     
-    # Add language labels
+    # Add language labels - removed rotation
     ax.set_xticks(range(len(languages)))
-    ax.set_xticklabels([LANG2SHORT[lang] for lang in languages], rotation=45, ha='right')
+    ax.set_xticklabels([LANG2SHORT[lang] for lang in languages])
     
     # Add zero reference line
     ax.axhline(y=0, color='green', linestyle='-', linewidth=1)
     
-    # Add BPE or percentage label depending on the metric
+    # Add summary label depending on the metric
     if metric == "chrf++":
         ax.text(
             0.98, 0.98, 
-            f"BPEs = {sum(values):.2f}", 
+            f"Sum = {sum(values):.2f}", 
             transform=ax.transAxes,
             ha='right', va='top',
             color='green',
@@ -205,21 +205,17 @@ def create_difference_plot(differences, dataset, direction, metric, output_dir="
     
     # Add y-axis label based on metric
     if metric == "chrf++":
-        ax.set_ylabel("chrF diff")
+        ax.set_ylabel("chrF++ diff")
     else:  # term_acc
         ax.set_ylabel("Term Acc diff")
     
     # Adjust layout
     plt.tight_layout()
     
-    # Save figure
-    filename = f"{dataset}_{direction}_{metric}_diff.pdf"
+    # Save figure - PDF only with model name prefix
+    filename = f"gpt4o_{dataset}_{direction}_{metric}_diff.pdf"
     filepath = os.path.join(output_dir, filename)
     plt.savefig(filepath, bbox_inches='tight', dpi=300)
-    
-    # Also save as PNG for quick preview
-    png_filepath = os.path.join(output_dir, f"{dataset}_{direction}_{metric}_diff.png")
-    plt.savefig(png_filepath, bbox_inches='tight', dpi=150)
     
     print(f"Saved plot to {filepath}")
     
@@ -271,8 +267,8 @@ def generate_latex_code(filepaths):
             if i == 0 and len(paths) > 1:
                 latex_code += f"    \\hfill\n"
         
-        # Caption and label
-        latex_code += f"    \\caption{{Difference in {metric_name} scores between GPT4o++ and GPT4o for {dataset.upper()} dataset.}}\n"
+        # Caption and label - ensure consistent naming
+        latex_code += f"    \\caption{{Difference in {metric_name} scores between GPT4o with specialized prompt and standard GPT4o for {dataset.upper()} dataset.}}\n"
         latex_code += f"    \\label{{fig:prompt_diff_{dataset}_{metric}}}\n"
         latex_code += "\\end{figure}\n\n"
     
