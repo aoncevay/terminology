@@ -16,6 +16,13 @@ DATASETS = ["irs", "cfpb"]
 METRICS = ["chrf++", "term-acc"]
 DIRECTIONS = ["en-xx", "xx-en"]
 
+# Mapping between different formats of metric names (for backward compatibility)
+METRIC_MAPPING = {
+    "term_acc": "term-acc",
+    "term-acc": "term-acc",
+    "chrf++": "chrf++"
+}
+
 # Dataset to language mappings
 DATASET2LANGS = {
     "irs": ["es", "kr", "ru", "vi", "zh_s", "zh_t", "ht"],
@@ -123,8 +130,19 @@ def calculate_differences_with_significance(results, dataset, direction, metric)
             continue
         
         # Get scores for both models
+        # Check for both term_acc and term-acc formats
+        base_score = -1
+        prompt_score = -1
+        
+        # Try to get the score using the current metric name
         base_score = results[BASE_MODEL][dataset][lang_pair].get(metric, -1)
         prompt_score = results[PROMPT_MODEL][dataset][lang_pair].get(metric, -1)
+        
+        # If score not found, try alternative format (term_acc instead of term-acc)
+        if base_score == -1 and metric == "term-acc":
+            base_score = results[BASE_MODEL][dataset][lang_pair].get("term_acc", -1)
+        if prompt_score == -1 and metric == "term-acc":
+            prompt_score = results[PROMPT_MODEL][dataset][lang_pair].get("term_acc", -1)
         
         # Skip if invalid scores
         if base_score == -1 or prompt_score == -1:
@@ -138,10 +156,11 @@ def calculate_differences_with_significance(results, dataset, direction, metric)
         differences[lang] = difference
         
         # Determine statistical significance
-        if metric == "term-acc" and "term_acc_values" in results[BASE_MODEL][dataset][lang_pair] and "term_acc_values" in results[PROMPT_MODEL][dataset][lang_pair]:
+        if metric == "term-acc" and ("term_acc_values" in results[BASE_MODEL][dataset][lang_pair] or "term-acc_values" in results[BASE_MODEL][dataset][lang_pair]) and ("term_acc_values" in results[PROMPT_MODEL][dataset][lang_pair] or "term-acc_values" in results[PROMPT_MODEL][dataset][lang_pair]):
             # Get term accuracy values (these are binary success/failure values per term)
-            base_values = results[BASE_MODEL][dataset][lang_pair]["term_acc_values"]
-            prompt_values = results[PROMPT_MODEL][dataset][lang_pair]["term_acc_values"]
+            # Try both formats of the key (term_acc_values or term-acc_values)
+            base_values = results[BASE_MODEL][dataset][lang_pair].get("term_acc_values", results[BASE_MODEL][dataset][lang_pair].get("term-acc_values", []))
+            prompt_values = results[PROMPT_MODEL][dataset][lang_pair].get("term_acc_values", results[PROMPT_MODEL][dataset][lang_pair].get("term-acc_values", []))
             
             # Convert to per-sentence accuracy scores for Mann-Whitney U test
             base_per_sentence = []
@@ -213,24 +232,20 @@ def create_difference_plot(differences, significant, dataset, direction, metric,
         width=0.7
     )
     
-    # Add significance markers (asterisks) inside the bars
+    # Add significance markers (asterisks) inside the bars - now all black
     for i, lang in enumerate(ordered_langs):
         if lang in significant and significant[lang]:
             value = differences[lang]
             # Position the marker in the middle of the bar (vertically)
             y_pos = value / 2  # Middle of the bar
             
-            # Use white or black text based on the bar's height for better contrast
             # For very short bars, place the asterisk just above or below
             if abs(value) < 0.05:  # If the bar is very small
                 y_pos = 0.05 if value >= 0 else -0.05
-                color = 'black'
-            else:
-                # Use white for better contrast on colored bars
-                color = 'white'
-                
+            
+            # Use black for all stars for better visibility and consistency
             ax.text(i, y_pos, '*', ha='center', va='center', fontsize=14, 
-                   fontweight='bold', color=color)
+                   fontweight='bold', color='black')
     
     # Add language labels - removed rotation
     ax.set_xticks(range(len(ordered_langs)))
