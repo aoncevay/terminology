@@ -984,14 +984,14 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                     if len(fliers.get_data()[1]) > 0:  # If there are outliers
                         outliers_by_position[i+1] = fliers.get_data()[1]  # Store outlier y-positions
                 
-                # Get lower box positions for clash detection
-                lower_box_positions = {}
-                for i, box in enumerate(boxplot['boxes']):
-                    box_path = box.get_path()
-                    # Extract the y coordinates of the box path
-                    box_coords = box_path.vertices
-                    y_coords = box_coords[:, 1]  # All y coordinates
-                    lower_box_positions[i+1] = min(y_coords)  # Lowest point of the box
+                # Get lower whisker positions for clash detection
+                whisker_ends = {}
+                for i, whisker in enumerate(boxplot['whiskers']):
+                    # Whiskers come in pairs (upper and lower)
+                    if i % 2 == 1:  # Lower whisker (odd indices)
+                        box_pos = (i // 2) + 1
+                        whisker_data = whisker.get_data()
+                        whisker_ends[box_pos] = whisker_data[1][1]  # Y-coordinate of whisker end
                 
                 # Add language labels for best and worst performers
                 for i, ((best_score, best_lang), (worst_score, worst_lang)) in enumerate(zip(best_langs, worst_langs)):
@@ -1015,32 +1015,35 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                         if any(abs(worst_score - outlier) < 1e-5 for outlier in outlier_values):
                             is_outlier = True
                     
-                    # For outliers at the bottom, position the label above the circle ONLY if it won't clash with the box
+                    # For outliers, default to placing labels below the point
+                    # Only place above if there's a large gap between whisker and outlier
                     if is_outlier:
-                        # Calculate the position if we place the label above the outlier
-                        label_position_above = worst_score + y_offset
+                        # Always place labels below outliers by default
+                        place_above = False
                         
-                        # Check if this position would clash with the box
-                        would_clash = False
-                        if box_pos in lower_box_positions:
-                            # Get the lowest point of the box
-                            box_lower = lower_box_positions[box_pos]
-                            
-                            # Calculate the approximate height of the text (rough estimate)
-                            text_height_estimate = 1.0 if metric == "chrf++" else 0.01
-                            
-                            # Check if there's enough space between the outlier and the box
-                            if (box_lower - label_position_above) < text_height_estimate:
-                                would_clash = True
+                        # Only consider placing above if there's a significant gap
+                        if box_pos in whisker_ends:
+                            whisker_end = whisker_ends[box_pos]
+                            # Only place above if outlier is very far from whisker (more than 25% of the plotting range)
+                            gap_factor = 0.25
+                            if metric == "chrf++":
+                                # For chrF++, y-range is 0-85
+                                min_gap_needed = 85 * gap_factor
+                            else:
+                                # For term_acc, y-range is 0-1.0
+                                min_gap_needed = 1.0 * gap_factor
+                                
+                            if (whisker_end - worst_score) > min_gap_needed:
+                                place_above = True
                         
-                        if not would_clash:
-                            # If no clash, place label above the outlier point
-                            ax.text(box_pos, label_position_above, 
+                        if place_above:
+                            # Place label above the outlier point
+                            ax.text(box_pos, worst_score + y_offset, 
                                    LANGID2LATEX.get(worst_lang, worst_lang).replace("\\textsc{", "").replace("}", ""),
                                    horizontalalignment='center', verticalalignment='bottom', 
                                    fontsize=12, fontstyle='italic')
                         else:
-                            # If clash would occur, place label below as usual
+                            # Place label below as usual
                             ax.text(box_pos, worst_score - y_offset, 
                                    LANGID2LATEX.get(worst_lang, worst_lang).replace("\\textsc{", "").replace("}", ""),
                                    horizontalalignment='center', verticalalignment='top', 
@@ -1051,7 +1054,7 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                                LANGID2LATEX.get(worst_lang, worst_lang).replace("\\textsc{", "").replace("}", ""),
                                horizontalalignment='center', verticalalignment='top', 
                                fontsize=12, fontstyle='italic')
-                    
+                
                 # Add asterisks for statistical significance ONLY for term_acc metric
                 if stats_results and metric == "term_acc":
                     # Check if model is significantly better than others
