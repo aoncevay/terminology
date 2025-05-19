@@ -542,7 +542,7 @@ def create_boxplots_by_category(accuracy_by_category, between_models_significanc
                         whisker_positions[category].append(0.6)  # Default if no data
             
             # Calculate a more moderate vertical margin
-            vertical_margin = (y_max - 0) * 0.06  # Return to a smaller margin (6%)
+            vertical_margin = (y_max - 0) * 0.08  # Slightly increased base margin (8%)
             
             # For each model, check and mark significant differences
             for i, model in enumerate(models_list):
@@ -659,14 +659,26 @@ def create_boxplots_by_category(accuracy_by_category, between_models_significanc
                         # Base vertical margin
                         marker_margin = vertical_margin
                         
-                        # Add additional margin for specific cases that need more space
-                        # Specifically for the middle categories in en-xx direction that might have overlapping issues
-                        if direction == "en-xx" and category == "DC" and model != "LLM_openai_gpt4o":
-                            # Extra padding for Domain-Contextual categories in en-xx direction
-                            marker_margin = vertical_margin * 1.5
+                        # Precise handling for whisker overlapping cases
+                        # Check if marker would be too close to a whisker or outlier
+                        whisker_pos = whisker_positions[category][i]
+                        
+                        # Problem case: When a whisker is within a certain range where markers tend to overlap
+                        if 0.6 < whisker_pos < 0.85:
+                            # These cases need more space to avoid overlap
+                            marker_margin = vertical_margin * 2.0
+                        
+                        # Add additional margin for specific problem cases
+                        if direction == "en-xx" and category in ["DC", "G"]:
+                            # Extra padding for middle/right categories in en-xx direction
+                            marker_margin *= 1.5
+                            
+                        # GPT4o-specific adjustments to avoid its markers from being too close
+                        if model == "LLM_openai_gpt4o" and category != "DC":
+                            marker_margin *= 1.2
                         
                         # Calculate final position with appropriate margin
-                        upper_symbol_height = whisker_positions[category][i] + marker_margin + (y_max * 0.01)
+                        upper_symbol_height = whisker_positions[category][i] + marker_margin
                         
                         # More selective condition for placing markers below
                         # Only place below if:
