@@ -928,7 +928,13 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                             available_langs.add(lang)
                     
                     if scores:  # Only include model if it has data
-                        data_by_model[model] = {"scores": scores, "langs": langs}
+                        # Store scores with their corresponding languages
+                        scores_with_langs = list(zip(scores, langs))
+                        data_by_model[model] = {
+                            "scores": scores,
+                            "langs": langs,
+                            "scores_with_langs": scores_with_langs
+                        }
                 
                 # Skip if no data
                 if not data_by_model:
@@ -941,6 +947,8 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                 boxplot_data = []
                 model_names = []
                 colors = []
+                best_langs = []  # Track best lang for each model
+                worst_langs = []  # Track worst lang for each model
                 
                 for model in BASELINE_MODELS:
                     if model in data_by_model:
@@ -948,6 +956,14 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                         # Clean model names (remove LaTeX formatting)
                         model_names.append(MODELSNAME2LATEX.get(model, model).replace("\\textsc{", "").replace("}", ""))
                         colors.append(COLOR_MAP.get(model, "gray"))
+                        
+                        # Find best and worst languages for this model
+                        scores_with_langs = data_by_model[model]["scores_with_langs"]
+                        best_score_with_lang = max(scores_with_langs, key=lambda x: x[0])
+                        worst_score_with_lang = min(scores_with_langs, key=lambda x: x[0])
+                        
+                        best_langs.append((best_score_with_lang[0], best_score_with_lang[1]))
+                        worst_langs.append((worst_score_with_lang[0], worst_score_with_lang[1]))
                 
                 # Create the boxplot with thicker lines for mean
                 boxplot = ax.boxplot(boxplot_data, patch_artist=True, widths=0.5, meanprops={'linewidth': 2})
@@ -961,9 +977,29 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                 for median in boxplot['medians']:
                     median.set_linewidth(2.0)
                     median.set_color('black')
+                
+                # Add language labels for best and worst performers
+                for i, ((best_score, best_lang), (worst_score, worst_lang)) in enumerate(zip(best_langs, worst_langs)):
+                    # Position calculations - slightly offset from the whiskers
+                    box_pos = i + 1  # Boxplot positions are 1-indexed
                     
-                # Add asterisks for statistical significance (if stats_results provided)
-                if stats_results:
+                    # Calculate offset based on the y-axis range
+                    y_offset = 2.0 if metric == "chrf++" else 0.02
+                    
+                    # Add best language with small font above the top whisker
+                    ax.text(box_pos, best_score + y_offset, 
+                           LANGID2LATEX.get(best_lang, best_lang).replace("\\textsc{", "").replace("}", ""),
+                           horizontalalignment='center', verticalalignment='bottom', 
+                           fontsize=8, color='gray', style='italic')
+                    
+                    # Add worst language with small font below the bottom whisker
+                    ax.text(box_pos, worst_score - y_offset, 
+                           LANGID2LATEX.get(worst_lang, worst_lang).replace("\\textsc{", "").replace("}", ""),
+                           horizontalalignment='center', verticalalignment='top', 
+                           fontsize=8, color='gray', style='italic')
+                    
+                # Add asterisks for statistical significance ONLY for term_acc metric
+                if stats_results and metric == "term_acc":
                     # Check if model is significantly better than others
                     for i, model in enumerate(BASELINE_MODELS):
                         if model not in data_by_model:
@@ -1014,14 +1050,16 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                                 if is_significant:
                                     break
                         
-                        # Add asterisk if significant
+                        # Position asterisk above the best language label
                         if is_significant:
-                            ax.text(i + 1, max(data_by_model[model]["scores"]) + 0.02, "*",
+                            best_score = best_langs[i][0]
+                            # Use consistent offset for asterisk (above the language label)
+                            asterisk_offset = 4.0 if metric == "chrf++" else 0.04
+                            ax.text(i + 1, best_score + asterisk_offset, "*",
                                    horizontalalignment='center', fontsize=20, fontweight='bold')
                 
                 # Set only necessary labels
                 metric_name = "chrF++" if metric == "chrf++" else "Term Accuracy"
-                dir_name = "EN→XX" if direction == "en-xx" else "XX→EN"
                 
                 # Set only the y-axis label
                 ax.set_ylabel(metric_name, fontsize=14)
@@ -1029,14 +1067,11 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                 # Set x-tick labels horizontal (no rotation)
                 ax.set_xticklabels(model_names, fontsize=12)
                 
-                # Adjust the y-axis limits for better visualization
-                if metric == "term_acc":
-                    plt.ylim(0, 1.05)  # Term accuracy is between 0 and 1
-                else:
-                    all_scores = [score for model_data in data_by_model.values() for score in model_data["scores"]]
-                    if all_scores:
-                        max_score = max(all_scores)
-                        plt.ylim(0, max_score * 1.1)  # Add 10% padding to the top
+                # Set fixed y-axis limits based on metric
+                if metric == "chrf++":
+                    plt.ylim(0, 85)  # Fixed range for chrF++ plots
+                else:  # term_acc
+                    plt.ylim(0, 1.0)  # Fixed range for term accuracy plots
                 
                 # Adjust layout and save
                 plt.tight_layout()
