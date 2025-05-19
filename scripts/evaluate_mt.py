@@ -978,6 +978,12 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                     median.set_linewidth(2.0)
                     median.set_color('black')
                 
+                # Get flier (outlier) positions for all models
+                outliers_by_position = {}
+                for i, fliers in enumerate(boxplot['fliers']):
+                    if len(fliers.get_data()[1]) > 0:  # If there are outliers
+                        outliers_by_position[i+1] = fliers.get_data()[1]  # Store outlier y-positions
+                
                 # Add language labels for best and worst performers
                 for i, ((best_score, best_lang), (worst_score, worst_lang)) in enumerate(zip(best_langs, worst_langs)):
                     # Position calculations - slightly offset from the whiskers
@@ -986,17 +992,33 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                     # Calculate offset based on the y-axis range
                     y_offset = 2.0 if metric == "chrf++" else 0.02
                     
-                    # Add best language with small font above the top whisker
+                    # Add best language with black and italic (not gray)
                     ax.text(box_pos, best_score + y_offset, 
                            LANGID2LATEX.get(best_lang, best_lang).replace("\\textsc{", "").replace("}", ""),
                            horizontalalignment='center', verticalalignment='bottom', 
-                           fontsize=8, color='gray', style='italic')
+                           fontsize=8, fontstyle='italic')
                     
-                    # Add worst language with small font below the bottom whisker
-                    ax.text(box_pos, worst_score - y_offset, 
-                           LANGID2LATEX.get(worst_lang, worst_lang).replace("\\textsc{", "").replace("}", ""),
-                           horizontalalignment='center', verticalalignment='top', 
-                           fontsize=8, color='gray', style='italic')
+                    # Check if the worst score is an outlier
+                    is_outlier = False
+                    if box_pos in outliers_by_position:
+                        outlier_values = outliers_by_position[box_pos]
+                        # If the worst score is very close to any outlier value, consider it an outlier
+                        if any(abs(worst_score - outlier) < 1e-5 for outlier in outlier_values):
+                            is_outlier = True
+                    
+                    # For outliers at the bottom, position the label above the circle
+                    if is_outlier:
+                        # Place label above the outlier point
+                        ax.text(box_pos, worst_score + y_offset, 
+                               LANGID2LATEX.get(worst_lang, worst_lang).replace("\\textsc{", "").replace("}", ""),
+                               horizontalalignment='center', verticalalignment='bottom', 
+                               fontsize=8, fontstyle='italic')
+                    else:
+                        # Normal case - place label below
+                        ax.text(box_pos, worst_score - y_offset, 
+                               LANGID2LATEX.get(worst_lang, worst_lang).replace("\\textsc{", "").replace("}", ""),
+                               horizontalalignment='center', verticalalignment='top', 
+                               fontsize=8, fontstyle='italic')
                     
                 # Add asterisks for statistical significance ONLY for term_acc metric
                 if stats_results and metric == "term_acc":
