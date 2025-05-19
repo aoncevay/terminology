@@ -141,9 +141,9 @@ def evaluate_all_datasets():
                     output_path = f"../output/{model}.{dataset}.{lang_pair}.json"
                     output_path_v2 = f"../output/{model}_{dataset}_{lang_pair}.json"
                     if os.path.exists(output_path) or os.path.exists(output_path_v2):
-                        if os.path.exists(output_path):
-                            with open(output_path, "r", encoding="utf-8") as f:
-                                data = json.load(f)
+                    if os.path.exists(output_path):
+                        with open(output_path, "r", encoding="utf-8") as f:
+                            data = json.load(f)
                         else:
                             with open(output_path_v2, "r", encoding="utf-8") as f:
                                 data = json.load(f)
@@ -382,11 +382,11 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     languages_in_data = dataset2langs.get(dataset, [])
     if not languages_in_data:
         # Fallback to extracting languages from results if dataset not in dataset2langs
-        for model in results:
-            for lang_pair in results[model]:
-                src, tgt = lang_pair.split('-')
+    for model in results:
+        for lang_pair in results[model]:
+            src, tgt = lang_pair.split('-')
                 if src == 'en' and tgt not in languages_in_data and tgt != 'en':
-                    languages_in_data.append(tgt)
+                languages_in_data.append(tgt)
     
     languages_in_data = sorted(languages_in_data)
     
@@ -458,7 +458,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     
     # Header row
     header = "Lang."
-    for model in models:
+        for model in models:
         header += " & " + MODELSNAME2LATEX.get(model, model)
     print(header + " \\\\")
     print("\\hline")
@@ -479,13 +479,13 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
             
             # chrF++ scores - no bold formatting
             for model in models:
-                lang_pair = f"en-{lang}"
-                if model in results and lang_pair in results[model] and results[model][lang_pair]["chrf++"] != -1:
+            lang_pair = f"en-{lang}"
+            if model in results and lang_pair in results[model] and results[model][lang_pair]["chrf++"] != -1:
                     score = results[model][lang_pair]["chrf++"]
                     row += f" & {score:.2f}"
-                else:
-                    row += " & -"
-                    
+            else:
+                row += " & -"
+        
             print(row + " \\\\")
     
     # Add average row only if we have languages with data
@@ -505,7 +505,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                 avg_row += f" & {avg_chrf:.2f}"
             else:
                 avg_row += " & -"
-        
+                
         print(avg_row + " \\\\")
     print("\\hline")
     print("\\end{tabular}")
@@ -524,7 +524,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     
     # Header row
     header = "Lang."
-    for model in models:
+        for model in models:
         header += " & " + MODELSNAME2LATEX.get(model, model)
     print(header + " \\\\")
     print("\\hline")
@@ -549,7 +549,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
             # Term accuracy scores with statistical significance markers
             for model in models:
                 lang_pair = f"en-{lang}"
-                if model in results and lang_pair in results[model] and results[model][lang_pair]["term_acc"] != -1:
+            if model in results and lang_pair in results[model] and results[model][lang_pair]["term_acc"] != -1:
                     score = results[model][lang_pair]["term_acc"]
                     
                     # Check for statistical significance markers
@@ -567,7 +567,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                                 alt_comparison = f"{other_model}_vs_{model}"
                                 
                                 if comparison in stats_results.get(dataset, {}) and lang_pair in stats_results[dataset][comparison]:
-                                    test_result = stats_results[dataset][comparison][lang_pair]
+                        test_result = stats_results[dataset][comparison][lang_pair]
                                     if test_result["significant"] and test_result["better_model"] == model:
                                         prompt_variant_symbol = "$^\\dagger$"  # Dagger for prompt variant
                                         
@@ -585,10 +585,10 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                     
                     # Format without bold, add significance symbols if applicable
                     row += f" & {score:.2f}{prompt_variant_symbol}{best_model_symbol}"
-                else:
-                    row += " & -"
-                    
-            print(row + " \\\\")
+            else:
+                row += " & -"
+                
+        print(row + " \\\\")
     
     # Add average row only if we have languages with data
     if languages_with_data:
@@ -597,7 +597,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
         # Calculate average scores for each model
         model_avg_scores = {}
         
-        for model in models:
+    for model in models:
             term_acc_values = []
             for lang in languages_with_data:
                 lang_pair = f"en-{lang}"
@@ -684,14 +684,14 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     
     # Header row
     header = "Lang."
-    for model in models:
+        for model in models:
         header += " & " + MODELSNAME2LATEX.get(model, model)
     print(header + " \\\\")
     print("\\hline")
     
     # Data rows - only include languages that have data
     languages_with_data = []
-    for lang in languages_in_data:
+        for lang in languages_in_data:
         has_data = False
         for model in models:
             lang_pair = f"{lang}-en"
@@ -723,13 +723,13 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
             chrf_values = []
             for lang in languages_with_data:
                 lang_pair = f"{lang}-en"
-                if model in results and lang_pair in results[model] and results[model][lang_pair]["chrf++"] != -1:
-                    chrf_values.append(results[model][lang_pair]["chrf++"])
-            
-            if chrf_values:
-                avg_chrf = sum(chrf_values) / len(chrf_values)
+            if model in results and lang_pair in results[model] and results[model][lang_pair]["chrf++"] != -1:
+                chrf_values.append(results[model][lang_pair]["chrf++"])
+        
+        if chrf_values:
+            avg_chrf = sum(chrf_values) / len(chrf_values)
                 avg_row += f" & {avg_chrf:.2f}"
-            else:
+        else:
                 avg_row += " & -"
         
         print(avg_row + " \\\\")
@@ -757,7 +757,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
     
     # Data rows - only include languages that have data
     languages_with_data = []
-    for lang in languages_in_data:
+        for lang in languages_in_data:
         has_data = False
         for model in models:
             lang_pair = f"{lang}-en"
@@ -774,7 +774,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
             
             # Term accuracy scores with statistical significance markers
             for model in models:
-                lang_pair = f"{lang}-en"
+            lang_pair = f"{lang}-en"
                 if model in results and lang_pair in results[model] and results[model][lang_pair]["term_acc"] != -1:
                     score = results[model][lang_pair]["term_acc"]
                     
@@ -811,7 +811,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                     
                     # Format without bold, add significance symbols if applicable
                     row += f" & {score:.2f}{prompt_variant_symbol}{best_model_symbol}"
-                else:
+        else:
                     row += " & -"
                     
             print(row + " \\\\")
@@ -824,14 +824,14 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
         model_avg_scores = {}
         
         for model in models:
-            term_acc_values = []
+        term_acc_values = []
             for lang in languages_with_data:
-                lang_pair = f"{lang}-en"
-                if model in results and lang_pair in results[model] and results[model][lang_pair]["term_acc"] != -1:
-                    term_acc_values.append(results[model][lang_pair]["term_acc"])
-            
-            if term_acc_values:
-                avg_term_acc = sum(term_acc_values) / len(term_acc_values)
+            lang_pair = f"{lang}-en"
+            if model in results and lang_pair in results[model] and results[model][lang_pair]["term_acc"] != -1:
+                term_acc_values.append(results[model][lang_pair]["term_acc"])
+        
+        if term_acc_values:
+            avg_term_acc = sum(term_acc_values) / len(term_acc_values)
                 model_avg_scores[model] = avg_term_acc
         
         # Get comparable models with average scores
@@ -864,9 +864,9 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
                 
                 # Format without bold, add significance symbols
                 avg_row += f" & {avg_score:.2f}{prompt_variant_symbol}{best_model_symbol}"
-            else:
+        else:
                 avg_row += " & -"
-        
+    
         print(avg_row + " \\\\")
     print("\\hline")
     print("\\end{tabular}")
@@ -947,7 +947,7 @@ def create_boxplots(results_scores, stats_results=None, figs_dir="../figs"):
                     continue
                 
                 # Create a more compact figure
-                fig, ax = plt.subplots(figsize=(7, 5))
+                fig, ax = plt.subplots(figsize=(7, 3))
                 
                 # Prepare data for boxplot
                 boxplot_data = []
@@ -1181,6 +1181,12 @@ def generate_latex_figures(figure_info, figs_dir):
         f.write("% Boxplots for Translation Evaluation\n")
         f.write("% This file was automatically generated\n\n")
         
+        # Add preamble with required packages
+        f.write("% Required packages - include these in your main LaTeX document\n")
+        f.write("% \\usepackage{graphicx}   % Required for images\n")
+        f.write("% \\usepackage{subcaption} % Required for subfigures\n")
+        f.write("% \\usepackage{float}      % Optional for better figure placement\n\n")
+        
         # Generate a figure for each dataset-metric combination
         for i, info in enumerate(figure_info):
             dataset = info["dataset"]
@@ -1197,6 +1203,7 @@ def generate_latex_figures(figure_info, figs_dir):
                 direction = subfig["direction"]
                 subfigure_label = "a" if subfig["direction_code"] == "en-xx" else "b"
                 
+                # Use subcaption's subfigure environment instead of the deprecated subfigure package
                 f.write(f"\\begin{{subfigure}}[b]{{0.48\\textwidth}}\n")
                 f.write(f"    \\centering\n")
                 f.write(f"    \\includegraphics[width=\\textwidth]{{{path}}}\n")
@@ -1217,6 +1224,11 @@ def generate_latex_figures(figure_info, figs_dir):
             f.write(f"\\caption{{{caption}}}\n")
             f.write(f"\\label{{{label}}}\n")
             f.write("\\end{figure*}\n\n")
+        
+        # Add a note about usage at the end
+        f.write("% Usage in main document:\n")
+        f.write("% 1. Make sure to include the required packages above\n")
+        f.write("% 2. Include this file with \\input{path/to/boxplots.tex}\n")
         
         print(f"LaTeX file with boxplots saved to {latex_file}")
 
@@ -1253,7 +1265,7 @@ def main():
     # Compute evaluation metrics if requested
     if args.metrics:
         print("Computing evaluation metrics...")
-        results_scores, results_values = evaluate_all_datasets()
+    results_scores, results_values = evaluate_all_datasets()
     
     # Run statistical tests if requested
     if args.stats:

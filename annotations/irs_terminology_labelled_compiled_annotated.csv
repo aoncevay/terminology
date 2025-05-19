@@ -1,0 +1,1360 @@
+full_terms,domain_label_1,domain_label_2,domain_label_3,human_annotation,in_experiments
+1040 U.S. Individual Income Tax Return,TS,TS,TS,TS,0
+1040-ES Estimated Tax for Individuals,TS,TS,TS,TS,0
+1040-NR U.S. Nonresident Alien Income Tax Return,TS,TS,TS,TS,0
+1040NR U.S. Nonresident Alien Income Tax Return,TS,TS,TS,TS,0
+1040–NR U.S. Nonresident Alien Income Tax Return,TS,TS,TS,TS,0
+2290 Heavy Highway Vehicle Use Tax Return,TS,TS,TS,TS,0
+2848 Power of Attorney and Declaration of Representative,TS,TS,TS,TS,0
+"8300 Report of Cash Payments Over $10,000 Received in a Trade or Business",TS,TS,TS,TS,0
+8849 Claim for Refund of Excise Taxes,TS,TS,TS,TS,0
+940 Employer’s Annual Federal Unemployment Tax Return,TS,TS,TS,TS,0
+941 Employer’s Quarterly Federal Tax Return,TS,TS,TS,TS,0
+943 Employer’s Annual Tax Return for Agricultural Employees,TS,TS,TS,TS,0
+Accelerated Cost Recovery System,G,TS,TS,TS,0
+Airline Deregulation Act of 1978 Program,G,G,G,G,0
+Alaska Permanent Fund,G,G,G,TS,0
+Alternate Trade Adjustment Assistance,G,G,G,G,0
+American Rescue Plan Act of 2021,G,G,G,TS,1
+American opportunity tax credit,TS,TS,TS,TS,1
+Archer MSA,TS,TS,TC,TS,0
+Archer MSAs and long-term care insurance contracts,TS,TC,TC,TS,0
+Audit Division,TS,TS,TS,TS,0
+Bureau of the Fiscal Service,G,G,G,G,0
+C corporation,G,TC,TS,TS,0
+COBRA premium assistance payments,G,TS,TC,TS,0
+Civil Service Retirement System,G,G,G,G,1
+Collection Appeals Program,TS,TS,TS,TS,0
+Collection Division,TS,TS,TS,TS,0
+Combat-Injured Veterans Tax Fairness Act of 2016,TS,TS,G,TS,0
+Combined Annual Wage Reporting System,TS,G,G,TS,0
+Commissioner of the Internal Revenue Service,TS,TS,TS,TS,0
+Conservation Reserve Program,G,G,G,G,0
+Consolidated Omnibus Budget Reconciliation Act,G,G,G,G,0
+Coverdell education savings account,TS,TS,TS,TS,0
+Department of Health and Human Services,G,G,G,G,0
+Department of Homeland Security,G,G,G,G,1
+Department of Labor,G,G,G,G,0
+Department of Veterans Affairs,G,G,G,G,0
+Department of the Treasury,G,G,G,G,1
+Electronic Federal Tax Payment System,TS,TS,TS,TS,1
+Federal District Court,G,G,G,G,0
+Federal Employees Health Benefit Program,G,G,G,G,0
+Federal Insurance Contributions Act,TS,TS,G,TS,0
+Federal Payment Levy Program,TS,TS,TS,TS,0
+Federal Trade Commission,G,G,G,G,0
+Federal Unemployment Tax Act,TS,TS,G,TS,0
+Federal Unemployment Trust Fund,TS,TS,G,TS,0
+Financial Crimes Enforcement Network,G,G,G,G,0
+Free File,TS,TS,TS,TS,1
+Health Insurance Credit Eligibility Certificate,TS,TS,TS,TS,0
+Home Affordable Modification Program,G,G,G,G,0
+IRS Independent Office of Appeals,G,TS,TS,TS,1
+IRS individual taxpayer identification number,TS,TS,TS,TS,0
+Identity Protection Specialized Unit,TS,TS,TS,TS,0
+Interactive Tax Assistant,TS,TS,TS,TS,1
+Internal Revenue Bulletin,TS,TS,TS,TS,1
+Internal Revenue Code,TS,TS,TS,TS,1
+Internal Revenue Service,TS,TS,TS,TS,1
+Keogh Retirement Plan,G,TS,TS,TS,0
+Limited Liability Company,G,TC,TC,TC,1
+Low Income Taxpayer Clinics,G,TS,TS,TS,1
+Medicaid waiver payments,G,G,TC,G,1
+Medicaid,G,G,G,G,1
+Medical Assistance Program,G,G,G,G,0
+Medicare,G,G,G,G,1
+National Housing Act,G,G,G,G,0
+North American Free Trade Agreement,G,G,G,G,0
+North Atlantic Treary Organization,G,G,,G,0
+North Atlantic Treaty Organization,G,G,G,G,0
+Office of Chief Counsel,TS,G,TS,TC,0
+Online Payment Agreement Application,TS,G,TS,TS,0
+PO Box,G,G,G,G,0
+PO box,G,G,G,G,0
+Paperwork Reduction Act,G,G,G,G,0
+Pension Benefit Guaranty Corporation beneficiaries,G,G,G,G,0
+Pension Benefit Guaranty Corporation,G,G,G,G,0
+Plain Writing Act,G,G,G,G,0
+Presidential Election Campaign Fund,TS,G,TS,TS,0
+Privacy Act,G,G,G,G,0
+Railroad Retirement Tax Act,TS,TS,G,TS,1
+Reemployment Trade Adjustment Assistance,G,G,G,G,0
+S corporation,G,TC,TS,TS,1
+SS-4 Application for Employer Identification Number,TS,TS,TS,TS,0
+SS-8 Determination of Employee Work Status for Purposes of Federal Employment Taxes,TS,TS,TS,TS,0
+SS-8 Determination of Worker Status for Purposes of Federal Employment Taxes and Income Tax Withholding,TS,TS,TS,TS,0
+SS-8 Determination of Worker Status for Purposes of Federal Employment Taxes,TS,TS,TS,TS,0
+Schedule A,G,TS,TS,TS,1
+Schedule H Household Employment Taxes,TS,TS,TS,TS,0
+Securities and Exchange Commission,G,G,G,G,0
+Service Center,TS,G,TS,G,1
+Setting Every Community Up for Retirement Enhancement 2.0 Act,TC,G,G,G,0
+Small Business Administration,G,G,G,G,1
+Small Business Health Options Program,G,G,G,G,0
+Social Security Disability Insurance,G,G,G,G,0
+State Children’s Health Insurance Program,G,G,G,G,0
+State Workforce Agency,G,G,G,G,0
+Supplemental Nutrition Assistance Program,G,G,G,G,0
+Supplemental Security Income,G,G,G,G,0
+Systemic Advocacy Management System,TS,G,TS,TS,0
+Systemic Advocacy,TS,G,TS,TC,0
+Tax Counseling for the Elderly,G,TS,TS,TS,1
+Tax Cuts and Jobs Act,TS,TS,G,TS,0
+Tax Topics,TS,TS,TS,TS,1
+Taxpayer Advocacy Panel,G,TS,TS,TS,0
+Taxpayer Advocate Service,G,TS,TS,TS,1
+Taxpayer Advocate,G,TS,TS,TS,1
+Taxpayer Assistance Center,TS,TS,TS,TS,1
+Taxpayer Protection Program,TS,TS,TS,TS,0
+Telecommunications Relay Services,G,G,G,G,0
+Temporary Assistance for Needy Families,G,G,G,G,0
+Trade Adjustment Assistance benefits,G,G,G,G,0
+Trade Adjustment Assistance participants,G,G,G,G,0
+Trade Adjustment Assistance,G,G,G,G,0
+Treasury Department,G,G,G,G,1
+Treasury Inspector General for Tax Administration,TS,TS,TS,TS,1
+Treasury bill,G,TC,G,G,0
+Treasury bond,G,TC,G,G,0
+Treasury note,G,TC,G,G,0
+U.S. Citizenship and Immigration Services,G,G,G,G,1
+U.S. District Court,G,G,G,G,1
+U.S. Military Health Care System,G,G,G,G,0
+U.S. Postal Service,G,G,G,G,0
+U.S. national,G,G,TS,G,0
+United States–Mexico–Canada Agreement,G,G,G,G,0
+Volunteer Income Tax Assistance,TS,TS,TS,TS,1
+W-2 Wage and Tax Statement,TS,TS,TS,TS,0
+W-3 Transmittal of Wage and Tax Statements,TS,TS,TS,TS,0
+W-3c Transmittal of Corrected Wage and Tax Statements,TS,TS,TS,TS,0
+W-4 Employee’s Withholding Allowance Certificate,TS,TS,TS,TS,0
+W-4 Employee’s Withholding Certificate,TS,TS,TS,TS,0
+W-4P Withholding Certificate for Pension or Annuity Payments,TS,TS,TS,TS,0
+W-4P Withholding Certificate for Periodic Pension or Annuity Payments,TS,TS,TS,TS,0
+W-7 Application for IRS Individual Taxpayer Identification Number,TS,TS,TS,TS,0
+W-9 Request for Taxpayer Identification Number and Certification,TS,TS,TS,TS,0
+Work Incentive Program,G,G,G,G,0
+ZIP code,G,G,G,G,0
+abandoned spouse,TC,TS,TS,G,0
+abandonment clause,G,G,G,G,0
+abandonment,TC,G,TC,G,1
+abatement of tax,TS,TS,TS,TS,0
+abatement,G,TS,TS,TC,0
+ability to pay,TC,G,TC,G,1
+absorption rate,G,G,G,G,0
+abusive tax shelter,TS,TS,TS,TS,0
+accelerated depreciation,TC,TC,TS,TC,0
+acceptance agent,TS,TS,TS,TS,0
+according to our records,G,G,G,G,0
+account statement,G,G,G,G,0
+account,G,G,G,G,1
+accountable plan,TS,TS,TS,TS,1
+accountant,G,G,G,G,1
+accounting method,TC,TC,TC,TC,1
+accounting period,G,TC,TC,TC,1
+accounts payable,G,TC,G,G,0
+accounts receivable,TC,TC,G,G,0
+accrual accounting,TC,TC,TC,TC,0
+accrual method,G,TC,TC,TC,1
+accrual,TC,TC,TC,TC,1
+accrued income,TC,TC,TC,TC,0
+accrued interest,TC,TC,TC,TC,1
+accrued taxes,TS,TS,TC,TS,0
+accuracy-related penalty,TS,TS,TS,TS,0
+acknowledgement file,G,G,TS,G,0
+activity engaged in for a profit,TS,TS,TS,TS,0
+activity not engaged in for profit,TS,TS,TS,TS,0
+actually or constructively,TS,G,TS,G,0
+additional child tax credit,TS,TS,TS,TS,1
+additional taxes on qualified plans and other tax-favored accounts,G,TS,TS,TS,0
+adjusted gross income,TS,TS,TS,TS,1
+adjusted itemized deductions,TS,TS,TS,TS,0
+adjusted tax basis,TS,TS,TS,TS,0
+adjustment,G,G,TC,G,1
+adoption agency fees,G,G,TC,G,0
+adoption agency,G,G,G,G,0
+adoption tax credit,TS,TS,TS,TS,0
+adoption taxpayer identification number,G,TS,TS,TS,1
+advance payment,G,TC,TC,TC,1
+advanced payment,G,TC,TC,TC,0
+advanced premium tax credit,TS,TS,TS,TS,0
+advocate,G,G,TC,TC,1
+affidavit,G,G,G,G,1
+after-tax basis,TS,TC,TS,TS,0
+age test,TS,TS,TS,TS,1
+agency,G,G,G,G,1
+agent,G,G,TC,TC,1
+agent-driver,G,G,G,G,0
+agreement,G,G,G,G,1
+airdrop,G,G,G,G,0
+alien individual,TS,TS,TS,TS,0
+alien resident card,G,G,G,G,0
+alimony,TC,TC,TC,TC,1
+allocate,G,G,TC,TC,1
+allocation,G,TC,TC,TC,1
+allowances,TC,TC,TC,TC,1
+alternative basis,TS,TC,TS,TS,1
+alternative fuel vehicle refueling property credit,TS,TS,TS,TS,0
+alternative minimum tax,TS,TS,TS,TS,1
+alternative motor vehicle credit,G,TS,TS,TS,0
+alternative motor vehicle,G,G,TC,TS,0
+alternative tax,TS,TS,TS,TS,0
+amended U.S. individual income tax return,TS,TS,TS,TS,1
+amended return,TS,TS,TS,TS,1
+amended tax return,TS,TS,TS,TS,0
+amortizable premium on taxable bonds,TS,TS,TS,TS,0
+amortized bond premium,G,TS,TS,TS,0
+amount realized,G,TC,TS,TC,1
+announcement,G,G,TC,G,1
+annual income,G,TC,G,TC,0
+annual leave,G,G,G,G,0
+annualized income installment method,TS,TS,TS,TS,0
+annuity bond,G,TC,G,G,0
+annuity,TC,TC,TC,TC,1
+appeal rights,TS,G,TC,TC,1
+appeal,G,G,TC,TC,1
+applicable large employer,G,TS,TS,TS,0
+applicant,G,G,G,G,0
+application for IRS individual taxpayer identification number,TS,TS,TS,TS,1
+application for a social security card,G,G,G,G,1
+application for taxpayer identification number for pending U.S. adoptions,TS,TS,TS,TS,0
+appraiser,G,G,G,G,1
+appreciation,TC,G,G,TC,0
+apprentice,G,G,G,G,1
+arbitrators,G,G,G,G,0
+area code,G,G,G,G,0
+armed forces’ tax guide,TS,TS,TS,TS,0
+arrangement,G,G,G,G,1
+arrears,G,G,G,G,0
+as-you-go basis,G,G,TC,G,0
+assess,TS,G,TC,TC,1
+assessed self-employment tax,TS,TS,TS,TS,0
+assessment of tax,TS,TS,TS,TS,0
+asset forfeiture,G,G,TC,G,0
+assets,TC,TC,G,TC,1
+assignee,G,G,G,G,0
+attachment,G,G,TC,TC,0
+attest,G,G,G,G,0
+attestation clause,G,G,G,G,0
+attorney-in-fact,G,G,G,G,1
+audit of a return,TS,TS,TS,TS,0
+audit,TS,TS,TC,TC,1
+auditor,G,G,G,G,0
+authenticate,G,G,G,G,0
+authorized IRS e-file provider,TS,TS,TS,TS,0
+auto tag,G,G,G,G,0
+average tax rate,TS,TS,TS,TS,0
+award,G,G,TC,TC,1
+back taxes,G,TS,TS,TS,0
+backpay,G,TC,TC,TC,0
+backslash,G,G,G,G,0
+backup withholding,TS,TS,TS,TS,1
+bad debt,TC,TC,TC,TC,1
+bad debts,TC,TC,TC,TC,1
+balance sheet,TC,TC,G,TC,0
+balance,G,G,G,G,1
+bank failure,G,G,G,G,0
+bank statement,G,G,G,G,0
+bankruptcy estate,TC,TC,TC,TC,0
+bankruptcy,G,G,G,G,1
+barter exchange,G,TC,TC,TC,0
+barter,G,G,TC,G,0
+bartering income,TS,TC,TC,TC,0
+base cost,G,TC,TC,TC,0
+basis,TS,TC,TS,TC,1
+battery storage technology,G,G,G,G,0
+beneficiary,G,G,TC,TC,1
+benefits,G,TC,G,TC,1
+bequest,TC,TC,TC,TC,1
+bill,G,G,G,G,1
+boilerplate,G,G,G,G,0
+bona fide resident,TS,TS,TS,TS,1
+bona fide,G,G,G,G,1
+bond discount,G,TC,TC,TC,0
+bond for payment of tax,TS,TS,TS,TS,0
+bond income,TC,TC,TC,TC,0
+bond premium,G,TC,TC,TC,0
+bond retirement,G,TC,G,TC,0
+bond,G,TC,G,G,1
+bonus depreciation,TS,TS,TS,TS,1
+bonus,G,G,G,G,1
+bookkeeper,G,G,G,G,0
+bookmark,G,G,G,G,0
+borrower,G,G,G,G,1
+box,G,G,G,G,1
+bracket,TS,G,TS,TS,0
+branch,G,G,G,G,1
+breach of contract,G,G,G,G,1
+bring an action,G,G,G,G,0
+broker,G,G,G,G,1
+browser,G,G,G,G,0
+bus,G,G,G,G,1
+business expenses,TC,TC,TC,TC,1
+business gifts,TC,TC,TC,TC,0
+business loss,TC,TC,TC,TC,1
+business property,TC,TC,TC,TC,1
+business trust,TC,TC,TC,TC,0
+business,G,G,G,G,1
+by-product,G,G,G,G,0
+cafeteria plan,TC,TC,TS,TC,0
+calendar year,G,TC,TC,TC,1
+canceled debt,TC,TC,TC,TC,1
+candidate for a college degree,G,G,G,G,0
+capital assets,TS,TC,TS,TC,1
+capital base,TC,TC,G,TC,0
+capital expenditures,TC,TC,TC,TC,1
+capital gain,G,TC,TS,TC,1
+capital gains tax,G,TS,TS,TS,0
+capital investment,G,TC,G,TC,0
+capital loss,G,TC,TS,TC,1
+capital turnover,TC,G,G,TC,0
+carry on a trade or business,G,TS,TS,TS,1
+carryback loss,TS,TS,TS,TS,0
+carryback,TS,TS,TS,TS,1
+carryover loss,TS,TC,TS,TS,0
+carryover,TS,TC,TC,TC,1
+cash basis,TC,TC,TC,TC,0
+cash disbursement,G,TC,G,G,0
+cash flow,G,TC,G,G,0
+cash method,TC,TC,TC,TC,1
+cash retirement,G,TC,G,TC,0
+cash withdrawal,G,G,G,G,0
+cash,G,G,G,G,1
+cashier’s check,G,G,G,G,0
+casualty loss,TS,TS,TS,TS,1
+casualty,TC,G,TC,TC,1
+catch-up contribution,G,TS,TS,TS,0
+certain government payments,G,G,G,G,0
+certificate of accuracy,G,G,G,G,0
+certificate of alien claiming residence in the United States,TS,TS,TS,TS,0
+certificate of compliance,G,G,TS,G,1
+certificate of deposit,G,G,G,G,0
+certificate of discharge,TS,G,TC,TC,0
+certified copy,G,G,G,G,0
+certified mail,G,G,G,G,1
+certified public accountant,G,G,G,G,1
+charitable contribution,TS,TS,TS,TS,1
+charitable organization,TC,TC,TC,TC,0
+checking account,G,G,G,G,1
+child care,G,G,TC,G,0
+child care; childcare,G,G,TC,G,0
+child support,G,G,TC,TC,0
+child tax credit,TS,TS,TS,TS,1
+child with special needs,G,G,G,G,1
+claim of right,TS,TS,TS,TS,0
+claim,G,G,TC,TC,1
+clean vehicle tax credit,TS,TS,TS,TS,0
+clergy,G,G,TC,G,1
+clerical error,G,G,G,G,0
+click,G,G,G,G,1
+closer connection to a foreign country,G,TS,TS,TS,0
+co-worker,G,G,G,G,0
+coding,G,G,G,G,0
+collect,G,G,TC,TC,1
+collection due process hearing,TS,TS,TS,TS,1
+college,G,G,G,G,1
+combat pay,G,TC,TC,G,0
+combat zone,TC,G,TC,G,0
+commission-driver,G,G,G,G,0
+commodities,G,G,G,G,1
+common carrier,G,G,G,G,0
+common law,G,G,G,G,1
+common-law employee,TC,TC,TC,TC,0
+common-law marriage,G,G,G,G,0
+community income,TS,TC,TC,TS,1
+community property,G,TC,TC,TC,1
+commute,G,G,G,G,0
+commuter,G,G,G,G,0
+commuting,G,G,G,G,1
+compensation for injuries,G,G,TC,G,0
+compensation,TC,TC,G,G,1
+competent authority,G,G,TC,TC,1
+complaint,G,G,G,G,0
+compliance,G,G,TC,G,1
+compute,G,G,G,G,1
+"computer processed, computerized",G,G,G,G,0
+condominium,G,G,G,G,0
+conduct of a U.S. trade or business,G,TS,TS,TS,0
+confidential,G,G,G,G,1
+consignment,G,G,G,G,1
+constructive receipt,G,TS,TS,TS,1
+contest prize,G,G,TC,G,0
+contingent interest,TC,TC,TC,TC,1
+contribution to capital,TC,TC,TC,TC,1
+contribution,G,TC,TC,TC,1
+conversion,G,G,G,G,1
+cooperative housing corporation,TC,G,TC,TC,0
+corporate tax,TS,TS,TS,TS,0
+corporation,TC,G,TC,TC,1
+cost of goods sold,TC,TC,TC,TC,1
+court costs,G,G,G,G,0
+court order,G,G,G,G,0
+cover by insurance,G,G,G,G,0
+coverage household,TS,TC,TS,TS,0
+coverage,G,G,G,G,1
+covered security,G,TC,TS,TS,0
+credit bureau,G,G,G,G,0
+credit for child care expenses,TS,TS,TS,TS,0
+credit for other dependents,G,TS,TS,TS,1
+credit for the elderly or the disabled,TS,TS,TS,TS,1
+credit life insurance,G,TC,G,G,0
+credit one’s account,G,G,G,G,0
+credit reduction rate,TS,TS,TS,TS,0
+credit union,G,G,G,G,1
+criminal prosecution,G,G,G,G,1
+cryptocurrencies,TC,G,G,G,0
+cryptocurrency,TC,G,G,G,0
+currency transaction report by casinos,TS,G,TS,TS,0
+currency transaction report,TS,G,TS,TS,0
+currently not collectible,TS,TS,TS,TS,0
+custodial parent,TC,G,TC,TC,0
+customer outreach program,G,G,G,G,0
+customs duties,G,G,G,G,0
+data bank,G,G,G,G,0
+data breach,G,G,G,G,0
+data entry,G,G,G,G,0
+data transmission,G,G,G,G,0
+data,G,G,G,G,1
+daycare center,G,G,G,G,0
+de minimis benefits,G,TS,TS,TS,0
+de minimis presence,TS,G,TC,TS,0
+dealer,G,G,TC,TC,1
+death benefit,TC,TC,TC,TC,0
+death certificate,G,G,G,G,0
+decedent,TC,G,TC,TC,1
+declining balance depreciation,TC,TC,TC,TC,0
+decree,G,G,G,G,0
+deduction,TS,TS,TC,TC,1
+default,G,G,G,G,0
+deferred compensation plan,TC,TC,TC,TC,0
+deferred income,TC,TC,TC,TC,0
+deferred payment,TC,TC,G,TC,0
+deferred taxes,TS,TS,TC,TS,0
+"deficiency notice, notice of deficiency",TS,TS,TS,TS,0
+delinquent payments,TC,TC,TC,TC,0
+delinquent return,G,TS,TS,TS,0
+delinquent tax,TS,TS,TS,TS,0
+delinquent taxes,TS,TS,TS,TS,0
+delinquent taxpayer,TS,TS,TS,TS,0
+demand for payment,G,G,TC,G,0
+denial letter,G,G,TC,G,0
+"denial letter, denial notice",G,G,TC,G,0
+denial notice,G,G,TC,G,0
+departure permit,TS,G,TS,TS,1
+dependency test,TS,TS,TS,TS,0
+dependent care assistance payments,G,TS,TC,TS,0
+dependent care expenses,TS,TC,TC,TC,1
+dependent,G,TS,TS,TC,1
+depletion,TS,TC,TS,TC,1
+deposit period ending on,TS,G,G,G,0
+depositor,G,G,G,G,0
+depreciable property,TS,TC,TS,TS,1
+depreciation,TC,TC,TS,TC,1
+digital asset in a wallet,G,G,G,G,0
+digital asset,G,G,G,G,0
+direct debit installment agreement,TS,TS,TS,TS,0
+direct debit,G,G,G,G,0
+direct deposit,G,G,G,G,1
+disability benefits,TC,TC,TC,TC,1
+disability income exclusion,TS,TS,TS,TS,0
+disability payments,TC,TC,TC,TC,0
+disabled,G,G,G,G,1
+disaster relief,G,G,TC,TC,1
+disaster,G,G,G,G,1
+discharge,G,G,TC,TC,0
+disclosure,G,G,TC,TC,1
+disposition,G,G,TC,TC,1
+disregarded entity,TS,TS,TS,TS,1
+distribution,TC,TC,TC,TC,1
+"distributions from pensions, annuities, retirement or profit-sharing plans, IRAs, insurance contracts, etc.",TC,TS,TS,TS,0
+distributive share,TS,TC,TS,TC,1
+dividend equivalent payments,TS,TC,TS,TC,1
+dividend income,TC,TC,TC,TC,1
+dividends,TC,TC,TC,TC,1
+division,G,G,G,G,0
+divorce decree,G,G,G,G,0
+doing business as,G,G,G,G,0
+domestic partnership,TC,G,G,G,1
+domestic production activity,TC,TC,TS,TS,0
+donation,G,G,TC,TC,0
+double declining balance depreciation,G,TC,TC,TC,0
+double taxation,TS,TS,TC,TS,1
+download,G,G,G,G,1
+draft,G,G,G,G,0
+dual-status alien or dual resident alien,TS,TS,TS,TS,0
+dual-status return,TS,TS,TS,TS,1
+dual-status taxpayer,TS,TS,TS,TS,1
+dual-status year,TS,TS,TS,TS,1
+due diligence,G,G,TC,TC,1
+dues,G,G,G,G,1
+dwelling,G,G,G,G,0
+e-file,TS,TS,TS,TS,1
+early distribution,TS,TC,TC,TS,0
+earned income credit,TS,TS,TS,TS,1
+earned income tax credit,TS,TS,TS,TS,1
+earned income test,G,TS,TS,TS,0
+earned income,G,TC,TS,TS,1
+earning capacity,G,G,G,G,0
+education credits,TS,TS,TS,TS,1
+effectively connected income,G,TS,TS,TS,1
+elderly,G,G,G,G,1
+election worker,G,G,TC,G,0
+electronic filing identification number,TS,TS,TS,TS,0
+electronic filing,TS,TS,TC,TC,1
+electronic funds withdrawal,G,TS,G,TS,1
+electronic report of tips,TS,G,TS,TS,0
+electronic return originator,TS,TS,TS,TS,0
+electronic service,G,G,G,G,0
+elementary school,G,G,G,G,1
+eligibility requirements,G,G,G,G,1
+email,G,G,G,G,1
+employee benefits,TC,TC,TC,TC,0
+employee retention credit,G,TS,TS,TS,0
+employee savings plan,TC,TC,TC,TC,0
+employee tax,TS,TS,TS,TS,0
+employee,G,G,TC,G,1
+employee’s daily record of tips and report to the employer,TS,G,TS,TS,0
+employee’s daily record of tips,TS,G,TS,TS,0
+employee’s report of tips to employer,TS,G,TS,TS,0
+employer health plan,TC,TC,TC,TC,0
+employer identification number,TS,TS,TS,TS,1
+employer tax,TS,TS,TS,TS,0
+employer,TC,G,G,G,1
+employer’s supplemental tax guide,TS,TS,TS,TS,0
+employment agency fees,G,G,TC,G,0
+employment agency,G,G,G,G,0
+employment related,TC,G,TC,TC,0
+employment taxes,TS,TS,TS,TS,1
+employment-related,TC,G,TC,TC,0
+enact,G,G,G,G,0
+endowment,G,G,G,G,1
+energy efficient home improvement credit,TS,TS,TS,TS,0
+enforced collection action,TS,TS,TS,TS,0
+enforcement of the law,G,G,G,G,0
+enrolled agent,TS,TS,TS,TS,1
+enter,G,G,G,G,1
+entertainment expenses,TC,TC,TC,TC,1
+entry,G,G,G,G,0
+equitable relief,TS,TS,TS,TS,0
+equity,TC,TC,G,TC,0
+escrow account,G,TC,G,TC,0
+escrow funds,G,TC,G,TC,0
+escrow,G,TC,G,TC,1
+estate tax,G,TS,TS,TS,0
+estate,G,TC,TC,TC,1
+estimated tax payments,TS,TS,TS,TS,1
+estimated tax,G,TS,TS,TS,1
+estimated useful life,TC,TC,TC,TC,0
+examination,TS,G,TC,TC,1
+excess contribution,G,TS,TS,TS,0
+excess gains,G,TC,G,TC,0
+exchange of like-kind property,TS,TS,TS,TS,1
+exchange visitor,G,G,G,G,1
+"exchange, trade",G,G,TC,G,0
+excise taxes,G,TS,TS,TS,1
+exclusion of income for bona fide residents,TS,TS,TS,TS,0
+executor,TC,G,TC,G,1
+exempt individual,TS,TS,TS,TS,1
+exemption certificate number,TS,TS,TS,TS,0
+exemption from withholding,TS,TS,TS,TS,1
+exemption,TS,TS,TS,TS,1
+"exemptions, standard deduction, and filing information",TS,TS,TS,TS,0
+expatriation tax,G,TS,TS,TS,1
+experience rate,G,G,TC,TC,0
+expire,G,G,G,G,1
+extended active duty,TC,G,G,G,1
+face value,G,G,G,G,0
+failure to deposit,G,TS,TS,TS,0
+failure to file penalty,TS,TS,TS,TS,0
+failure to pay penalty,TS,TS,TS,TS,0
+fair market value,TC,TC,TC,TC,1
+fair rental price,TC,TC,TC,TC,0
+fair rental value,G,TC,TC,TC,1
+family size,G,G,TC,G,0
+farm income,TC,TC,TC,TC,0
+farm operator,G,G,G,G,0
+farm worker,G,G,G,G,0
+farm,G,G,G,G,1
+farmer,G,G,G,G,1
+farming,G,G,G,G,1
+fax,G,G,G,G,1
+federal income tax return,TS,TS,TS,TS,1
+federal tax lien,TS,TS,TS,TS,0
+federal tax on special fuels,TS,TS,TS,TS,0
+federal taxes,G,TS,TS,TS,1
+federal use tax on civil aircraft,G,TS,TS,TS,0
+feedback,G,G,G,G,1
+fees,G,G,G,G,1
+fellowship,G,G,TC,G,1
+fiat currency,G,G,G,G,0
+field examination,TS,TS,TS,TS,0
+file a tax return,G,TS,TS,TS,1
+file jointly,TS,TS,TS,TS,1
+file separately,TS,TS,TS,TS,0
+file your return on or before,G,TS,G,TS,0
+filing of return,TS,TS,TS,TS,0
+filing status,TS,TS,TS,TS,1
+finance charge,G,TC,G,G,0
+financial analysis,G,G,G,G,0
+financial institution,G,TC,G,G,1
+financial statement,G,TC,G,G,1
+financially disabled,TS,G,TC,G,0
+fine,G,G,G,G,0
+first-time homebuyer credit,TS,TS,TS,TS,0
+fiscal year,TC,TC,TC,TC,1
+fishing income,TC,TC,TC,TC,0
+fixing-up expenses,G,G,TC,G,0
+flexible-benefits plan,TC,TC,TC,TC,0
+flexible-spending plan,TC,TC,TC,TC,0
+flow-through entity,TS,TS,TS,TS,0
+follow up,G,G,G,G,0
+food stamps,G,G,G,G,0
+for your records,G,G,G,G,0
+foreclosure,G,G,G,G,0
+foreign account,TC,TC,TC,TC,0
+foreign assets,TC,TC,TC,TC,0
+foreign currency,G,G,G,G,1
+foreign earned income exclusion,TS,TS,TS,TS,1
+foreign earned income,TS,TS,TS,TS,1
+foreign employee,TC,G,TC,TC,0
+foreign financial asset,TS,TC,TC,TC,1
+foreign government,G,G,G,G,1
+foreign housing deduction,TS,TS,TS,TS,0
+foreign tax credit,TS,TS,TS,TS,1
+foreign tax,TS,TS,TS,TS,1
+foreign travel,G,G,G,G,0
+form letter,G,G,G,G,0
+form,G,G,G,G,1
+forms:,G,G,G,G,0
+foster child,TC,G,TC,G,1
+founder,G,G,G,G,0
+franchise tax,TS,TS,TS,TS,0
+franchise,G,G,G,G,0
+fringe benefits,TC,TC,TC,TC,1
+frivolous tax return,TS,TS,TS,TS,1
+full-time employee,G,G,G,G,1
+full-time student,G,G,G,G,1
+full-time work,G,G,G,G,1
+furnace,G,G,G,G,0
+gainful employee,G,G,G,G,0
+gainful employment,G,G,G,G,0
+gambling winnings,TC,TC,TC,TC,1
+garnishments,TC,TC,TC,TC,0
+general partner,TC,TC,TC,TC,1
+generation-skipping transfer,TC,TS,TS,TS,0
+geographical basis,G,G,G,G,1
+geothermal well,G,G,G,G,0
+gift tax,TS,TS,TS,TS,0
+gift,TC,TC,TC,TC,1
+golden parachute agreement,TC,TC,TC,TC,0
+goodwill,G,G,TC,G,1
+governing instrument,G,G,G,G,0
+grace period,G,G,G,G,0
+grant,G,G,TC,G,1
+grantor,G,G,TC,G,0
+green card test,G,TS,TS,TS,1
+green card,G,G,G,G,1
+gross income,TS,TC,TS,TS,1
+gross proceeds,TC,TC,TC,TC,1
+gross profit,TC,TC,G,TC,1
+gross receipts,TC,TC,TC,TC,1
+group health plan,G,TC,TC,TC,0
+group life insurance,G,TC,TC,G,0
+group-term life insurance,G,TC,TC,G,0
+guarantee of indebtedness,G,G,G,G,0
+guaranteed issue,G,G,G,G,0
+guardian,G,G,G,G,1
+halfway house,G,G,G,G,0
+handicapped,G,G,G,G,0
+handout,G,G,G,G,0
+hard fork,TC,G,G,TC,0
+hardship case,TC,G,TC,TC,0
+head of household,TS,TS,TS,TS,1
+health benefits,G,TC,G,G,0
+health care,G,G,G,G,0
+health coverage exemption,G,TS,TS,TS,0
+health coverage tax credit,TS,TS,TS,TS,0
+health coverage,G,TC,G,G,0
+health insurance credit for eligible recipients,G,TS,TS,TS,0
+health insurance marketplace,G,G,G,G,1
+health insurance policy,G,TC,G,G,0
+health insurance,G,TC,G,G,1
+hearing aid,G,G,G,G,0
+hearing impaired,G,G,G,G,0
+heavy highway vehicle use tax return,TS,TS,TS,TS,1
+high school,G,G,G,G,1
+highway use tax,G,TS,TS,TS,0
+hobby loss,TS,TS,TS,TS,0
+holder of record,G,G,G,G,0
+holder,G,G,G,G,1
+holding period,TC,TC,TS,TC,1
+holiday,G,G,G,G,1
+home energy audit,G,G,G,G,0
+home loan,G,TC,G,G,0
+home,G,G,G,G,1
+homeland security,G,G,G,G,1
+homepage,G,G,G,G,0
+homeworker,G,G,G,G,0
+hospital insurance benefits tax,TS,TS,TS,TS,0
+houseboat,G,G,G,G,0
+household appliances,G,G,G,G,1
+household employer’s tax guide,TS,TS,TS,TS,0
+household employment taxes,TS,TS,TS,TS,0
+household income,TC,TC,TC,TC,0
+household,G,G,G,G,0
+housewife,G,G,G,G,0
+housing allowance,TC,TC,TC,TC,1
+identity protection PIN,G,TS,TS,TS,1
+identity protection personal identification number,G,TS,TS,TS,0
+identity theft,G,G,G,G,1
+immigrant status,G,G,G,G,1
+immigration status,G,G,G,G,1
+impose a tax,TS,TS,G,TS,0
+in-law,G,G,G,G,0
+income averaging,TS,TS,TS,TS,0
+income from sources outside the U.S.,TS,TS,TS,TS,0
+income statement,TC,TC,G,TC,1
+income subject to tax,TS,TS,TS,TS,1
+income tax,TS,TS,TS,TS,1
+income,TC,TC,TC,TC,1
+income-producing property,G,TC,TC,TC,1
+income-splitting,TS,TC,TC,G,0
+incur,G,G,G,G,1
+independent contractor,G,G,TC,G,1
+individual estimated tax,TS,TS,TS,TS,0
+individual income tax,TS,TS,TS,TS,1
+individual income,TC,TC,TC,TC,0
+individual retirement account,TS,TS,TS,TS,0
+individual retirement arrangement,TS,TS,TS,TS,0
+individual taxpayer identification number,TS,TS,TS,TS,1
+information return,TS,TS,TS,TS,1
+information to claim certain credits after disallowance,TS,TS,TS,TS,0
+inheritance tax,TS,TS,TS,TS,0
+inheritance,TC,TC,TC,TC,1
+initial markup,G,G,G,G,0
+injured spouse claim,TS,TS,TS,TS,1
+injury,G,G,G,G,1
+innocent spouse relief,TS,TS,TS,TS,1
+innocent spouse,TS,TS,TS,TS,1
+input,G,G,G,G,0
+insolvency,G,G,TC,G,1
+installment agreement,TS,TS,TS,TS,1
+installment,G,TC,G,G,1
+insulation,G,G,G,G,0
+insurance broker,G,G,G,G,0
+intangible assets,TC,TC,TC,TC,0
+interest holder,G,G,G,G,0
+interest income,TC,TC,TC,TC,1
+interest rate,G,TC,G,G,1
+interest,G,TC,TC,G,1
+international social security agreement,G,G,TS,G,1
+inventory,TC,TC,TC,TC,1
+investment income,TC,TC,TC,TC,1
+investment tax credit,TS,TS,TS,TS,0
+investors,G,G,G,G,0
+invoice,G,G,G,G,1
+involuntary conversion,G,TS,TS,TS,1
+issue,G,G,G,G,1
+issuer,G,G,G,G,1
+item,G,G,G,G,1
+itemize,TS,TS,TS,TS,1
+itemized deductions,TS,TS,TS,TS,1
+items of tax preference,TS,TS,TS,TS,0
+itinerant,G,G,G,G,1
+jeopardy assessment,G,TS,TS,TS,0
+joint account,G,G,G,G,0
+joint and several liability,TC,TS,TC,TC,0
+joint and survivor annuity,TC,TC,TC,TC,0
+joint return test,TS,TS,TS,TS,1
+joint return,TS,TS,TS,TS,1
+joint tenancy,TC,TC,G,TC,0
+joint venture,G,TC,TC,TC,1
+journeyworker,G,G,G,G,0
+junior high school,G,G,G,G,0
+juror,G,G,G,G,0
+jury duty,G,G,G,G,0
+jury,G,G,G,G,0
+keep records,G,G,G,G,0
+kickback,G,G,TC,G,0
+kind of tax,TS,TS,G,TS,0
+landlord,G,G,G,G,1
+late filing penalty,TS,TS,TS,TS,0
+late payment penalty,TS,TS,TS,TS,0
+later alternate valuation,TS,G,TS,TS,0
+law enforcement officer,G,G,G,G,0
+law enforcement personnel,G,G,G,G,0
+layoff,G,G,G,G,0
+lease,G,TC,G,G,1
+lease-sale,G,TC,TC,TC,0
+leasehold improvements,TC,TC,TC,TC,1
+leasing of,G,G,G,G,0
+legal expenses,G,G,TC,G,0
+legal permanent resident,G,G,G,G,0
+legal person,G,G,G,G,0
+legal services plan,G,G,TC,G,0
+lender,G,G,G,G,0
+"lessee, tenant",G,G,G,G,0
+lessor,TC,G,G,G,1
+letterhead,G,G,G,G,0
+levy on wages,TS,TS,TS,TS,0
+levy release,TS,TS,TS,TS,0
+levy,TS,TS,TC,TS,1
+levy),TS,TS,TC,TS,0
+liabilities,TC,TC,G,TC,1
+lien,TC,TS,TC,TC,1
+life annuity,TC,TC,TC,TC,0
+life insurance policy,G,TC,G,G,1
+lifetime learning credit,TS,TS,TS,TS,0
+limited distribution,TC,G,G,TC,0
+limited partnership,TC,TC,TC,TC,0
+listed property,TS,TC,TS,TC,1
+living trust,TC,TC,G,TC,0
+loan origination fees,G,TC,TC,TC,0
+lobbying expenses,TC,G,TC,TC,1
+lockout,G,G,G,G,0
+long-term resident,G,G,TS,G,1
+long-term,TC,G,G,G,1
+lookback period,TS,TS,TC,TC,0
+loss of income,G,TC,G,G,0
+low income,G,G,G,G,1
+low-income taxpayer,TS,TS,TS,TS,0
+lump sum,G,TC,G,G,0
+maintenance,G,G,G,G,1
+make payable to,G,G,G,G,0
+marginal cost,G,G,G,G,0
+marginal revenue,G,G,G,G,0
+marginal tax rate,TS,TS,TS,TS,0
+mark-to-market tax,TS,TS,TS,TS,1
+mark-up,G,G,G,G,0
+mark-up; markup,G,G,G,G,0
+marketplace,G,G,G,G,0
+marriage certificate,G,G,G,G,0
+married,G,G,G,G,1
+master’s degree in,G,G,G,G,0
+math error,TS,TS,TC,TC,1
+medical expenses,TC,TC,TC,TC,1
+medical insurance benefits,G,TC,G,G,0
+medical insurance premiums,TC,TC,TC,TC,0
+merger,G,G,G,G,0
+meter,G,G,G,G,0
+middle school,G,G,G,G,0
+migrant worker,G,G,G,G,0
+mileage rate,TS,TC,TS,TC,0
+military differential pay,G,TC,TC,TC,0
+minimum essential coverage,TS,TS,TS,TS,0
+minimum payment,G,TC,G,G,0
+minimum wage,G,G,G,G,1
+mining activities,G,G,G,G,0
+mining,G,G,G,G,0
+miscellaneous expenses,TC,G,TC,TC,0
+mobile home,G,G,G,G,0
+modified accelerated cost recovery system,G,TS,TS,TS,1
+modified adjusted gross income,TS,TS,TS,TS,1
+money order,G,G,G,G,1
+monthly payments,G,G,G,G,0
+mortgage interest,TC,TC,TC,TC,0
+mortgage,G,TC,G,G,1
+mortgagee,G,G,G,G,0
+mortgagor,G,G,G,G,0
+motor home,G,G,G,G,0
+moving expenses,G,TC,TC,G,1
+multilevel marketing,G,G,G,G,1
+multinational corporation,G,G,G,G,0
+multiple support,G,TS,TS,TS,0
+mutual fund,G,TC,G,G,1
+national,G,G,TC,G,1
+natural disaster,G,G,G,G,0
+natural person,G,G,G,G,0
+naturalized citizen,G,G,G,G,0
+naturalized,G,G,G,G,0
+negligence penalty,TS,TS,TS,TS,1
+net earnings from self-employment,TS,TS,TS,TS,1
+net earnings,TC,TC,TC,TC,1
+net income,TC,TC,TC,TC,1
+net investment income tax,TS,TS,TS,TS,0
+net operating loss carryback,TS,TS,TS,TS,0
+net operating loss,TS,TS,TS,TS,1
+net profit,TC,TC,G,TC,1
+net receipts,TC,TC,G,TC,1
+net sales,TC,TC,G,TC,1
+net tax liability,TS,TS,TS,TS,0
+newsletter fund,G,G,TS,G,0
+nominal value,G,G,G,G,0
+nominee,G,G,TC,G,0
+non-employee,TC,G,TC,TC,0
+non-employee; nonemployee,G,G,TC,G,0
+non-fungible token,G,G,G,G,0
+non-streamlined installment agreement,TS,TS,TS,TS,0
+nonaccountable plan,TS,TS,TS,TS,1
+noncustodial parent,G,G,TC,G,0
+nondeductible,TS,TS,TS,TS,1
+nondividend distribution,TS,TC,TS,TS,0
+nonemployee compensation,TS,TC,TS,TS,1
+nonrefundable credits,G,TS,TS,TS,1
+nonresident alien,TS,TS,TS,TS,1
+nonstatutory stock option,G,TC,TS,TS,0
+nonwork day,G,G,G,G,0
+notarized documents,G,G,G,G,0
+notary public,G,G,G,G,1
+note,G,G,G,G,0
+notice of levy,TS,TS,TS,TS,0
+notice,G,G,G,G,1
+nursing care,G,G,G,G,0
+nursing home,G,G,G,G,0
+obsolescence,G,G,TC,G,0
+offer in compromise,G,TS,TS,TS,1
+office examination,G,TS,TS,TS,0
+offset,TS,TC,TC,TC,1
+old age pension,G,TC,G,G,0
+on-the-job training course,G,G,G,G,0
+online payment,G,G,G,G,1
+operating cost,G,TC,G,G,0
+optional mileage allowance,TS,TC,TS,TS,0
+optional tax,TS,TS,TS,TS,0
+ordinary and necessary,TS,TC,TS,TS,1
+original issue discount,G,TC,TS,TC,1
+out-of-pocket expenses,G,G,G,G,0
+outside salesperson,G,G,TC,G,0
+overpayment,TS,TS,TS,TS,1
+owner/co-owner,G,G,G,G,0
+paid preparer,TS,TS,TS,TS,1
+parent company,G,G,G,G,0
+part-time employee,G,G,G,G,0
+part-time student,G,G,G,G,0
+part-time work,G,G,G,G,1
+partner,G,G,TC,G,1
+partnership interest,TC,TC,TC,TC,1
+partnership,TC,TC,TC,TC,1
+pass-through entity; passthrough entity,TS,TS,TS,TS,0
+passive activity loss,G,TS,TS,TS,1
+passive activity losses,G,TS,TS,TS,0
+password,G,G,G,G,0
+patronage dividends,TC,TC,TC,TC,0
+pay period,G,G,G,G,0
+pay stub,G,G,G,G,0
+pay-as-you-go system,TC,G,TS,TC,0
+payee,TC,G,G,G,1
+payer,TC,G,G,G,1
+paymaster,G,G,TC,G,0
+payment plan,G,TS,TC,TC,1
+payment voucher,G,G,TS,G,1
+payment,G,G,G,G,1
+payroll service provider,TC,G,G,G,0
+payroll,TC,TC,G,TC,0
+penalty for premature withdrawal,TS,TC,TC,TC,0
+penalty for underpayment of estimated tax,TS,TS,TS,TS,0
+penalty for underpayment,TS,TS,TS,TS,0
+penalty,TC,TS,TC,TC,1
+pension plan,G,TC,TC,TC,1
+pension,G,TC,TC,TC,1
+per capita,G,G,G,G,0
+per diem,G,G,TC,G,1
+periodic payments,TC,TC,G,TC,0
+permanent resident,G,G,G,G,1
+permanently and totally disabled,G,G,TC,G,0
+personal exemptions,TS,TS,TS,TS,0
+personal expenses,TC,G,TC,TC,0
+personal holding company,TC,TC,TS,TC,0
+personal property tax,TS,TS,TS,TS,0
+personal property,TC,TC,G,TC,1
+personal service income,TC,TC,TC,TC,0
+personal services,TC,G,TC,TC,1
+personal use property,TC,TC,TC,TC,0
+personally identifiable information,TS,G,G,G,0
+petitioner,G,G,TC,G,0
+"petitioner, applicant",G,G,G,G,0
+phaseout,TS,TS,TS,TS,1
+phishing,G,G,G,G,0
+piecework,G,G,G,G,0
+plan year,G,TC,TC,TC,0
+plug-in electric drive motor vehicle credit,TS,TS,TS,TS,0
+plug-in electric vehicle credit,TS,TS,TS,TS,0
+portfolio interest,TC,TC,TS,TC,1
+postal money order,G,G,G,G,0
+potential eligible individual,G,G,G,G,0
+power of attorney,G,G,TC,G,1
+pre-addressed envelope,G,G,G,G,0
+pre-existing exclusions,G,G,G,G,0
+prefabricated,G,G,G,G,0
+premature withdrawal,TC,TC,TC,TC,0
+premium tax credit,G,TS,TS,TS,1
+premium,G,TC,G,TC,1
+prepaid income,TC,TC,TC,TC,0
+preparer tax identification number,TS,TS,TS,TS,0
+prepayment penalty,G,TC,G,G,0
+pretax,TS,TC,TS,TS,0
+prevailing wage and apprenticenship requirements,TS,TC,TC,TS,0
+prevailing wage and apprenticeship requirements,TC,TC,TC,TC,0
+principal place of abode,TC,TC,TC,TC,0
+principal place of business,TC,TC,TC,TC,1
+principal,G,G,G,G,1
+private foundation,TC,TC,TS,TC,0
+private industry,G,G,G,G,1
+prize,G,G,TC,TC,0
+professional preparer,TS,TS,TS,TS,0
+profit and loss statement,TC,TC,G,TC,0
+profit,G,TC,G,TC,1
+profit-seeking activity,G,TS,TS,TS,0
+profit-sharing plan,G,TC,TC,TC,0
+promissory note,G,G,G,G,0
+proof of credit,G,G,G,G,0
+property tax,TS,TS,TS,TS,0
+provider of medical care,G,G,G,G,0
+public law,G,G,G,G,0
+public retirement system,G,G,G,G,0
+public utility,G,G,G,G,0
+punitive damages,G,TC,TC,TC,0
+qualified business income deduction,TS,TS,TS,TS,1
+qualified disability trust,TS,TS,TS,TS,1
+qualified educational expenses,G,TS,TS,TS,0
+qualified health coverage,TS,TS,TS,TS,0
+qualified health plan,TS,TS,TS,TS,0
+qualified investment entity,TS,TS,TS,TS,0
+qualified plan,TS,TS,TS,TS,0
+qualified reinvestment plan,TS,TS,TC,TS,0
+qualified reservist distributions,TS,TS,TS,TS,0
+qualified retirement plan,TC,TS,TS,TS,1
+qualified terminable interest property trust,G,TS,TS,TS,0
+qualified,G,G,TC,G,1
+qualify,G,G,G,G,1
+qualifying child,TS,TS,TS,TS,1
+qualifying relative,TS,TS,TS,TS,1
+qualifying surviving spouse,TS,TS,TS,TS,1
+qualifying widow,G,TS,TS,TS,0
+qualifying widower,TS,TS,TS,TS,0
+railroad retirement,G,TC,TC,TC,1
+rate,G,G,G,G,1
+real currency,G,G,G,G,0
+real estate investment trust,TC,TC,TS,TC,0
+real estate investment,G,TC,G,G,1
+real estate mortgage investment conduit,TC,TC,TS,TC,0
+real estate tax,G,TS,TS,TS,0
+real estate,G,TC,G,G,1
+realized gain,TS,TC,TC,TC,0
+reasonable cause,TS,G,TC,TC,1
+reasonable expenses,TC,G,TC,TC,0
+recapture clause,TS,TC,TC,TC,0
+recapture,TS,TS,TS,TS,1
+recognized gain,TS,TC,TS,TS,0
+reconcile,G,G,TC,TC,0
+record,G,G,G,G,1
+records,G,G,G,G,0
+redeem a bond,G,TC,G,G,0
+refinancing,G,G,G,G,1
+refresher course,G,G,G,G,0
+refund of tax,G,TS,TS,TS,0
+refundable tax credit,G,TS,TS,TS,0
+register,G,G,G,G,1
+registered holder,G,G,G,G,0
+regulated investment company,G,TC,TS,TS,1
+regulations,G,G,TC,G,1
+related companies,G,G,TC,TC,0
+related taxpayers,TS,TS,TS,TS,0
+relationship test,G,TS,TS,TS,0
+relatives,G,G,G,G,0
+relief from joint responsibility,TS,TS,TS,TS,0
+remittance,TC,G,G,G,0
+remuneration,TC,G,G,G,0
+rent,G,TC,G,G,1
+repayment,G,G,G,G,1
+repeal,G,G,G,G,0
+reportable income,TS,TS,TS,TS,0
+reporting agent,TS,TS,TS,TS,0
+residency test,TS,TS,TS,TS,0
+resident alien,G,TS,TS,G,1
+residential clean energy credit,TS,TS,TS,TS,0
+residential energy credit,G,TS,TS,TS,0
+residential energy credits,TS,TS,TS,TS,0
+residential property,G,TC,G,G,0
+residential rental property,G,TC,TC,TC,1
+responsible party,TC,G,TC,TC,0
+retail price,G,G,G,G,0
+retail space,G,G,G,G,1
+retailer,G,G,G,G,1
+retained tax,TS,TS,TS,TS,0
+retirement income ceiling,TS,TC,TC,TS,0
+retirement income,G,TC,TC,TC,0
+retirement or pension plan,TC,TC,TC,TC,0
+retirement plan,TC,TC,TC,TC,1
+retirement,G,TC,G,G,1
+return preparers,TS,TS,TS,TS,1
+return,TS,TS,TC,TC,1
+returns and allowances,TC,TC,G,TC,1
+revenue agent,TS,TS,TS,TS,0
+revenue officer,TS,TS,TS,TS,0
+revenue procedure,TS,TS,TS,TS,1
+revenue ruling,TS,TS,TS,TS,1
+revenue sharing,TC,TC,TC,TC,0
+revoke,G,G,G,G,1
+revolving account,G,G,G,G,0
+rollover,TC,TC,TC,TC,0
+room and board,G,G,G,G,0
+routing number,G,G,G,G,0
+royalty,G,TC,TC,TC,1
+safe harbor,TC,TS,TC,TC,1
+safe haven,TC,G,TC,TC,0
+sailing permit,G,G,TS,G,1
+salary,G,TC,G,G,1
+sale or exchange,TC,TC,TC,TC,1
+sales tax,TS,TS,TS,TS,1
+salvage value,TC,TC,TC,TC,0
+sanction,G,G,G,G,0
+savings and loan association,G,G,G,G,0
+savings bond,G,TC,G,G,0
+schedule,G,G,TC,TC,1
+scholarship,G,G,TC,G,1
+school bonds,G,G,G,G,0
+seasonal unemployment,G,G,G,G,0
+section,G,G,G,G,1
+securities,G,TC,G,G,1
+seize,G,G,TC,TC,0
+seizure,G,G,TC,TC,1
+self-employed worker,TC,G,G,TC,0
+self-employment retirement plan,TS,TS,TC,TS,0
+self-employment tax,TS,TS,TS,TS,1
+self-employment,G,TS,TC,TC,1
+semiweekly depositor,TS,TS,TS,TS,0
+separate income,G,TC,TC,TC,0
+separate maintenance,TC,TC,TC,TC,1
+separate property,TC,G,G,G,1
+separation agreement,G,G,G,G,0
+serve a summons,G,G,TC,G,0
+settlement date,G,G,G,G,0
+severance pay,TC,TC,TC,TC,0
+share account,G,TC,G,G,0
+share accounts,G,TC,G,G,0
+share-farming,G,G,TC,G,0
+shared responsibility payment,TS,TS,TS,TS,0
+shareholder,TC,TC,G,TC,1
+shares of stock,G,TC,G,G,1
+sharing economy,G,G,G,G,0
+sheltered workshop,G,G,G,G,0
+short sale,G,TC,TC,TC,0
+short-term payment plan,TS,TS,TS,TS,0
+short-term,TC,G,G,G,1
+sick leave,G,TC,G,G,0
+sick pay,TC,TC,TC,TC,1
+single,G,G,TS,G,1
+single-member LLC,TC,TC,TC,TC,1
+small business owner,G,G,G,G,0
+small business payroll tax credit for increasing research activities,G,TS,TS,TS,0
+small business taxpayer,TS,TS,TS,TS,1
+small business,G,G,G,G,1
+small businessman,G,G,G,G,0
+small tax case procedure,TS,TS,TS,TS,0
+social security account,G,TC,G,G,0
+social security benefits,TC,TC,TC,TC,1
+social security,G,TC,TC,G,1
+sole proprietor,G,TC,TC,TC,1
+special assessment,TC,TC,TC,TC,0
+special withholding allowance,G,TS,TS,TS,0
+specific charge-off method,TS,TS,TS,TS,1
+spouse/nonspouse,G,G,TC,G,0
+stablecoins,G,G,G,G,0
+staking activities,G,G,G,G,0
+staking,G,G,G,G,0
+standard deduction,TS,TS,TS,TS,1
+standard mileage rate,G,TC,TS,TC,1
+state insurance agency,G,G,G,G,0
+state taxes,TS,TS,TC,TS,0
+statute of limitations,G,G,TC,G,0
+statute,G,G,G,G,0
+statutory employee,TS,TS,TS,TS,1
+statutory lien,TC,TS,TC,TC,0
+stepchild,G,G,G,G,0
+stock dividends,TC,TC,TC,TC,0
+stock in trade,G,TC,TC,TC,1
+stock option plan,G,TC,TC,TC,0
+stock purchase plan,TC,TC,TC,TC,0
+stockbroker,G,G,G,G,0
+stocks,G,TC,G,G,1
+straight-line depreciation,TC,TC,TC,TC,0
+streamlined installment agreement,TS,TS,TS,TS,0
+strike benefits,TC,TC,TC,TC,0
+student loan,G,G,G,G,1
+subject to U.S. income tax withholding,TS,TS,TS,TS,0
+subject to tax,TS,TS,TS,TS,1
+subject to withholding,TS,TS,TS,TS,1
+subsidy,G,G,G,G,0
+substantial equivalence test,G,G,TS,G,0
+substantial gainful activity,G,G,TC,G,0
+substantial presence,G,TS,TS,TS,1
+summary of income and deductions,TS,TS,G,TS,0
+summons,G,G,TC,G,0
+supplementary Medicare insurance for the aged,G,G,G,G,0
+support test,TS,TS,TS,TS,0
+support,TC,G,TC,G,1
+supporting documents,G,G,G,G,0
+supporting form,G,G,TC,G,0
+surcharge,G,G,TC,G,0
+surtax,TS,TS,TS,TS,0
+surviving spouse,TS,TS,TC,TC,1
+sustainable aviation fuel,G,G,G,G,0
+tab,G,G,G,G,1
+talking tax forms,G,TS,G,TS,0
+tangible assets,TC,TC,TC,TC,0
+tangible personal property,TC,TC,TC,TC,1
+tax account information,G,TS,TS,TS,0
+tax auditor,TS,TS,TS,TS,0
+tax avoidance,TS,TS,TC,TS,0
+tax base,TS,TS,TS,TS,0
+tax benefit,TS,TS,TS,TS,1
+tax bill,TS,TS,TC,TS,1
+tax bracket,TS,TS,TS,TS,0
+tax computation worksheet,TS,TS,TS,TS,0
+tax computation,G,TS,TS,TS,1
+tax court,TS,TS,TS,TS,1
+tax credit,TS,TS,TS,TS,1
+tax deductible,TS,TS,TS,TS,0
+tax dispute,TS,TS,TS,TS,0
+tax evasion,TS,TS,TS,TS,1
+tax exemption,TS,TS,TS,TS,1
+tax form,TS,TS,TS,TS,1
+tax forms,TS,TS,TS,TS,1
+tax haven country,G,TS,TC,TS,0
+tax home,TS,TS,TS,TS,1
+tax household,TS,TS,TS,TS,0
+tax incentive,TS,TS,TC,TS,0
+tax liability,TS,TS,TS,TS,1
+tax loophole,TS,TS,G,TS,0
+tax on gambling winnings,TS,TS,TS,TS,0
+tax penalty,TS,TS,TS,TS,0
+tax period,TS,TS,TS,TS,1
+tax policy,TS,TS,G,TS,0
+tax preference items subject to minimum tax,TS,TS,TS,TS,0
+tax preparer,TS,TS,TS,TS,1
+tax professional,TS,TS,TC,TS,1
+tax provision,TS,TS,TC,TS,0
+tax rate schedule,TS,TS,TS,TS,1
+tax rate,TS,TS,TS,TS,1
+tax rebate,TS,TS,TS,TS,0
+tax relief for victims of terrorist attacks,TS,TS,TS,TS,0
+tax relief,G,TS,TS,TS,1
+tax return,TS,TS,TS,TS,1
+tax shelter,TS,TS,TS,TS,1
+tax statement,G,TS,TC,TS,1
+tax status,TS,TS,TS,TS,0
+tax stimulus,TS,TS,TC,TS,0
+tax table income,TS,TS,TS,TS,0
+tax table,TS,TS,TS,TS,1
+tax treatment,TS,TS,TS,TS,1
+tax treaty,TS,TS,TS,TS,1
+tax withheld at source,G,TS,TS,TS,0
+tax year,TS,TS,TS,TS,1
+tax,TS,TS,TC,TC,1
+tax-deferred income,TS,TS,TS,TS,0
+tax-exempt income,TS,TS,TS,TS,0
+tax-exempt stated interest,TS,TS,TS,TS,0
+tax-free zone,TS,TS,TC,TS,0
+taxable benefits,TS,TS,TS,TS,1
+taxable bond,TS,TS,TC,TS,0
+taxable income,TS,TS,TS,TS,1
+taxable stocks,G,TS,G,TS,0
+taxable year,TS,TS,TS,TS,0
+taxable,TS,TS,TS,TS,1
+taxpayer identification number,TS,TS,TS,TS,1
+taxpayer rights,G,TS,TS,TS,1
+taxpayer,G,TS,TS,TS,1
+technical school,G,G,G,G,0
+temporary seasonal workers,G,G,G,G,0
+tenancy by the entirety,TC,TC,G,TC,0
+tenancy in common,TC,TC,G,TC,0
+tenant,G,G,G,G,1
+tenant-stockholder,G,TC,TS,G,0
+tentative credit,TS,TS,TS,TS,0
+term,G,G,G,G,1
+testament,G,G,G,G,0
+theft,G,G,TC,G,1
+third party,G,G,G,G,1
+third-party designee,TS,TS,TS,TS,0
+third-party payer,TS,TC,TC,TC,0
+tie-breaking rule,G,TS,TS,TC,0
+tiebreaker rules,TS,TS,TS,TS,1
+time basis,G,G,G,G,1
+tip,TC,G,TC,TC,1
+tips deemed to be wages,G,TS,TS,TS,0
+toll call,G,G,G,G,0
+toll,G,G,G,G,0
+toll-free number,G,G,G,G,1
+total tax due,TS,TS,TS,TS,0
+totalization agreement,TS,G,TS,TS,1
+townhouse,G,G,G,G,0
+trade name,G,G,G,G,0
+trade or business,TS,TC,TS,TC,1
+trade readjustment assistance,G,G,G,G,0
+trade,G,G,TC,G,1
+"trade, exchange",G,G,TC,G,0
+trade-import firm,G,G,G,G,0
+trader,G,G,TC,G,1
+trailer,G,G,G,G,1
+trainee,G,G,G,G,1
+training,G,G,G,G,1
+transcript,G,G,TC,G,1
+transfer,G,G,G,G,1
+transferee,G,G,TC,TC,1
+transferor,G,G,TC,TC,0
+travel allowance,G,TC,TC,TC,0
+travel expenses,TC,TC,TC,TC,1
+traveling salesperson,G,G,G,G,0
+treaty-based return position disclosure,TS,TS,TS,TS,0
+truck,G,G,G,G,1
+truck-tractor,G,G,G,G,0
+trust company,G,TC,G,G,0
+trust fund,TC,TC,TS,TC,0
+trust,TC,TC,TC,TC,1
+trustee,TC,G,G,TC,1
+tuition,G,G,G,G,1
+uncollected FICA tax,TS,TS,TS,TS,0
+underpayment,TS,TS,TC,TC,1
+underreported taxes,TS,TS,TS,TS,0
+underwriter,G,G,G,G,0
+undistributed earnings,G,TC,TC,TC,0
+undue hardship,TC,G,TC,TC,0
+unearned income,G,TC,TS,TC,0
+unemployment compensation,TC,TS,TC,TC,1
+unemployment tax,TS,TS,TS,TS,0
+unemployment,G,TC,G,G,1
+union,G,G,G,G,0
+university,G,G,G,G,1
+unpaid balance,G,TC,G,G,0
+untaxed,G,TS,G,TS,0
+upward mobility program,G,G,G,G,0
+user fee,G,G,TC,G,1
+utilities,G,G,G,G,1
+valuation,TC,TC,G,TC,1
+van,G,G,G,G,1
+virtual currency,TC,G,G,G,0
+voice prompts,G,G,G,G,0
+voluntary compliance,TS,TS,TS,TS,0
+wager,G,G,G,G,0
+wages,TC,TC,TC,TC,1
+waiting period,G,G,G,G,0
+waiver of the enrollment in training requirement,G,G,G,G,0
+waiver,G,G,G,G,1
+wash sale,TS,TC,TS,TC,1
+web page,G,G,G,G,0
+website,G,G,G,G,1
+welfare recipient,G,G,G,G,0
+welfare,G,G,G,G,1
+whistleblower,G,G,TC,G,0
+wholesale,G,G,G,G,1
+will,G,G,G,G,1
+windfall profits,TC,TC,TC,TC,0
+wire transfer,G,G,G,G,0
+withheld tax,G,TS,TS,TS,1
+withholding allowance,TS,TS,TS,TS,0
+withholding of tax at source,TS,TS,TS,TS,0
+withholding of tax,TS,TS,TS,TS,1
+work for oneself,G,G,G,G,0
+work opportunity credit,TS,TS,TS,TS,0
+workers’ compensation,TC,TC,TC,TC,0
+workfare payments,TC,G,TC,TS,0
+working day,G,G,G,G,0
+working hours,G,G,G,G,0
+worksheet,G,G,G,G,1
+worldwide income,TS,TS,TS,TS,1
+worthless security,TC,TC,TS,TC,0
+write-in adjustment,G,TS,TC,TS,0
+write-off,G,TC,TC,TC,0
+yearly rate,G,G,G,G,0
+yield to maturity,G,TC,G,TC,0
+yield,G,TC,G,TC,0
