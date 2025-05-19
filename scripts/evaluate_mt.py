@@ -62,10 +62,6 @@ LANGID2LATEX = {
     "ht": "\\textsc{ht}"
 }
 
-# Bootstrap parameters
-NUM_BOOTSTRAP_SAMPLES = 1000
-CONFIDENCE_LEVEL = 0.95  # 95% confidence interval
-
 # Define model group information to help with formatting
 MODEL_GROUPS = {
     # MT systems
@@ -211,9 +207,9 @@ def load_results():
     
     return results_scores, results_values
 
-def bootstrap_term_accuracy(values1, values2):
+def perform_mann_whitney_test(values1, values2):
     """
-    Perform bootstrap resampling to determine if the difference between
+    Perform Mann-Whitney U test to determine if the difference between
     two models' term accuracy results is statistically significant.
     
     Args:
@@ -223,64 +219,40 @@ def bootstrap_term_accuracy(values1, values2):
     Returns:
         p_value: p-value of the difference
         mean_diff: mean difference between the two models
-        ci_low: lower bound of confidence interval
-        ci_high: upper bound of confidence interval
+        is_significant: whether the difference is significant (p < 0.05)
     """
     if not values1 or not values2:
-        return None, None, None, None
+        return None, None, False
     
-    # Flatten lists if needed while preserving equal weighting of sentences
-    def compute_accuracy_from_binary(values):
-        if not values:
-            return 0
-        total_correct = sum(sum(sentence) for sentence in values)
-        total_terms = sum(len(sentence) for sentence in values)
-        return total_correct / total_terms if total_terms > 0 else 0
+    # Convert binary values to accuracy scores per instance
+    def convert_to_accuracies(binary_values):
+        accuracies = []
+        for sentence in binary_values:
+            if sentence:  # Only include non-empty sentences
+                accuracies.append(sum(sentence) / len(sentence))
+        return accuracies
     
-    # Original accuracies
-    acc1 = compute_accuracy_from_binary(values1)
-    acc2 = compute_accuracy_from_binary(values2)
-    mean_diff = acc1 - acc2
+    # Get per-sentence accuracies
+    accuracies1 = convert_to_accuracies(values1)
+    accuracies2 = convert_to_accuracies(values2)
     
-    # Initialize bootstrap differences
-    bootstrap_diffs = []
+    if not accuracies1 or not accuracies2:
+        return None, None, False
     
-    # Ensure we have the same number of samples from each model
-    n = min(len(values1), len(values2))
-    if n == 0:
-        return None, None, None, None
-        
-    # Create paired samples
-    for _ in range(NUM_BOOTSTRAP_SAMPLES):
-        # Sample with replacement
-        indices = [random.randint(0, n-1) for _ in range(n)]
-        
-        # Compute accuracies for the bootstrap sample
-        sample1 = [values1[i] for i in indices if i < len(values1)]
-        sample2 = [values2[i] for i in indices if i < len(values2)]
-        
-        bootstrap_acc1 = compute_accuracy_from_binary(sample1)
-        bootstrap_acc2 = compute_accuracy_from_binary(sample2)
-        
-        # Record the difference
-        bootstrap_diffs.append(bootstrap_acc1 - bootstrap_acc2)
+    # Calculate mean accuracy for each model
+    mean_acc1 = sum(accuracies1) / len(accuracies1)
+    mean_acc2 = sum(accuracies2) / len(accuracies2)
+    mean_diff = mean_acc1 - mean_acc2
     
-    # Sort differences for percentile calculation
-    bootstrap_diffs.sort()
+    # Perform Mann-Whitney U test
+    try:
+        u_stat, p_value = stats.mannwhitneyu(accuracies1, accuracies2, alternative='two-sided')
+        is_significant = p_value < 0.05
+    except ValueError:
+        # Handle the case where the test cannot be performed
+        return None, mean_diff, False
     
-    # Calculate confidence interval
-    alpha = 1 - CONFIDENCE_LEVEL
-    lower_idx = int(NUM_BOOTSTRAP_SAMPLES * (alpha / 2))
-    upper_idx = int(NUM_BOOTSTRAP_SAMPLES * (1 - alpha / 2))
-    ci_low = bootstrap_diffs[lower_idx]
-    ci_high = bootstrap_diffs[upper_idx]
-    
-    # Calculate p-value (two-tailed test)
-    # Count how many bootstrap samples have the opposite sign of the original difference
-    opposite_sign = sum(1 for diff in bootstrap_diffs if diff * mean_diff <= 0)
-    p_value = opposite_sign / NUM_BOOTSTRAP_SAMPLES
-    
-    return p_value, mean_diff, ci_low, ci_high
+    return p_value, mean_diff, is_significant
 
 def run_statistical_tests(results_values):
     """Run statistical tests between pairs of models for each dataset and language pair"""
@@ -319,8 +291,8 @@ def run_statistical_tests(results_values):
                         values1 = results_values[model1][dataset][direction]["term_acc"]
                         values2 = results_values[model2][dataset][direction]["term_acc"]
                         
-                        # Run bootstrap test
-                        p_value, mean_diff, ci_low, ci_high = bootstrap_term_accuracy(values1, values2)
+                        # Run Mann-Whitney U test instead of bootstrap
+                        p_value, mean_diff, is_significant = perform_mann_whitney_test(values1, values2)
                         
                         if p_value is not None:
                             # Determine the comparison type - simplify to just mt_vs_llm
@@ -334,8 +306,7 @@ def run_statistical_tests(results_values):
                             stats_results[dataset][comparison][direction] = {
                                 "p_value": p_value,
                                 "mean_diff": mean_diff,
-                                "confidence_interval": [ci_low, ci_high],
-                                "significant": p_value < 0.05,
+                                "significant": is_significant,
                                 "better_model": model1 if mean_diff > 0 else model2,
                                 "comparison_type": comparison_type
                             }
