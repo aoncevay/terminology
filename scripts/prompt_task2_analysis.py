@@ -1,0 +1,338 @@
+#!/usr/bin/env python3
+# Script to analyze the impact of specialized prompts (GPT4o++ vs GPT4o)
+# Generates comparative bar plots showing score differences across languages
+
+import os
+import json
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+from pathlib import Path
+import argparse
+
+# Constants
+DATASETS = ["irs", "cfpb"]
+METRICS = ["chrf++", "term_acc"]
+DIRECTIONS = ["en-xx", "xx-en"]
+
+# Dataset to language mappings
+DATASET2LANGS = {
+    "irs": ["es", "kr", "ru", "vi", "zh_s", "zh_t", "ht"],
+    "cfpb": ["es", "kr", "ru", "vi", "zh_t", "ht"]
+}
+
+# Language name mapping for prettier labels
+LANG2NAME = {
+    "es": "Spanish",
+    "kr": "Korean",
+    "ru": "Russian",
+    "vi": "Vietnamese",
+    "zh_s": "Chinese (S)",
+    "zh_t": "Chinese (T)",
+    "ht": "Haitian"
+}
+
+# Short language codes for axis labels
+LANG2SHORT = {
+    "es": "es",
+    "kr": "ko",
+    "ru": "ru",
+    "vi": "vi",
+    "zh_s": "zh(s)",
+    "zh_t": "zh(t)",
+    "ht": "ht"
+}
+
+# Pretty metric names
+METRIC2NAME = {
+    "chrf++": "chrF++",
+    "term_acc": "Term Accuracy"
+}
+
+# Define models to compare
+BASE_MODEL = "LLM_openai_gpt4o"
+PROMPT_MODEL = "Task2_LLM_openai_gpt4o"
+
+# Color scheme
+GAIN_COLOR = "#AED6F1"  # Light blue for gains
+LOSS_COLOR = "#F5B7B1"  # Light red for losses
+
+def load_results():
+    """Load evaluation results for both models"""
+    results = {}
+    
+    # Paths to result files
+    base_path = f"../results/scores_{BASE_MODEL}.json"
+    prompt_path = f"../results/scores_{PROMPT_MODEL}.json"
+    
+    # Load base model results
+    if os.path.exists(base_path):
+        with open(base_path, "r", encoding="utf-8") as f:
+            results[BASE_MODEL] = json.load(f)
+    else:
+        print(f"Warning: Results for {BASE_MODEL} not found at {base_path}")
+        results[BASE_MODEL] = {}
+    
+    # Load prompt-enhanced model results
+    if os.path.exists(prompt_path):
+        with open(prompt_path, "r", encoding="utf-8") as f:
+            results[PROMPT_MODEL] = json.load(f)
+    else:
+        print(f"Warning: Results for {PROMPT_MODEL} not found at {prompt_path}")
+        results[PROMPT_MODEL] = {}
+    
+    return results
+
+def get_language_pairs(dataset, direction):
+    """Generate language pairs for a given dataset and direction"""
+    language_pairs = []
+    langs = DATASET2LANGS.get(dataset, [])
+    
+    if direction == "en-xx":
+        return [f"en-{lang}" for lang in langs]
+    else:  # xx-en
+        return [f"{lang}-en" for lang in langs]
+
+def calculate_differences(results, dataset, direction, metric):
+    """Calculate score differences between prompt and base models"""
+    language_pairs = get_language_pairs(dataset, direction)
+    differences = {}
+    
+    # Extract languages from pairs based on direction
+    if direction == "en-xx":
+        languages = [pair.split("-")[1] for pair in language_pairs]
+    else:  # xx-en
+        languages = [pair.split("-")[0] for pair in language_pairs]
+    
+    # Process each language
+    for lang, lang_pair in zip(languages, language_pairs):
+        # Skip if data is missing
+        if (dataset not in results[BASE_MODEL] or 
+            dataset not in results[PROMPT_MODEL] or
+            lang_pair not in results[BASE_MODEL][dataset] or
+            lang_pair not in results[PROMPT_MODEL][dataset]):
+            print(f"Warning: Missing data for {lang_pair} in {dataset}")
+            continue
+        
+        # Get scores for both models
+        base_score = results[BASE_MODEL][dataset][lang_pair].get(metric, -1)
+        prompt_score = results[PROMPT_MODEL][dataset][lang_pair].get(metric, -1)
+        
+        # Skip if invalid scores
+        if base_score == -1 or prompt_score == -1:
+            print(f"Warning: Invalid scores for {lang_pair} in {dataset}")
+            continue
+        
+        # Calculate difference (prompt - base)
+        difference = prompt_score - base_score
+        
+        # Store difference
+        differences[lang] = difference
+    
+    return differences
+
+def create_difference_plot(differences, dataset, direction, metric, output_dir="../figs/prompt_analysis"):
+    """Create a bar plot showing score differences"""
+    # Create output directory if it doesn't exist
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Set plot style for publication quality
+    plt.style.use('seaborn-v0_8-whitegrid')
+    mpl.rcParams['font.family'] = 'serif'
+    mpl.rcParams['font.serif'] = ['Times New Roman']
+    mpl.rcParams['axes.labelsize'] = 10
+    mpl.rcParams['axes.titlesize'] = 11
+    mpl.rcParams['xtick.labelsize'] = 9
+    mpl.rcParams['ytick.labelsize'] = 9
+    
+    # Create figure with specified dimensions
+    fig, ax = plt.subplots(figsize=(3, 2.5))
+    
+    # Prepare data
+    languages = list(differences.keys())
+    values = list(differences.values())
+    
+    # Sort languages by difference value (optional)
+    # This helps to see patterns more clearly
+    sorted_indices = np.argsort(values)
+    languages = [languages[i] for i in sorted_indices]
+    values = [values[i] for i in sorted_indices]
+    
+    # Create bars with colors based on sign
+    bars = ax.bar(
+        range(len(languages)),
+        values,
+        color=[GAIN_COLOR if v >= 0 else LOSS_COLOR for v in values],
+        edgecolor='black',
+        linewidth=0.5,
+        width=0.7,
+        hatch='//' if metric == "term_acc" else None  # Add hatching for term accuracy
+    )
+    
+    # Add language labels
+    ax.set_xticks(range(len(languages)))
+    ax.set_xticklabels([LANG2SHORT[lang] for lang in languages], rotation=45, ha='right')
+    
+    # Add zero reference line
+    ax.axhline(y=0, color='green', linestyle='-', linewidth=1)
+    
+    # Add BPE or percentage label depending on the metric
+    if metric == "chrf++":
+        ax.text(
+            0.98, 0.98, 
+            f"BPEs = {sum(values):.2f}", 
+            transform=ax.transAxes,
+            ha='right', va='top',
+            color='green',
+            fontsize=10
+        )
+    else:  # term_acc
+        # For term accuracy, show average percentage change
+        avg_pct = 100 * sum(values) / len(values)
+        ax.text(
+            0.98, 0.98, 
+            f"Avg = {avg_pct:.2f}%", 
+            transform=ax.transAxes,
+            ha='right', va='top',
+            color='green',
+            fontsize=10
+        )
+    
+    # Add descriptive title
+    direction_label = "en→xx" if direction == "en-xx" else "xx→en"
+    title = f"{dataset.upper()}: {direction_label}"
+    ax.set_title(title)
+    
+    # Add y-axis label based on metric
+    if metric == "chrf++":
+        ax.set_ylabel("chrF diff")
+    else:  # term_acc
+        ax.set_ylabel("Term Acc diff")
+    
+    # Adjust layout
+    plt.tight_layout()
+    
+    # Save figure
+    filename = f"{dataset}_{direction}_{metric}_diff.pdf"
+    filepath = os.path.join(output_dir, filename)
+    plt.savefig(filepath, bbox_inches='tight', dpi=300)
+    
+    # Also save as PNG for quick preview
+    png_filepath = os.path.join(output_dir, f"{dataset}_{direction}_{metric}_diff.png")
+    plt.savefig(png_filepath, bbox_inches='tight', dpi=150)
+    
+    print(f"Saved plot to {filepath}")
+    
+    # Close figure to free memory
+    plt.close()
+    
+    return filepath
+
+def generate_latex_code(filepaths):
+    """Generate LaTeX code to include all figures in a paper"""
+    latex_code = "% LaTeX code to include prompt analysis figures\n\n"
+    
+    # Group filepaths by dataset and metric
+    by_dataset_metric = {}
+    for filepath in filepaths:
+        # Extract components from filename
+        filename = os.path.basename(filepath)
+        parts = filename.split('_')
+        dataset = parts[0]
+        metric = parts[2]
+        
+        key = f"{dataset}_{metric}"
+        if key not in by_dataset_metric:
+            by_dataset_metric[key] = []
+        by_dataset_metric[key].append(filepath)
+    
+    # Generate LaTeX code for each group
+    for key, paths in by_dataset_metric.items():
+        dataset, metric = key.split('_')
+        metric_name = METRIC2NAME[metric]
+        
+        latex_code += f"% {dataset.upper()} {metric_name} comparison\n"
+        latex_code += "\\begin{figure}[t]\n"
+        latex_code += "    \\centering\n"
+        
+        # Add subfigures
+        for i, path in enumerate(sorted(paths)):  # Sort to ensure en-xx comes before xx-en
+            subfig_label = "a" if "en-xx" in path else "b"
+            direction = "en→xx" if "en-xx" in path else "xx→en"
+            
+            latex_code += f"    \\begin{{subfigure}}[b]{{0.48\\linewidth}}\n"
+            latex_code += f"        \\centering\n"
+            latex_code += f"        \\includegraphics[width=\\linewidth]{{{os.path.basename(path)}}}\n"
+            latex_code += f"        \\caption{{{direction}}}\n"
+            latex_code += f"        \\label{{fig:prompt_diff_{dataset}_{metric}_{subfig_label}}}\n"
+            latex_code += f"    \\end{{subfigure}}\n"
+            
+            # Add space between subfigures if this is the first one
+            if i == 0 and len(paths) > 1:
+                latex_code += f"    \\hfill\n"
+        
+        # Caption and label
+        latex_code += f"    \\caption{{Difference in {metric_name} scores between GPT4o++ and GPT4o for {dataset.upper()} dataset.}}\n"
+        latex_code += f"    \\label{{fig:prompt_diff_{dataset}_{metric}}}\n"
+        latex_code += "\\end{figure}\n\n"
+    
+    # Save LaTeX code to file
+    latex_path = "../figs/prompt_analysis/prompt_figures.tex"
+    os.makedirs(os.path.dirname(latex_path), exist_ok=True)
+    with open(latex_path, "w", encoding="utf-8") as f:
+        f.write(latex_code)
+    
+    print(f"LaTeX code saved to {latex_path}")
+
+def parse_args():
+    """Parse command line arguments"""
+    parser = argparse.ArgumentParser(description="Analyze prompt impact on GPT4o performance")
+    parser.add_argument("--output_dir", default="../figs/prompt_analysis", 
+                        help="Directory to save output figures")
+    parser.add_argument("--latex", action="store_true", 
+                        help="Generate LaTeX code for including figures")
+    
+    return parser.parse_args()
+
+def main():
+    """Main function"""
+    args = parse_args()
+    
+    # Create output directory
+    os.makedirs(args.output_dir, exist_ok=True)
+    
+    # Load results
+    results = load_results()
+    
+    # Check if we have data for both models
+    if not results[BASE_MODEL] or not results[PROMPT_MODEL]:
+        print("Error: Missing data for one or both models")
+        return
+    
+    # Track all generated filepaths
+    all_filepaths = []
+    
+    # Generate plots for each dataset, direction, and metric
+    for dataset in DATASETS:
+        for direction in DIRECTIONS:
+            for metric in METRICS:
+                # Calculate differences
+                differences = calculate_differences(results, dataset, direction, metric)
+                
+                # Skip if no data
+                if not differences:
+                    print(f"No data for {dataset} {direction} {metric}")
+                    continue
+                
+                # Create plot
+                filepath = create_difference_plot(differences, dataset, direction, metric, args.output_dir)
+                all_filepaths.append(filepath)
+    
+    # Generate LaTeX code if requested
+    if args.latex and all_filepaths:
+        generate_latex_code(all_filepaths)
+    
+    print(f"Generated {len(all_filepaths)} plots")
+
+if __name__ == "__main__":
+    main()
