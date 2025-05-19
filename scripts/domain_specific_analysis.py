@@ -542,7 +542,7 @@ def create_boxplots_by_category(accuracy_by_category, between_models_significanc
                         whisker_positions[category].append(0.6)  # Default if no data
             
             # Calculate a more moderate vertical margin
-            vertical_margin = (y_max - 0) * 0.08  # Reduced to 8% for closer positioning to boxplots
+            vertical_margin = (y_max - 0) * 0.12  # Increased from 8% to 12% for better spacing from whiskers
             
             # For each model, check and mark significant differences
             for i, model in enumerate(models_list):
