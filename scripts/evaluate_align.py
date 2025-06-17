@@ -65,90 +65,105 @@ def evaluate_all_datasets():
             results_scores[model][dataset] = {}
             results_values[model][dataset] = {}
     
+    # Define directions to evaluate
+    directions_config = [
+        ("en", "forward"),  # en->xx direction
+        ("xx", "reverse")   # xx->en direction
+    ]
+    
     # Evaluate each model
     for model in models:
         print(f"Evaluating {model} model")
         for dataset in datasets:
             print(f"  Evaluating {dataset} dataset")
             for language in languages:
-                # Evaluate only en->language direction
-                direction = f"en-{language}"
                 file_prefix = f"{model}_{dataset}_{language}"
                 
-                results_scores[model][dataset][direction] = {}
-                results_values[model][dataset][direction] = {}
+                # Evaluate both directions
+                for direction_type, path_prefix in directions_config:
+                    if direction_type == "en":
+                        # en->language direction
+                        direction = f"en-{language}"
+                        output_path = f"../output_align/{model}/{file_prefix}_translations.json"
+                        print(f"    Evaluating {direction} direction")
+                    else:
+                        # language->en direction (reverse)
+                        direction = f"{language}-en"
+                        output_path = f"../output_align/{model}/reverse_{file_prefix}_translations.json"
+                        print(f"    Evaluating {direction} direction")
                     
-                output_path = f"../output_align/{model}/{file_prefix}_translations.json"
-                if os.path.exists(output_path):
-                    with open(output_path, "r", encoding="utf-8") as f:
-                        data = json.load(f)
+                    results_scores[model][dataset][direction] = {}
+                    results_values[model][dataset][direction] = {}
+                    if os.path.exists(output_path):
+                        with open(output_path, "r", encoding="utf-8") as f:
+                            data = json.load(f)
 
-                    # Process the data structure - flatten the document-level entries
-                    flattened_entries = []
-                    for doc_id, entries in data.items():
-                        for entry in entries:
-                            flattened_entries.append(entry)
+                        # Process the data structure - flatten the document-level entries
+                        flattened_entries = []
+                        for doc_id, entries in data.items():
+                            for entry in entries:
+                                flattened_entries.append(entry)
+                                    
+                        # Compute term accuracy and store binary results
+                        term_accuracy = 0
+                        term_counter = 0
+                        term_acc_values = []  # Binary success/failure for each term pair
+                        
+                        for entry in flattened_entries:
+                            # Check if all necessary fields are present
+                            if "term_pairs" not in entry or "predicted_term_pairs" not in entry:
+                                continue
                                 
-                    # Compute term accuracy and store binary results
-                    term_accuracy = 0
-                    term_counter = 0
-                    term_acc_values = []  # Binary success/failure for each term pair
-                    
-                    for entry in flattened_entries:
-                        # Check if all necessary fields are present
-                        if "term_pairs" not in entry or "predicted_term_pairs" not in entry:
-                            continue
+                            # Compare gold term pairs with predicted term pairs
+                            gold_pairs = entry["term_pairs"]
+                            pred_pairs = entry["predicted_term_pairs"]
+                            entry_doc_id = entry.get("doc_id", "unknown")
                             
-                        # Compare gold term pairs with predicted term pairs
-                        gold_pairs = entry["term_pairs"]
-                        pred_pairs = entry["predicted_term_pairs"]
-                        entry_doc_id = entry.get("doc_id", "unknown")
-                        
-                        # Track results for each term pair in this entry
-                        entry_results = []
-                        
-                        for source_term, gold_translation in gold_pairs.items():
-                            if source_term in pred_pairs:
-                                # Check if prediction is None
-                                pred_translation = pred_pairs[source_term]
-                                if pred_translation is None:
-                                    # Log the issue and count as wrong
-                                    print(f"      WARNING: None value in prediction for dataset={dataset}, language={language}, doc_id={entry_doc_id}, term={source_term}")
-                                    entry_results.append(0)
-                                    term_counter += 1
-                                else:
-                                    # Case-insensitive comparison
-                                    try:
-                                        correct = gold_translation.lower() == pred_translation.lower()
-                                        entry_results.append(1 if correct else 0)
-                                        term_accuracy += 1 if correct else 0
-                                        term_counter += 1
-                                    except AttributeError:
-                                        # Handle any other unexpected types
-                                        print(f"      WARNING: Type error comparing gold={type(gold_translation)} and pred={type(pred_translation)} for dataset={dataset}, language={language}, doc_id={entry_doc_id}, term={source_term}")
-                                        print(f"      Gold: {gold_translation}, Pred: {pred_translation}")
+                            # Track results for each term pair in this entry
+                            entry_results = []
+                            
+                            for source_term, gold_translation in gold_pairs.items():
+                                if source_term in pred_pairs:
+                                    # Check if prediction is None
+                                    pred_translation = pred_pairs[source_term]
+                                    if pred_translation is None:
+                                        # Log the issue and count as wrong
+                                        print(f"      WARNING: None value in prediction for dataset={dataset}, language={language}, doc_id={entry_doc_id}, term={source_term}")
                                         entry_results.append(0)
                                         term_counter += 1
-                            else:
-                                # Missing term in predictions - log and count as wrong
-                                print(f"      WARNING: Missing term in prediction for dataset={dataset}, language={language}, doc_id={entry_doc_id}, term={source_term}")
-                                entry_results.append(0)
-                                term_counter += 1
+                                    else:
+                                        # Case-insensitive comparison
+                                        try:
+                                            correct = gold_translation.lower() == pred_translation.lower()
+                                            entry_results.append(1 if correct else 0)
+                                            term_accuracy += 1 if correct else 0
+                                            term_counter += 1
+                                        except AttributeError:
+                                            # Handle any other unexpected types
+                                            print(f"      WARNING: Type error comparing gold={type(gold_translation)} and pred={type(pred_translation)} for dataset={dataset}, language={language}, doc_id={entry_doc_id}, term={source_term}")
+                                            print(f"      Gold: {gold_translation}, Pred: {pred_translation}")
+                                            entry_results.append(0)
+                                            term_counter += 1
+                                else:
+                                    # Missing term in predictions - log and count as wrong
+                                    print(f"      WARNING: Missing term in prediction for dataset={dataset}, language={language}, doc_id={entry_doc_id}, term={source_term}")
+                                    entry_results.append(0)
+                                    term_counter += 1
+                            
+                            if entry_results:
+                                term_acc_values.append(entry_results)
                         
-                        if entry_results:
-                            term_acc_values.append(entry_results)
-                    
-                    # Calculate average term accuracy
-                    term_accuracy_score = term_accuracy / term_counter if term_counter > 0 else 0
-                    print(f"    Term accuracy for {language} (en->xx): {term_accuracy_score}")
-                    
-                    # Store both the overall score and the binary results
-                    results_scores[model][dataset][direction]["term_acc"] = term_accuracy_score
-                    results_values[model][dataset][direction]["term_acc"] = term_acc_values
-                else:
-                    print(f"    No output file found for {file_prefix}")
-                    results_scores[model][dataset][direction]["term_acc"] = -1
-                    results_values[model][dataset][direction]["term_acc"] = []
+                        # Calculate average term accuracy
+                        term_accuracy_score = term_accuracy / term_counter if term_counter > 0 else 0
+                        print(f"      Term accuracy for {direction}: {term_accuracy_score}")
+                        
+                        # Store both the overall score and the binary results
+                        results_scores[model][dataset][direction]["term_acc"] = term_accuracy_score
+                        results_values[model][dataset][direction]["term_acc"] = term_acc_values
+                    else:
+                        print(f"      No output file found for {output_path}")
+                        results_scores[model][dataset][direction]["term_acc"] = -1
+                        results_values[model][dataset][direction]["term_acc"] = []
 
         # Save results per model
         os.makedirs("../results_align", exist_ok=True)
@@ -272,32 +287,34 @@ def run_statistical_tests(results_values):
                 comparison = f"{model1}_vs_{model2}"
                 stats_results[dataset][comparison] = {}
                 
-                # Compare for each language pair (only en->lang direction)
+                # Compare for each language pair (both directions)
                 for language in languages:
-                    lang_pair = f"en-{language}"
-                    
-                    # Skip if any data is missing
-                    if (lang_pair not in results_values[model1][dataset] or 
-                        lang_pair not in results_values[model2][dataset] or
-                        "term_acc" not in results_values[model1][dataset][lang_pair] or
-                        "term_acc" not in results_values[model2][dataset][lang_pair]):
-                        continue
-                    
-                    # Get term accuracy values for both models
-                    values1 = results_values[model1][dataset][lang_pair]["term_acc"]
-                    values2 = results_values[model2][dataset][lang_pair]["term_acc"]
-                    
-                    # Run bootstrap test
-                    p_value, mean_diff, ci_low, ci_high = bootstrap_term_accuracy(values1, values2)
-                    
-                    if p_value is not None:
-                        stats_results[dataset][comparison][lang_pair] = {
-                            "p_value": p_value,
-                            "mean_diff": mean_diff,
-                            "confidence_interval": [ci_low, ci_high],
-                            "significant": p_value < 0.05,
-                            "better_model": model1 if mean_diff > 0 else model2
-                        }
+                    # Test both directions: en->xx and xx->en
+                    for direction_pattern in [f"en-{language}", f"{language}-en"]:
+                        lang_pair = direction_pattern
+                        
+                        # Skip if any data is missing
+                        if (lang_pair not in results_values[model1][dataset] or 
+                            lang_pair not in results_values[model2][dataset] or
+                            "term_acc" not in results_values[model1][dataset][lang_pair] or
+                            "term_acc" not in results_values[model2][dataset][lang_pair]):
+                            continue
+                        
+                        # Get term accuracy values for both models
+                        values1 = results_values[model1][dataset][lang_pair]["term_acc"]
+                        values2 = results_values[model2][dataset][lang_pair]["term_acc"]
+                        
+                        # Run bootstrap test
+                        p_value, mean_diff, ci_low, ci_high = bootstrap_term_accuracy(values1, values2)
+                        
+                        if p_value is not None:
+                            stats_results[dataset][comparison][lang_pair] = {
+                                "p_value": p_value,
+                                "mean_diff": mean_diff,
+                                "confidence_interval": [ci_low, ci_high],
+                                "significant": p_value < 0.05,
+                                "better_model": model1 if mean_diff > 0 else model2
+                            }
     
     # Save statistical test results
     os.makedirs("../results_align", exist_ok=True)
@@ -481,7 +498,7 @@ def print_table_latex_per_dataset(results_scores, stats_results=None, dataset="i
         sys.stdout = orig_stdout
 
 
-def print_combined_table_latex(results_scores, stats_results=None, output_file=None):
+def print_combined_table_latex(results_scores, stats_results=None, output_file=None, direction_filter="en-xx"):
     """Print a combined LaTeX table for all datasets, with IRS and CFPB side by side"""
     # Use file output if specified
     if output_file:
@@ -496,8 +513,16 @@ def print_combined_table_latex(results_scores, stats_results=None, output_file=N
             if model in results_scores and dataset in results_scores[model]:
                 results[model][dataset] = results_scores[model][dataset]
     
-    # Table: Term Alignment Accuracy (en->xx) - Combined datasets
-    print("\n% Combined Table for Term Alignment Accuracy (en->xx)")
+    # Determine direction arrow and table title based on filter
+    if direction_filter == "en-xx":
+        direction_arrow = "\\textsc{en}$\\rightarrow$\\textsc{xx}"
+        table_title = "Term Alignment Accuracy (en->xx)"
+    else:  # xx-en
+        direction_arrow = "\\textsc{xx}$\\rightarrow$\\textsc{en}"
+        table_title = "Term Alignment Accuracy (xx->en)"
+    
+    # Table: Term Alignment Accuracy - Combined datasets
+    print(f"\n% Combined Table for {table_title}")
     print("\\begin{table}")
     print("\\centering")
     
@@ -537,13 +562,17 @@ def print_combined_table_latex(results_scores, stats_results=None, output_file=N
                         if src == 'en' and tgt not in languages_in_data and tgt != 'en':
                             languages_in_data.append(tgt)
         
-        # Only include languages that have data
+        # Only include languages that have data for the specified direction
         dataset_languages[dataset] = []
         for lang in sorted(languages_in_data):
             has_data = False
             for model in models:
                 if dataset in results[model]:
-                    direction = f"en-{lang}"
+                    # Check direction based on filter
+                    if direction_filter == "en-xx":
+                        direction = f"en-{lang}"
+                    else:  # xx-en
+                        direction = f"{lang}-en"
                     if direction in results[model][dataset] and results[model][dataset][direction]["term_acc"] != -1:
                         has_data = True
                         break
@@ -564,7 +593,11 @@ def print_combined_table_latex(results_scores, stats_results=None, output_file=N
         for dataset in datasets:
             # Check if this language has data for this dataset
             if lang in dataset_languages.get(dataset, []):
-                direction = f"en-{lang}"
+                # Set direction based on filter
+                if direction_filter == "en-xx":
+                    direction = f"en-{lang}"
+                else:  # xx-en
+                    direction = f"{lang}-en"
                 
                 # Find best model and score for statistical significance only
                 best_model = None
@@ -639,7 +672,11 @@ def print_combined_table_latex(results_scores, stats_results=None, output_file=N
         for model in models:
             term_acc_values = []
             for lang in languages_with_data:
-                direction = f"en-{lang}"
+                # Use direction based on filter
+                if direction_filter == "en-xx":
+                    direction = f"en-{lang}"
+                else:  # xx-en
+                    direction = f"{lang}-en"
                 if dataset in results[model] and direction in results[model][dataset] and results[model][dataset][direction]["term_acc"] != -1:
                     term_acc_values.append(results[model][dataset][direction]["term_acc"])
             
@@ -667,7 +704,11 @@ def print_combined_table_latex(results_scores, stats_results=None, output_file=N
                         
                         # Check if this model is significantly better than other model for any language
                         for lang in languages_with_data:
-                            direction = f"en-{lang}"
+                            # Use direction based on filter
+                            if direction_filter == "en-xx":
+                                direction = f"en-{lang}"
+                            else:  # xx-en
+                                direction = f"{lang}-en"
                             comparison = f"{model}_vs_{other_model}"
                             alt_comparison = f"{other_model}_vs_{model}" 
                             
@@ -698,8 +739,15 @@ def print_combined_table_latex(results_scores, stats_results=None, output_file=N
     print(avg_row + " \\\\")
     print("\\hline")
     print("\\end{tabular}")
-    print("\\caption{Term Pair Extraction Accuracy for IRS and CFPB datasets (\\textsc{en}$\\rightarrow$\\textsc{xx}). $^\\dagger$ indicates statistically significant improvement (p < 0.05)}")
-    print("\\label{tab:combined-term-align-accuracy}")
+    print(f"\\caption{{Term Pair Extraction Accuracy for IRS and CFPB datasets ({direction_arrow}). $^\\dagger$ indicates statistically significant improvement (p < 0.05)}}")
+    
+    # Set label based on direction
+    if direction_filter == "en-xx":
+        label_suffix = "en-xx"
+    else:
+        label_suffix = "xx-en"
+    
+    print(f"\\label{{tab:combined-term-align-accuracy-{label_suffix}}}")
     print("\\end{table}")
     
     # Reset stdout if we redirected it
@@ -760,13 +808,16 @@ def main():
         # Create output directory if it doesn't exist
         os.makedirs("../results_align/tables", exist_ok=True)
         
-        # Generate combined table
-        output_filepath = f"../results_align/tables/combined_table.tex"
-        with open(output_filepath, "w") as output_file:
-            print(f"Writing combined table to {output_filepath}")
-            print_combined_table_latex(results_scores, stats_results, output_file=output_file)
+        # Generate combined tables for both directions
+        directions = [("en-xx", "forward"), ("xx-en", "reverse")]
         
-        print(f"Combined table written to {output_filepath}")
+        for direction_filter, direction_name in directions:
+            output_filepath = f"../results_align/tables/combined_table_{direction_name}.tex"
+            with open(output_filepath, "w") as output_file:
+                print(f"Writing combined {direction_name} table to {output_filepath}")
+                print_combined_table_latex(results_scores, stats_results, output_file=output_file, direction_filter=direction_filter)
+            
+            print(f"Combined {direction_name} table written to {output_filepath}")
         
         # If dataset-specific tables are also requested
         if args.dataset != "all":
