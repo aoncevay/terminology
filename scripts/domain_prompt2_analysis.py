@@ -221,71 +221,67 @@ def categorize_term_results_by_domain(term_results, term_categories, dataset):
 def calculate_domain_differences_with_significance(categorized_results, dataset, direction):
     """
     Calculate term accuracy differences by domain category between prompt and base models
+    Returns per-language results for grouped bar plotting
     """
     categories = ["DS", "DC", "G"]
-    differences = {cat: [] for cat in categories}
-    significant = {cat: False for cat in categories}
+    languages = DATASET2LANGS[dataset]
+    
+    # Initialize results dictionaries
+    differences = {lang: {cat: 0 for cat in categories} for lang in languages}
+    significant = {lang: {cat: False for cat in categories} for lang in languages}
     
     print(f"\n=== Calculating domain differences for {dataset} {direction} ===")
     
-    # Collect all values for each category across languages
-    base_values = {cat: [] for cat in categories}
-    prompt_values = {cat: [] for cat in categories}
-    
-    languages = DATASET2LANGS[dataset]
-    
     for lang in languages:
+        print(f"\nProcessing language: {lang}")
+        
         # Skip if data is missing for either model
         if (lang not in categorized_results[BASE_MODEL] or 
             lang not in categorized_results[PROMPT_MODEL] or
             direction not in categorized_results[BASE_MODEL][lang] or
             direction not in categorized_results[PROMPT_MODEL][lang]):
+            print(f"  Warning: Missing data for {lang}")
             continue
         
-        # Collect values for each category
+        # Calculate differences for each category in this language
         for category in categories:
             base_cat_values = categorized_results[BASE_MODEL][lang][direction].get(category, [])
             prompt_cat_values = categorized_results[PROMPT_MODEL][lang][direction].get(category, [])
             
-            base_values[category].extend(base_cat_values)
-            prompt_values[category].extend(prompt_cat_values)
-    
-    # Calculate differences and significance for each category
-    for category in categories:
-        if not base_values[category] or not prompt_values[category]:
-            print(f"Warning: No data for category {category}")
-            continue
+            if not base_cat_values or not prompt_cat_values:
+                print(f"  Warning: No data for category {category} in {lang}")
+                continue
+                
+            # Calculate mean accuracy for each model
+            base_acc = sum(base_cat_values) / len(base_cat_values)
+            prompt_acc = sum(prompt_cat_values) / len(prompt_cat_values)
             
-        # Calculate mean accuracy for each model
-        base_acc = sum(base_values[category]) / len(base_values[category])
-        prompt_acc = sum(prompt_values[category]) / len(prompt_values[category])
-        
-        # Calculate difference (prompt - base)
-        difference = prompt_acc - base_acc
-        differences[category] = difference
-        
-        print(f"{category}: Base={base_acc:.4f}, Prompt={prompt_acc:.4f}, Diff={difference:.4f}")
-        
-        # Perform statistical significance test
-        if len(base_values[category]) >= 5 and len(prompt_values[category]) >= 5:
-            try:
-                u_stat, p_value = stats.mannwhitneyu(base_values[category], prompt_values[category], 
-                                                   alternative='two-sided')
-                significant[category] = p_value < 0.05
-                print(f"  Mann-Whitney U test: U={u_stat:.2f}, p={p_value:.4f}, Significant: {significant[category]}")
-            except ValueError as e:
-                print(f"  Mann-Whitney U test failed: {e}")
-                # Fall back to simple threshold
-                significant[category] = abs(difference) >= 0.10
-        else:
-            # Use simple threshold for term accuracy (10%)
-            significant[category] = abs(difference) >= 0.10
-            print(f"  Using simple threshold: |{difference:.4f}| >= 0.10 -> {significant[category]}")
+            # Calculate difference (prompt - base)
+            difference = prompt_acc - base_acc
+            differences[lang][category] = difference
+            
+            print(f"  {category}: Base={base_acc:.4f}, Prompt={prompt_acc:.4f}, Diff={difference:.4f}")
+            
+            # Perform statistical significance test
+            if len(base_cat_values) >= 5 and len(prompt_cat_values) >= 5:
+                try:
+                    u_stat, p_value = stats.mannwhitneyu(base_cat_values, prompt_cat_values, 
+                                                       alternative='two-sided')
+                    significant[lang][category] = p_value < 0.05
+                    print(f"    Mann-Whitney U test: U={u_stat:.2f}, p={p_value:.4f}, Significant: {significant[lang][category]}")
+                except ValueError as e:
+                    print(f"    Mann-Whitney U test failed: {e}")
+                    # Fall back to simple threshold
+                    significant[lang][category] = abs(difference) >= 0.10
+            else:
+                # Use simple threshold for term accuracy (10%)
+                significant[lang][category] = abs(difference) >= 0.10
+                print(f"    Using simple threshold: |{difference:.4f}| >= 0.10 -> {significant[lang][category]}")
     
     return differences, significant
 
 def create_domain_difference_plot(differences, significant, dataset, direction, output_dir="../figs/domain_prompt_analysis"):
-    """Create a group bar plot showing term accuracy differences by domain category"""
+    """Create a grouped bar plot showing term accuracy differences by domain category per language"""
     # Create output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
     
@@ -298,51 +294,78 @@ def create_domain_difference_plot(differences, significant, dataset, direction, 
     mpl.rcParams['xtick.labelsize'] = 9
     mpl.rcParams['ytick.labelsize'] = 9
     
-    # Create figure
-    fig, ax = plt.subplots(figsize=(4, 2.5))
+    # Create figure with appropriate width for grouped bars
+    fig, ax = plt.subplots(figsize=(8, 3))
     
     # Prepare data
     categories = ["DS", "DC", "G"]
-    category_labels = [CATEGORYNAME2LATEX[cat] for cat in categories]
-    values = [differences.get(cat, 0) for cat in categories]
-    colors = [CATEGORY_COLORS[cat] for cat in categories]
+    languages = DATASET2LANGS[dataset]
     
-    # Create bars
-    bars = ax.bar(
-        range(len(categories)),
-        values,
-        color=colors,
-        edgecolor='black',
-        linewidth=0.5,
-        width=0.6,
-        alpha=0.8
-    )
+    # Filter languages that have data
+    languages_with_data = []
+    for lang in languages:
+        if lang in differences and any(differences[lang][cat] != 0 for cat in categories):
+            languages_with_data.append(lang)
     
-    # Add significance markers (asterisks)
+    if not languages_with_data:
+        print(f"No data found for {dataset} {direction}")
+        return None
+    
+    # Set up grouped bar plot
+    n_languages = len(languages_with_data)
+    n_categories = len(categories)
+    bar_width = 0.25
+    group_width = bar_width * n_categories
+    
+    # Create positions for each group of bars
+    x_positions = np.arange(n_languages)
+    
     print(f"\nAdding significance markers for {dataset} {direction}:")
-    for i, category in enumerate(categories):
-        if significant.get(category, False):
-            value = differences.get(category, 0)
-            # Position the marker above or below the bar
-            if value >= 0:
-                y_pos = value + 0.01  # Slightly above positive bars
-            else:
-                y_pos = value - 0.01  # Slightly below negative bars
-            
-            # Use black for all stars for visibility
-            ax.text(i, y_pos, '*', ha='center', va='center', fontsize=14, 
-                   fontweight='bold', color='black')
-            print(f"    Added * for {category} at position ({i}, {y_pos})")
     
-    # Add category labels
-    ax.set_xticks(range(len(categories)))
-    ax.set_xticklabels(category_labels, rotation=0)
+    # Plot bars for each category
+    for i, category in enumerate(categories):
+        # Calculate positions for this category's bars
+        bar_positions = x_positions + (i - 1) * bar_width  # Center the groups
+        
+        # Get values for this category across languages
+        values = [differences[lang][category] for lang in languages_with_data]
+        
+        # Create bars
+        bars = ax.bar(
+            bar_positions,
+            values,
+            bar_width,
+            label=CATEGORYNAME2LATEX[category],
+            color=CATEGORY_COLORS[category],
+            edgecolor='black',
+            linewidth=0.5,
+            alpha=0.8
+        )
+        
+        # Add significance markers in the middle of each bar
+        for j, (lang, bar) in enumerate(zip(languages_with_data, bars)):
+            if significant[lang][category]:
+                bar_height = values[j]
+                # Position the marker in the middle of the bar height
+                y_pos = bar_height / 2
+                
+                # Use black for all stars for visibility
+                ax.text(bar_positions[j], y_pos, '*', ha='center', va='center', 
+                       fontsize=14, fontweight='bold', color='black')
+                print(f"    Added * for {lang}-{category} at position ({bar_positions[j]:.2f}, {y_pos:.3f})")
+    
+    # Add language labels on x-axis
+    ax.set_xticks(x_positions)
+    ax.set_xticklabels([LANG2SHORT[lang] for lang in languages_with_data])
     
     # Add zero reference line
     ax.axhline(y=0, color='green', linestyle='-', linewidth=1)
     
     # Set y-axis label
     ax.set_ylabel("Term Acc diff")
+    
+    # Add legend
+    ax.legend(loc='upper right', fontsize=9)
     
     # Adjust layout
     plt.tight_layout()
@@ -480,8 +503,14 @@ def main():
             categorized_results, args.dataset, direction
         )
         
-        # Skip if no data
-        if not any(differences.values()):
+        # Skip if no data  
+        has_data = False
+        for lang in differences:
+            if any(differences[lang][cat] != 0 for cat in ["DS", "DC", "G"]):
+                has_data = True
+                break
+        
+        if not has_data:
             print(f"No data for {args.dataset} {direction}")
             continue
         
