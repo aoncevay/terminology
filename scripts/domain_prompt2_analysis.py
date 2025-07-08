@@ -393,8 +393,8 @@ def create_domain_legend_figure(output_dir="../figs/domain_prompt_analysis"):
     mpl.rcParams['xtick.labelsize'] = 9
     mpl.rcParams['ytick.labelsize'] = 9
     
-    # Create a small figure just for the legend
-    fig, ax = plt.subplots(figsize=(8, 1.0))
+    # Create a larger figure just for the legend
+    fig, ax = plt.subplots(figsize=(10, 1.2))
     
     # Create dummy bars to generate legend entries for domain categories
     categories = ["DS", "DC", "G"]
@@ -403,9 +403,9 @@ def create_domain_legend_figure(output_dir="../figs/domain_prompt_analysis"):
                label=CATEGORYNAME2LATEX[category], edgecolor='black', linewidth=0.5)
     
     # Add entries for positive/negative indication
-    ax.bar(0, 0, color='gray', alpha=0.8, label='Positive difference', 
+    ax.bar(0, 0, color='lightgray', alpha=1.0, label='Positive difference', 
            edgecolor='black', linewidth=0.5)
-    ax.bar(0, 0, color='gray', alpha=0.8, hatch='//', label='Negative difference', 
+    ax.bar(0, 0, color='lightgray', alpha=1.0, hatch='//', label='Negative difference', 
            edgecolor='black', linewidth=0.5)
     
     # Hide the axes and plot area
@@ -413,9 +413,9 @@ def create_domain_legend_figure(output_dir="../figs/domain_prompt_analysis"):
     ax.set_ylim(0, 0)
     ax.axis('off')
     
-    # Create horizontal legend with all 5 items in one row
-    legend = ax.legend(loc='center', ncol=5, fontsize=10, 
-                      frameon=False, columnspacing=1.5)
+    # Create horizontal legend with better spacing
+    legend = ax.legend(loc='center', ncol=5, fontsize=11, 
+                      frameon=False, columnspacing=2.5, handletextpad=0.5)
     
     # Adjust layout to fit just the legend
     plt.tight_layout()
