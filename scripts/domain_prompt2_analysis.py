@@ -330,7 +330,7 @@ def create_domain_difference_plot(differences, significant, dataset, direction, 
         # Get values for this category across languages
         values = [differences[lang][category] for lang in languages_with_data]
         
-        # Create bars
+        # Create bars with hatching for negative values
         bars = ax.bar(
             bar_positions,
             values,
@@ -339,7 +339,8 @@ def create_domain_difference_plot(differences, significant, dataset, direction, 
             color=CATEGORY_COLORS[category],
             edgecolor='black',
             linewidth=0.5,
-            alpha=0.8
+            alpha=0.8,
+            hatch=['//' if v < 0 else '' for v in values]  # Add diagonal hatching for negative values
         )
         
         # Add significance markers in the middle of each bar
@@ -364,9 +365,6 @@ def create_domain_difference_plot(differences, significant, dataset, direction, 
     # Set y-axis label
     ax.set_ylabel("Term Acc diff")
     
-    # Add legend
-    ax.legend(loc='upper right', fontsize=9)
-    
     # Adjust layout
     plt.tight_layout()
     
@@ -382,14 +380,87 @@ def create_domain_difference_plot(differences, significant, dataset, direction, 
     
     return filepath
 
+def create_domain_legend_figure(output_dir="../figs/domain_prompt_analysis"):
+    """Create a standalone horizontal legend figure for domain categories"""
+    # Create output directory if it doesn't exist
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Set plot style for publication quality
+    plt.style.use('seaborn-v0_8-whitegrid')
+    mpl.rcParams['font.family'] = 'serif'
+    mpl.rcParams['font.serif'] = ['Times New Roman']
+    mpl.rcParams['axes.labelsize'] = 10
+    mpl.rcParams['xtick.labelsize'] = 9
+    mpl.rcParams['ytick.labelsize'] = 9
+    
+    # Create a small figure just for the legend
+    fig, ax = plt.subplots(figsize=(8, 1.0))
+    
+    # Create dummy bars to generate legend entries for domain categories
+    categories = ["DS", "DC", "G"]
+    for category in categories:
+        ax.bar(0, 0, color=CATEGORY_COLORS[category], alpha=0.8, 
+               label=CATEGORYNAME2LATEX[category], edgecolor='black', linewidth=0.5)
+    
+    # Add entries for positive/negative indication
+    ax.bar(0, 0, color='gray', alpha=0.8, label='Positive difference', 
+           edgecolor='black', linewidth=0.5)
+    ax.bar(0, 0, color='gray', alpha=0.8, hatch='//', label='Negative difference', 
+           edgecolor='black', linewidth=0.5)
+    
+    # Hide the axes and plot area
+    ax.set_xlim(0, 0)
+    ax.set_ylim(0, 0)
+    ax.axis('off')
+    
+    # Create horizontal legend with all 5 items in one row
+    legend = ax.legend(loc='center', ncol=5, fontsize=10, 
+                      frameon=False, columnspacing=1.5)
+    
+    # Adjust layout to fit just the legend
+    plt.tight_layout()
+    
+    # Save legend figure
+    filename = "domain_categories_legend.pdf"
+    filepath = os.path.join(output_dir, filename)
+    plt.savefig(filepath, bbox_inches='tight', dpi=300, pad_inches=0.02)
+    
+    print(f"Saved legend to {filepath}")
+    
+    # Close figure to free memory
+    plt.close()
+    
+    return filepath
+
 def generate_latex_code(filepaths):
     """Generate LaTeX code to include all domain category figures"""
     latex_code = "% LaTeX code to include domain prompt analysis figures\n\n"
     
-    # Group filepaths by dataset
-    by_dataset = {}
+    # Separate legend file from main plots
+    legend_file = None
+    main_plots = []
     
     for filepath in filepaths:
+        filename = os.path.basename(filepath)
+        if filename == "domain_categories_legend.pdf":
+            legend_file = filepath
+        else:
+            main_plots.append(filepath)
+    
+    # Add legend figure first
+    if legend_file:
+        latex_code += "% Domain categories legend\n"
+        latex_code += "\\begin{figure}[t]\n"
+        latex_code += "    \\centering\n"
+        latex_code += f"    \\includegraphics[width=0.6\\linewidth]{{{os.path.basename(legend_file)}}}\n"
+        latex_code += "    \\caption{Legend for domain category analysis figures.}\n"
+        latex_code += "    \\label{fig:domain_categories_legend}\n"
+        latex_code += "\\end{figure}\n\n"
+    
+    # Group main plot filepaths by dataset
+    by_dataset = {}
+    
+    for filepath in main_plots:
         filename = os.path.basename(filepath)
         
         # Expected format: domain_gpt4o_dataset_direction_term_acc_diff.pdf
@@ -519,11 +590,16 @@ def main():
                                                output_dir=args.output_dir)
         all_filepaths.append(filepath)
     
+    # Create standalone legend figure (only once)
+    if all_filepaths:
+        legend_filepath = create_domain_legend_figure(output_dir=args.output_dir)
+        all_filepaths.append(legend_filepath)
+    
     # Generate LaTeX code if requested
     if args.latex and all_filepaths:
         generate_latex_code(all_filepaths)
     
-    print(f"\nGenerated {len(all_filepaths)} plots for domain category analysis")
+    print(f"\nGenerated {len(all_filepaths)} plots for domain category analysis (including legend)")
 
 if __name__ == "__main__":
     main()
