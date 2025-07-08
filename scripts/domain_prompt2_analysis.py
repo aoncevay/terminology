@@ -393,8 +393,8 @@ def create_domain_legend_figure(output_dir="../figs/domain_prompt_analysis"):
     mpl.rcParams['xtick.labelsize'] = 9
     mpl.rcParams['ytick.labelsize'] = 9
     
-    # Create a larger figure just for the legend
-    fig, ax = plt.subplots(figsize=(10, 1.2))
+    # Create figure with proper size for two-row legend
+    fig, ax = plt.subplots(figsize=(8, 1.5))
     
     # Create dummy bars to generate legend entries for domain categories
     categories = ["DS", "DC", "G"]
@@ -413,9 +413,27 @@ def create_domain_legend_figure(output_dir="../figs/domain_prompt_analysis"):
     ax.set_ylim(0, 0)
     ax.axis('off')
     
-    # Create horizontal legend with better spacing
-    legend = ax.legend(loc='center', ncol=5, fontsize=11, 
-                      frameon=False, columnspacing=2.5, handletextpad=0.5)
+    # Create legend with domain categories in first row, differences in second row
+    handles, labels = ax.get_legend_handles_labels()
+    
+    # Split into two groups: first 3 are domain categories, last 2 are difference types
+    domain_handles = handles[:3]
+    domain_labels = labels[:3]
+    diff_handles = handles[3:]
+    diff_labels = labels[3:]
+    
+    # Create first legend for domain categories (top row)
+    legend1 = ax.legend(domain_handles, domain_labels, loc='upper center', 
+                       ncol=3, fontsize=12, frameon=False, 
+                       bbox_to_anchor=(0.5, 0.8), columnspacing=2.0)
+    
+    # Create second legend for difference types (bottom row)
+    legend2 = ax.legend(diff_handles, diff_labels, loc='lower center', 
+                       ncol=2, fontsize=12, frameon=False, 
+                       bbox_to_anchor=(0.5, 0.2), columnspacing=3.0)
+    
+    # Add both legends to the plot
+    ax.add_artist(legend1)
     
     # Adjust layout to fit just the legend
     plt.tight_layout()
